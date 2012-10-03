@@ -16,3 +16,4 @@
 *.aux
 *.log
 *.tex~
+*.backup
