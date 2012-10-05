@@ -1,10 +1,16 @@
-default: alg1 alg2 pdf release
+default: release
 
-alg1:
+testAlg1:
 	g++ test.cpp alg1.cpp -o alg1.o
 
-alg2:
+testAlg2:
 	g++ test.cpp alg2.cpp -o alg2.o
+
+analysisAlg1:
+	g++ analysis.cpp alg1.cpp -o alg1.o
+
+analysisAlg2:
+	g++ analysis.cpp alg2.cpp -o alg2.o
 
 dvi: maxSubarray.tex 
 	#gnuplot graph1
@@ -20,9 +26,14 @@ ps: dvi
 pdf: ps
 	ps2pdf maxSubarray.ps
 
-release: cleanDev
+release: analysisAlg1 analysisAlg2 pdf cleanDev
 	mkdir release
 	mv *.o *.pdf release
+
+test: testAlg1 testAlg2
+	mkdir test
+	mv alg1.o alg2.o test
+
 
 cleanDev:
 	rm maxSubarray.aux -f
