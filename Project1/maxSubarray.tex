@@ -1,6 +1,7 @@
 \documentclass[a4paper,10pt]{article}
 \usepackage{listings}
 \usepackage{color}
+\usepackage{algorithm2e}
  
 \definecolor{dkgreen}{rgb}{0,0.6,0}
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
@@ -42,6 +43,45 @@
 	\maketitle
 
 	\section{Mathematical Analysis}
+		\subsection{Algorithm 1}
+			\begin{algorithm}[H]
+				\SetLine
+				\linesnumbered
+				\dontprintsemicolon
+				\KwData{Integer array A of size N}
+				\KwResult{Greatest Sum of Subarray}
+				\For{$i \gets 0$ \KwTo $N$}{
+					\For{$j \gets i$ \KwTo $N$}{
+						$s \gets 0$\;
+						\For{$k \gets i$ \KwTo $j$}{
+							$s \gets s + A[k]$\;
+						}
+						\If{$s > max$}{
+							 $max \gets s$\;
+						}
+					}
+				}
+			\caption{Pseudocode for Basic Enumeration}
+			\end{algorithm}
+		\subsection{Algorithm 2}
+			\begin{algorithm}[H]
+				\SetLine
+				\linesnumbered
+				\dontprintsemicolon
+				\KwData{Integer array A of size N}
+				\KwResult{Greatest Sum of Subarray}
+				\For{$i \gets 0$ \KwTo $N$}{
+					$s \gets 0$\;
+					\For{$j \gets i$ \KwTo $N$}{
+						 $s \gets A[j]$\;
+						 \If{$s > max$}{
+							 $max \gets s$\;
+						 }
+					}
+				}
+			\caption{Pseudocode for Better Enumeration}
+			\end{algorithm}
+
 
 	\section{Theoretical Correctness}
 
@@ -50,13 +90,15 @@
 	\section{Experimental Analysis}
 
 	\section{Extrapolation and Interpretation}
-
+	\newpage
 	\section{Code}
-		\subsection{Algorthm 1}
+		\subsection{Algorithm 1}
 		\lstinputlisting[language=C++]{alg1.cpp}
-		\subsection{Algorthm 2}
+		\newpage
+		\subsection{Algorithm 2}
 		\lstinputlisting[language=C++]{alg2.cpp}
-		\subsection{Algorthm 3}
+		\newpage
+		\subsection{Algorithm 3}
 		\lstinputlisting[language=C++]{alg3.cpp}
 		
 
