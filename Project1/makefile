@@ -1,4 +1,4 @@
-default: release
+default: test analysis
 
 testAlg1:
 	g++ test.cpp alg1.cpp -o alg1.o
@@ -26,9 +26,9 @@ ps: dvi
 pdf: ps
 	ps2pdf maxSubarray.ps
 
-release: analysisAlg1 analysisAlg2 pdf cleanDev
-	mkdir release
-	mv *.o *.pdf release
+analysis: analysisAlg1 analysisAlg2 
+	mkdir analysis
+	mv alg1.o alg2.o analysis
 
 test: testAlg1 testAlg2
 	mkdir test
@@ -40,12 +40,13 @@ cleanDev:
 	rm maxSubarray.log -f
 	rm maxSubarray.tex\~ -f
 	rm maxSubarray.tex.backup -f
-	rm maxSubarray.ps
-	rm maxSubarray.dvi
+	rm maxSubarray.ps -f
+	rm maxSubarray.dvi -f
 
 clean: cleanDev
 	rm *.o -f
 	rm maxSubarray.pdf -f
 
 cleanAll: clean
-	rm -rf release
+	rm -rf test
+	rm -rf analysis

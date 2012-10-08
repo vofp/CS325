@@ -5,6 +5,7 @@
  * Write a new version of the frst algorithm that takes advantage of this observation.
  */
 
+
 using namespace std;
 
 
