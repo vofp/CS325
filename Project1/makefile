@@ -33,7 +33,7 @@ analysis: analysisAlg1 analysisAlg2
 test: testAlg1 testAlg2
 	mkdir test
 	mv alg1.o alg2.o test
-
+	cp mstest.txt test/mstest.txt
 
 cleanDev:
 	rm maxSubarray.aux -f
