@@ -12,8 +12,13 @@ analysisAlg1:
 analysisAlg2:
 	g++ analysis.cpp alg2.cpp -o alg2.o
 
-dvi: maxSubarray.tex 
-	#gnuplot graph1
+
+plot:	
+	gnuplot alg1plot.gp
+	gnuplot alg2plot.gp
+	gnuplot alg3plot.gp
+
+dvi: plot 
 #   run latex twice to get references correct
 	latex maxSubarray.tex
 #   you can also have a bibtex line here
@@ -47,6 +52,4 @@ clean: cleanDev
 	rm *.o -f
 
 cleanAll: clean
-	rm -rf test
-	rm -rf analysis
 	rm maxSubarray.pdf -f
