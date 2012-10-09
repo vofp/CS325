@@ -16,10 +16,10 @@ int main(int argc, char **argv){
 }
 
 int runTestFile(){
-	int *numbers = new int[100];
+	int *numbers = new int[9999];
 	int answer;
 	int n = 0;
-	ifstream file ("mstest.txt", ios::in);
+	ifstream file ("francis_test.txt", ios::in);
 	if (file.is_open()){
 		char * c = new char;
 		file.seekg (0, ios::beg);
@@ -32,7 +32,7 @@ int runTestFile(){
 			do{
 				file.read (c, 1);
 				if(*c == ','){
-					//cout << atoi(s) << endl;
+					cout << atoi(s) << endl;
 					numbers[n] = atoi(s);
 					n++;
 					i = 0;
