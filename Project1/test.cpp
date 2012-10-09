@@ -7,19 +7,17 @@
 using namespace std;
 
 int MaxSubarray(int a[], int n);
-int runTestFile();
+int runTestFile(char filename[]);
 
 int main(int argc, char **argv){
-	int input[] = {31, -41, 59, 26, -53, 58, 97, -93, -23, 84};
-	cout << MaxSubarray(input,10) << endl;
-	runTestFile();
+	runTestFile(argv[1]);
 }
 
-int runTestFile(){
+int runTestFile(char filename[]){
 	int *numbers = new int[9999];
 	int answer;
 	int n = 0;
-	ifstream file ("francis_test.txt", ios::in);
+	ifstream file (filename, ios::in);
 	if (file.is_open()){
 		char * c = new char;
 		file.seekg (0, ios::beg);
@@ -32,7 +30,7 @@ int runTestFile(){
 			do{
 				file.read (c, 1);
 				if(*c == ','){
-					cout << atoi(s) << endl;
+					//cout << atoi(s) << endl;
 					numbers[n] = atoi(s);
 					n++;
 					i = 0;

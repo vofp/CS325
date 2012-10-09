@@ -6,12 +6,7 @@
  *      * made of a suffix of the frst half of maximum sum and a prefix of the second half of maximum sum
  * The frst two cases can be found recursively. The last case can be found in linear time.
  */
-#include <iostream>
-#include <cstdio>
-#include <stdio.h>
-#include <stdlib.h>
-#include <fstream>
-#include <cstring>
+
 using namespace std;
 
 void MaxSubarray_h(int a[], int n, int b[]){
