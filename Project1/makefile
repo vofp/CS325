@@ -45,8 +45,8 @@ cleanDev:
 
 clean: cleanDev
 	rm *.o -f
-	rm maxSubarray.pdf -f
 
 cleanAll: clean
 	rm -rf test
 	rm -rf analysis
+	rm maxSubarray.pdf -f

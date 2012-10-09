@@ -36,7 +36,7 @@ int main(int argc, char **argv){
 			endT = clock();
 			elapTime = ((double) (endT-beginT))/CLOCKS_PER_SEC;
 			cout << n << ": " << elapTime << endl;
-			argv[0][5] = 't';
+			argv[0][7] = 't';
 			myfile.open(argv[0],fstream::app);
 			myfile << n << ", " << elapTime << endl;
 			myfile.close();

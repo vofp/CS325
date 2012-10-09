@@ -4,4 +4,4 @@ set ylabel "Seconds"
 set autoscale
 set term postscript
 set output "alg1.plot"
-plot "timings.txt" using 1:2 
+plot "alg1Timing" using 1:2 
