@@ -1,4 +1,4 @@
-#define NUM_TRIAL 1
+#define NUM_TRIAL 500
 
 #include <iostream>
 #include <cstdio>
@@ -18,14 +18,14 @@ int main(int argc, char **argv){
 	srand ( time(NULL) );
 
 	int *input = new int[9000];
-	//int sizes[] = {100,200,300,400,500,600,700,800,900,1000,2000,3000,4000,5000,6000,7000,8000,9000};
+	int sizes[] = {100,200,300,400,500,600,700,800,900,1000,2000,3000,4000,5000,6000,7000,8000,9000};
 	double times[] = {0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0};
-	int sizes[] = {8000,9000};
+	//int sizes[] = {8000,9000};
 	int n = 0;
 	int i;
 	int t;
 	ofstream myfile;
-	for(i = 0; i < 2; ++i){
+	for(i = 0; i < 18; ++i){
 		beginT = clock();
 		for(t = 0; t < NUM_TRIAL; ++t){
 			for (n = 0; n < sizes[i]; ++n){

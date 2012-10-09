@@ -4,4 +4,4 @@ set ylabel "Seconds"
 set autoscale
 set term png
 set output "alg2plot.png"
-plot "alg2Timing" using 1:2 
+plot "alg2.t" using 1:2 

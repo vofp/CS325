@@ -5,4 +5,4 @@ set logscale xy
 set autoscale
 set term png
 set output "alg3plotlog.png"
-plot "alg3Timing" using 1:2 
+plot "alg3.t" using 1:2 
