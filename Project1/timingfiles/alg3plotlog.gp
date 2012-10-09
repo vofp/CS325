@@ -1,7 +1,8 @@
 set title "Algorithm 3 - Size Vs. Execution Time"
-set xlabel "Size of Array"
-set ylabel "Seconds"
+set xlabel "log(Size of Array)"
+set ylabel "log(Seconds)"
+set logscale xy
 set autoscale
 set term png
-set output "alg3plot.png"
+set output "alg3plotlog.png"
 plot "alg3Timing" using 1:2 
