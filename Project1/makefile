@@ -6,12 +6,17 @@ testAlg1:
 testAlg2:
 	g++ test.cpp alg2.cpp -o alg2.o
 
+testAlg3:
+	g++ test.cpp alg3.cpp -o alg3.o
+
 analysisAlg1:
 	g++ analysis.cpp alg1.cpp -o alg1.o
 
 analysisAlg2:
 	g++ analysis.cpp alg2.cpp -o alg2.o
 
+analysisAlg3:
+	g++ analysis.cpp alg3.cpp -o alg3.o
 
 plot:	
 	gnuplot alg1plot.gp
@@ -31,14 +36,14 @@ ps: dvi
 pdf: ps
 	ps2pdf maxSubarray.ps
 
-analysis: analysisAlg1 analysisAlg2 
+analysis: analysisAlg1 analysisAlg2 analysisAlg3
 	mkdir analysis
-	mv alg1.o alg2.o analysis
+	mv alg1.o alg2.o alg3.o analysis
 
-test: testAlg1 testAlg2
+test: testAlg1 testAlg2 testAlg3
 	mkdir test
-	mv alg1.o alg2.o test
-	cp mstest.txt test/mstest.txt
+	mv alg1.o alg2.o alg3.o test
+	cp mstest.txt francis_test.txt kevin_test.txt soo_hyun_test.txt test
 
 cleanDev:
 	rm maxSubarray.aux -f
@@ -50,6 +55,8 @@ cleanDev:
 
 clean: cleanDev
 	rm *.o -f
+	rm analysis/*.o -f
+	rm test/*.o -f
 
 cleanAll: clean
 	rm maxSubarray.pdf -f
