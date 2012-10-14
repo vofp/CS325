@@ -83,7 +83,26 @@
 				}
 			\caption{Pseudocode for Better Enumeration}
 			\end{algorithm}
-
+		\subsection{Algorithm 3}
+			\begin{algorithm}[H]
+				\SetLine
+				\linesnumbered
+				\dontprintsemicolon
+				\KwData{Integer array A of size N}
+				\KwResult{Greatest Sum of Subarray}
+% 				\Function{MaxSubarray}{$A$}{
+% 					
+% 				}
+% 				\Function{MaxSubarray_recursion}{$A$}
+% 					\If{A.size() <= 1}{
+% 						\Return SUM = A[0], SUM_LEFT = A[0], SUM_RIGHT = A[0], MAX = A[0]
+% 					}
+% 					Left_results = MaxSubarray_recursion(A.Left_Side)
+% 					Right_results = MaxSubarray_recursion(A.Right_Side)
+% 					
+% 				\EndFunction
+			\caption{Pseudocode for Divide and Conquer}
+			\end{algorithm}
 
 	\section{Theoretical Correctness}
 
@@ -128,11 +147,29 @@
 \newpage
 
 	\section{Extrapolation and Interpretation}
+		\subsection{Extrapolation}
+			
+		\subsection{Interpretation}
 		\subsection{Algorithm 1}
-
+			\subsubsection{Extrapolation}
+				$f(n) = 4.71599 \times 10^{-10} \times n^3$\\
+				$f(n) = 3600 \to n = 19690$\\
+			\subsubsection{Interpretation}
+				Slope $= 2.99734$
+		
 		\subsection{Algorithm 2}
-
+			\subsubsection{Extrapolation}
+				$f(n) = 1.87761 \times 10^{-9} \times n^2$\\
+				$f(n) = 3600 \to n = 1384678$
+			\subsubsection{Interpretation}
+				Slope $= 1.99602$
 		\subsection{Algorithm 3}
+			\subsubsection{Extrapolation}
+				$f(n) = 1.74832 \times 10^{-8} \times n \times log(n)$\\
+				$f(n) = 3600 \to n = 8984428998 =8.98 \times 10^9$
+			\subsubsection{Interpretation}
+				Slope $= 1.00506$
+
 	\newpage
 	\section{Code}
 		\subsection{Algorithm 1}
