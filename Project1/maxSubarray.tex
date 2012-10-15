@@ -39,7 +39,7 @@
 
 % Title Page
 \title{Assignment 1: Introduction to Systems Programming}
-\author{Francis Vo}
+\author{Kevin Rich, Francis Vo, Soo-Hyun Yoo}
 
 
 \begin{document}
@@ -91,17 +91,36 @@
 				\dontprintsemicolon
 				\KwData{Integer array A of size N}
 				\KwResult{Greatest Sum of Subarray}
-% 				\Function{MaxSubarray}{$A$}{
-% 					
-% 				}
-% 				\Function{MaxSubarray_recursion}{$A$}
-% 					\If{A.size() <= 1}{
-% 						\Return SUM = A[0], SUM_LEFT = A[0], SUM_RIGHT = A[0], MAX = A[0]
-% 					}
-% 					Left_results = MaxSubarray_recursion(A.Left_Side)
-% 					Right_results = MaxSubarray_recursion(A.Right_Side)
-% 					
-% 				\EndFunction
+				\Function{MaxSubarray}{$A$}{
+					$sums \gets MaxSubarray_recursion(A)$\;
+					\Return $max(sums)$\;
+				}
+				\Function{MaxSubarray_recursion}{$A$}
+					\If{$A.size() \leq 1$}{
+						$sums.all \gets A[0]$\;
+						$sums.left \gets A[0]$\;
+						$sums.right \gets A[0]$\;
+						$sums.overall \gets A[0]$\;
+					}
+					$left_sums  \gets MaxSubarray_recursion(A.left_branch)$\;
+					$right_sums \gets MaxSubarray_recursion(A.right_branch)$\;
+
+					$a = left_sums.all + right_sums.all$\;
+					$l = max(left_sums.left, left_sums.all + right_sums.left)$\;
+					% Don't have to compare left_sums.all here, since left_sums.left may include it.
+					$r = max(right_sums.right, left_sums.right + right_sums.all)$\;
+					$m = left_sums.right + right_sums.left$\;
+
+					$overall = max(a, l, r, m)$\;
+
+					$sums.all = a$\;
+					$sums.left = l$\;
+					$sums.right = r$\;
+					$sums.overall = overall$\;
+
+					\Return sums
+				\EndFunction
+
 			\caption{Pseudocode for Divide and Conquer}
 			\end{algorithm}
 
