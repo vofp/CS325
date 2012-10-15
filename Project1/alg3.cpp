@@ -15,6 +15,7 @@
 using namespace std;
 
 void MaxSubarray_h(int array[], int size, int sums[]){
+	// Base case.
 	if(size <= 1){
 		sums[ALL]     = array[0];   // Sum of entire array
 		sums[LEFT]    = array[0];   // Largest sum from left end of array

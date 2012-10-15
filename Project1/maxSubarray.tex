@@ -39,7 +39,7 @@
 
 % Title Page
 \title{Assignment 1: Introduction to Systems Programming}
-\author{Francis Vo}
+\author{Kevin Rich, Francis Vo, Soo-Hyun Yoo}
 
 
 \begin{document}
@@ -91,9 +91,10 @@
 				\dontprintsemicolon
 				\KwData{Integer array A of size N}
 				\KwResult{Greatest Sum of Subarray}
+% <<<<<<< HEAD
 % 				\Function{MaxSubarray_recursion}{$A$}
 % 					\If{A.size() <= 1}{
-% 						\Return SUM = A[0], SUM_LEFT = A[0], SUM_RIGHT = A[0], MAX = A[0]
+% 						\Return SUM = A[0], SUM_LEFT = A[0], SUM_right = A[0], MAX = A[0]
 % 					}
 % 					Left_results = MaxSubarray_recursion(A.Left_Side)
 % 					Right_results = MaxSubarray_recursion(A.Right_Side)
@@ -107,24 +108,57 @@
 				\dontprintsemicolon
 				\KwData{Integer array A of size N}
 				\KwResult{Integer array of size 4}
- 					\If{A.size() <= 1}{
- 						\Return SUM = A[0], SUM_LEFT = A[0], SUM_RIGHT = A[0], MAX = A[0]
+ 					\If{$A.size() <= 1$}{
+ 						\Return $sum = A[0], sum\_left = A[0], sum\_right = A[0], MAX = A[0]$\;
  					}
- 					Left_results = MaxSubarray_recursion(A.Left_Side)
- 					Right_results = MaxSubarray_recursion(A.Right_Side)
-					
-					SUM = Left_results.SUM + Right_results.SUM
-					SUM_LEFT = Left_results.SUM + Right_results.SUM_LEFT
-					SUM_RIGHT = Left_results.SUM_RIGHT + Right_results.SUM
-					MAX = Left_results.SUM + Right_results.SUM
-					
-					SUM_LEFT = Greater(SUM_LEFT,left_results.SUM_LEFT)
-					SUM_RIGHT = Greater(SUM_RIGHT,Right_results.SUM_RIGHT)
-					MAX = Greater(MAX, Right_results.MAX, Right_results.MAX)
-
-					\Return SUM, SUM_LEFT, SUM_RIGHT, MAX
+ 					$Left\_results \gets MaxSubarray\_recursion(A.Left\_Side)$\;
+ 					$Right\_results \gets MaxSubarray\_recursion(A.Right\_Side)$\;
+					\;
+					$sum \gets Left\_results.sum + Right\_results.sum$\;
+					$sum\_left \gets Left\_results.sum + Right\_results.sum_left$\;
+					$sum\_right \gets Left\_results.sum_right + Right\_results.sum$\;
+					$MAX \gets Left\_results.sum + Right\_results.sum$\;
+					\;
+					$sum\_left \gets Greater(sum\_left,left\_results.sum\_left)$\;
+					$sum\_right \gets Greater(sum\_right,Right\_results.sum\_right)$\;
+					$MAX \gets Greater(MAX, Right\_results.MAX, Right\_results.MAX)$\;
+					\;
+					\Return $sum, sum\_left, sum\_right, MAX$\;
 
 			\caption{Pseudocode for Divide and Conquer - Recursive function}
+% =======
+% 				\Function{MaxSubarray}{$A$}{
+% 					$sums \gets MaxSubarray_recursion(A)$\;
+% 					\Return $max(sums)$\;
+% 				}
+% 				\Function{MaxSubarray_recursion}{$A$}
+% 					\If{$A.size() \leq 1$}{
+% 						$sums.all \gets A[0]$\;
+% 						$sums.left \gets A[0]$\;
+% 						$sums.right \gets A[0]$\;
+% 						$sums.overall \gets A[0]$\;
+% 					}
+% 					$left_sums  \gets MaxSubarray_recursion(A.left_branch)$\;
+% 					$right_sums \gets MaxSubarray_recursion(A.right_branch)$\;
+% 
+% 					$a = left_sums.all + right_sums.all$\;
+% 					$l = max(left_sums.left, left_sums.all + right_sums.left)$\;
+% 					% Don't have to compare left_sums.all here, since left_sums.left may include it.
+% 					$r = max(right_sums.right, left_sums.right + right_sums.all)$\;
+% 					$m = left_sums.right + right_sums.left$\;
+% 
+% 					$overall = max(a, l, r, m)$\;
+% 
+% 					$sums.all = a$\;
+% 					$sums.left = l$\;
+% 					$sums.right = r$\;
+% 					$sums.overall = overall$\;
+% 
+% 					\Return sums
+% 				\EndFunction
+% 
+% 			\caption{Pseudocode for Divide and Conquer}
+% >>>>>>> 7fe4123de9b170c8c9c0fce3f90575c5ddeaa7ab
 			\end{algorithm}
 
 	\section{Theoretical Correctness}
@@ -173,6 +207,7 @@
 		\subsection{Extrapolation}
 			
 		\subsection{Interpretation}
+
 		\subsection{Algorithm 1}
 			\subsubsection{Extrapolation}
 				$f(n) = 4.71599 \times 10^{-10} \times n^3$\\
