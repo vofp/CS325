@@ -4,6 +4,7 @@
 \usepackage{algorithm2e}
 \usepackage{graphicx}
 \usepackage{epstopdf}
+\usepackage[margin=1.0in]{geometry}
  
 \definecolor{dkgreen}{rgb}{0,0.6,0}
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
@@ -172,6 +173,20 @@
 
 	\newpage
 	\section{Code}
+		\subsection{Files}
+			alg1.cpp - function for algorithm 1\\
+			alg2.cpp - function for algorithm 1\\
+			alg3.cpp - function for algorithm 1\\
+			analysis.cpp - code to run algorithm and measure times for the number of array then outputs .t file\\
+			makefile - to compile files\\
+			maxSubarray.pdf - \\
+			maxSubarray.tex - to create pdf filename\\
+			test.cpp - allows input of file, and runs algorithm on input file\\
+			analysis/\\
+			test/\\
+			timingfiles/ - holds files for creating plots\\
+			timingfiles/*.t - files that holds rum times for different array sizes\\
+			timingfiles/*.gp - code for gnuplot. 2 plots of each algorithm: 1 normal plot, and 1 log-log plot
 		\subsection{Algorithm 1}
 		\lstinputlisting[language=C++]{alg1.cpp}
 		\newpage
