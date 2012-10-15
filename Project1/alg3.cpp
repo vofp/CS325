@@ -7,36 +7,46 @@
  * The frst two cases can be found recursively. The last case can be found in linear time.
  */
 
+#define ALL     0
+#define LEFT    1
+#define RIGHT   2
+#define OVERALL 3
+
 using namespace std;
 
-void MaxSubarray_h(int a[], int n, int b[]){
-	if(n <= 1){
-		b[0] = a[0];
-		b[1] = a[0];
-		b[2] = a[0];
-		b[3] = a[0];
+void MaxSubarray_h(int array[], int size, int sums[]){
+	if(size <= 1){
+		sums[ALL]     = array[0];   // Sum of entire array
+		sums[LEFT]    = array[0];   // Largest sum from left end of array
+		sums[RIGHT]   = array[0];   // Largest sum from right end of array
+		sums[OVERALL] = array[0];   // Largest sum found so far
 		return;
 	}
-	int i = n/2;
-	int *left = new int[4];
-	MaxSubarray_h(a,i,left);
+	int i = size/2;   // Index of middle element
+
+	// Recurse.
+	int *left  = new int[4];
 	int *right = new int[4];
-	MaxSubarray_h(a+i,n-i,right);
+	MaxSubarray_h(array,i, left);
+	MaxSubarray_h(array+i, size-i, right);
 
-	int sum = left[0] + right[0];
-	int l = left[0]+right[1];
-	int r = left[2]+right[0];
-	int mid = left[2]+right[1];
+	// Calculate various possible maximum sums.
+	int a = left[ALL]   + right[ALL];    // Sum of everything
+	int l = left[ALL]   + right[LEFT];   // Possible max sum from the left
+	int r = left[RIGHT] + right[ALL];    // Possible max sum from the right
+	int m = left[RIGHT] + right[LEFT];   // Possible max sum straddling both branches
 
-	l = l > left[1] ? l : left[1];
-	r = r > right[2] ? r : right[2];
-	int m = left[3] > right[3] ? left[3] : right[3];
-	m = m > mid ? m : mid;
+	// Check for and find new maximums.
+	l = l > left[LEFT] ? l : left[LEFT];   // Is the new left sum larger?
+	r = r > right[RIGHT] ? r : right[RIGHT];   // Is the new right sum larger?
+	int overall = left[OVERALL] > right[OVERALL] ? left[OVERALL] : right[OVERALL];
+	overall = overall > m ? overall : m;
 
-	b[0] = sum;
-	b[1] = l;
-	b[2] = r;
-	b[3] = m;
+	// Final answers!
+	sums[0] = a;
+	sums[1] = l;
+	sums[2] = r;
+	sums[3] = overall;
 }
 
 
