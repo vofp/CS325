@@ -87,63 +87,59 @@
 			\end{algorithm}
 			This Algorithm has 2 for-loops so it is O($n^2$).
 		\subsection{Algorithm 3}
-			\begin{algorithm}[H]
-				\SetAlgoLined
-				\LinesNumbered
-				\DontPrintSemicolon
-				\SetKwData{Sums}{sums}
-				\SetKwFunction{MSr}{MaxSubarray\_rec}
-				\SetKwFunction{Max}{max}
-				\begin{algorithm}[H]
-					\KwData{Integer array A of size N}
-					\KwResult{Greatest Sum of Subarray}
-					\Sums $\gets$ \MSr(A)\;
-					\Return \Max(\Sums)\;
-					\caption{Pseudocode for Divide and Conquer - Starting function}
-				\end{algorithm}
+			\noindent {\bf Data}: Integer array A of size N \\
+			{\bf Result}: Greatest Sum of Subarray
 
-				\begin{algorithm}[H]
-					\SetKwData{A}{A}
-					\SetKwData{LS}{left\_sums}
-					\SetKwData{RS}{right\_sums}
-					\SetKwData{LB}{left\_branch}
-					\SetKwData{RB}{right\_branch}
-					\SetKwData{All}{all}
-					\SetKwData{Left}{left}
-					\SetKwData{Right}{right}
-					\SetKwData{Overall}{overall}
-					\SetKwFunction{Size}{size}
-					\KwData{Integer array A of size N}
-					\KwResult{Integer array of size 4}
+			\begin{minipage}[!h]{6in}
+			\begin{verbatim}
 
-					\If{\A.\Size $\leq$ 1}{
-						\Sums.\All $\gets$ \A[0]\;
-						\Sums.\Left $\gets$ \A[0]\;
-						\Sums.\Right $\gets$ \A[0]\;
-						\Sums.\Overall $\gets$ \A[0]\;
-					}
+			def MaxSubarray:
+			    sums = MaxSubarray_recursive(A)
+			    return max(sums)
+			\end{verbatim}
+			\end{minipage}
 
-					\BlankLine
+			\begin{center}
+			\noindent {\bf Algorithm 3.1}: Starting function pseudocode for Divide and Conquer
+			\end{center}
 
-					\LS $\gets$ \MSr(\A.\LB)\;
-					\RS $\gets$ \MSr(\A.\RB)\;
+			\vspace{1em}
+			
+			\noindent {\bf Data}: Integer array A of size N \\
+			{\bf Result}: Integer array of size 4
 
-					\BlankLine
+			\begin{minipage}[!h]{6in}
+			\begin{verbatim}
 
-					\Sums.\All = \LS.\All + \RS.\All\;
-					\Sums.\Left = \Max(\LS.\Left, \LS.\All + \RS.\Left)\;   % Don't have to compare left_sums.all here, since left_sums.left may include it.
-					\Sums.\Right = \Max(\RS.\Right, \LS.\Right + \RS.\All)\;
-					m = \LS.\Right + \RS.\Left\;
-					\Sums.\Overall = \Max(\Sums.\All, \Sums.\Left, \Sums.\Right, m)\;
+			def MaxSubarray_recursive:
+			    if A.size <= 1:
+			        sums.all = A[0]
+			        sums.left = A[0]
+			        sums.right = A[0]
+			        sums.overall = A[0]
 
-					\BlankLine
+			    left_sums = MaxSubarray_recursive(A. left_branch)
+			    right_sums = MaxSubarray_recursive(A, right_branch)
 
-					\Return \Sums
-					
-					\caption{Pseudocode for Divide and Conquer - Recursive function}
-				\end{algorithm}
-			\end{algorithm}
-			This algorithm is recurvsive and decreases by half every step.  Each lower step has double the ammount of calls.  This algorithm is O($n$log$(n)$)
+			    sums.all = left_sums.all + right_sums.all
+			    sums.left = max(left_sums.left, left_sums.all + right_sums.left)
+			    sums.right = max(right_sums.right, left_sums.right + right_sums.all)
+			    m = left_sums.right + right_sums.left
+			    sums.overall = max(sums.all, sums.left, sums.right, m)
+
+			    return sums
+			\end{verbatim}
+			\end{minipage}
+
+			\begin{center}
+			\noindent {\bf Algorithm 3.2}: Recursive function pseudocode for Divide and Conquer
+			\end{center}
+
+			\vspace{1em}
+
+			\noindent This algorithm is recursive and decreases by half every step. Each lower step has double the number of calls. Thus, this algorithm is O($n$log$(n)$).
+
+
 	\section{Theoretical Correctness}
 
 	\section{Testing}
