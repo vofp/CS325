@@ -67,6 +67,7 @@
 			\caption{Pseudocode for Basic Enumeration}
 			\end{algorithm}
 			This Algorithm has 3 for-loops so it is O($n^3$).
+
 		\subsection{Algorithm 2}
 			\begin{algorithm}[H]
 				\SetAlgoLined
@@ -86,6 +87,7 @@
 			\caption{Pseudocode for Better Enumeration}
 			\end{algorithm}
 			This Algorithm has 2 for-loops so it is O($n^2$).
+
 		\subsection{Algorithm 3}
 			\noindent {\bf Data}: Integer array A of size N \\
 			{\bf Result}: Greatest Sum of Subarray
@@ -142,20 +144,23 @@
 
 	\section{Theoretical Correctness}
 
+	
+
 	\section{Testing}
 
-\begin{tabular}{ | c | c | }
-  \hline
-  Student ID & Answer\\
-  931678074 & 5703 \\
-  930569466 & 8184 \\
-  932086449 & 4949 \\
-  \hline  
-\end{tabular}
-\newpage
+		\begin{tabular}{ | c | c | }
+		\hline
+		Student ID & Answer\\
+		931678074 & 5703 \\
+		930569466 & 8184 \\
+		932086449 & 4949 \\
+		\hline
+		\end{tabular}
+
+	\newpage
 	\section{Experimental Analysis}
+
 		\subsection{Algorithm 1}
-		
 			\begin{figure}[!htb]
 				\centering
 				\includegraphics[scale=.5]{timingfiles/alg1plot.png}
@@ -164,34 +169,39 @@
 				\centering
 				\includegraphics[scale=.5]{timingfiles/alg1plotlog.png}
 			\end{figure}
+
 		\newpage
 		\subsection{Algorithm 2}
-\begin{figure}[!htb]
-\centering
-\includegraphics[scale=.5]{timingfiles/alg2plot.png}
-\end{figure}
-\begin{figure}[!htb]
-\centering
-\includegraphics[scale=.5]{timingfiles/alg2plotlog.png}
-\end{figure}
+			\begin{figure}[!htb]
+			\centering
+			\includegraphics[scale=.5]{timingfiles/alg2plot.png}
+			\end{figure}
+			\begin{figure}[!htb]
+			\centering
+			\includegraphics[scale=.5]{timingfiles/alg2plotlog.png}
+			\end{figure}
+
 		\newpage
 		\subsection{Algorithm 3}
-\begin{figure}[!htb]
-\centering
-\includegraphics[scale=.5]{timingfiles/alg3plot.png}
-\end{figure}
-\begin{figure}[!htb]
-\centering
-\includegraphics[scale=.5]{timingfiles/alg3plotlog.png}
-\end{figure}
-\newpage
+			\begin{figure}[!htb]
+			\centering
+			\includegraphics[scale=.5]{timingfiles/alg3plot.png}
+			\end{figure}
+			\begin{figure}[!htb]
+			\centering
+			\includegraphics[scale=.5]{timingfiles/alg3plotlog.png}
+			\end{figure}
 
+	\newpage
 	\section{Extrapolation and Interpretation}
+
 		\subsection{Extrapolation}
 			The functions were calculated using gnuplot's fit function.
+
 		\subsection{Interpretation}
 			The functions were calculated using gnuplot's fit function and fitting the data to $f(n) = 10^{m * log_{10}(n)+c}$
 			The slopes for each algorithm is a little lower than the actual power because of the creation overhead of the function has a larger affect on arrays with small sizes.  This will cause the left side higher and therefore decreases slope.
+
 		\subsection{Algorithm 1}
 			\subsubsection{Extrapolation}
 				$f(n) = 4.71599 \times 10^{-10} \times n^3$\\
@@ -205,6 +215,7 @@
 				$f(n) = 3600 \to n = 1384678$
 			\subsubsection{Interpretation}
 				Slope $= 1.99602$
+
 		\subsection{Algorithm 3}
 			\subsubsection{Extrapolation}
 				$f(n) = 1.74832 \times 10^{-8} \times n \times log(n)$\\
