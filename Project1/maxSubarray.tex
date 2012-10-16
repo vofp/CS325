@@ -5,6 +5,7 @@
 \usepackage{graphicx}
 \usepackage{epstopdf}
 \usepackage[margin=1.0in]{geometry}
+\usepackage{amsmath,amsthm,amssymb}
  
 \definecolor{dkgreen}{rgb}{0,0.6,0}
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
@@ -139,12 +140,33 @@
 
 			\vspace{1em}
 
-			\noindent This algorithm is recursive and decreases by half every step. Each lower step has double the number of calls. Thus, this algorithm is O($n$log$(n)$).
+			\noindent This algorithm is recursive and decreases by half every step. Each lower step has double the number of calls. Thus, this algorithm is O($n \log n$).
 
 
 	\section{Theoretical Correctness}
 
-	
+		{\bf Claim}: Given an array of small integers $a[1, \dots, n]$, the divide-and-conquer algorithm (algorithm 3) takes O($n \log n$) time to compute the sum of the maximum subarray, $\displaystyle \max_{i\leq{j}} \sum_{k=i}^j a[k]$.
+
+		{\bf Proof}: Let $n$ be the size of the array of integers, $a$. The recurrence for the recursive step of the algorithm can be found to be
+
+		\begin{align*}
+		T(n) &= \Theta(1) + 2T\left(\frac{n}{2}\right) + \Theta(1) \\
+			&= 2T\left(\frac{n}{2}\right).
+		\end{align*}
+
+		Suppose $T(n) \leq cn \log n$. Substituting, we find:
+
+		\begin{align*}
+		T(n) &\leq 2 \cdot c\left(\frac{n}{2}\right) \log \frac{n}{2} \\
+			&= cn \log \frac{n}{2} \\
+			&\leq cn \log n \\
+			&\equiv O(n \log n)
+		\end{align*}
+
+		\begin{center}
+		$\Box$
+		\end{center}
+
 
 	\section{Testing}
 
