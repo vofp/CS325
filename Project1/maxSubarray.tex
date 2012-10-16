@@ -42,6 +42,9 @@
 \title{Assignment 1: Introduction to Systems Programming}
 \author{Kevin Rich, Francis Vo, Soo-Hyun Yoo}
 
+\setlength{\parindent}{0cm}
+\setlength{\parskip}{1em}
+
 
 \begin{document}
 	\maketitle
@@ -121,7 +124,7 @@
 			        sums.right = A[0]
 			        sums.overall = A[0]
 
-			    left_sums = MaxSubarray_recursive(A. left_branch)
+			    left_sums = MaxSubarray_recursive(A, left_branch)
 			    right_sums = MaxSubarray_recursive(A, right_branch)
 
 			    sums.all = left_sums.all + right_sums.all
@@ -147,20 +150,24 @@
 
 		{\bf Claim}: Given an array of small integers $a[1, \dots, n]$, the divide-and-conquer algorithm (algorithm 3) takes O($n \log n$) time to compute the sum of the maximum subarray, $\displaystyle \max_{i\leq{j}} \sum_{k=i}^j a[k]$.
 
-		{\bf Proof}: Let $n$ be the size of the array of integers, $a$. The recurrence for the recursive step of the algorithm can be found to be
+		{\bf Proof}: Let $n$ be the size of the array of integers, $a$. For $n>1$, the recurrence for the recursive step of the algorithm can be found to be
 
 		\begin{align*}
 		T(n) &= \Theta(1) + 2T\left(\frac{n}{2}\right) + \Theta(1) \\
-			&= 2T\left(\frac{n}{2}\right).
+		     &= 2T\left(\frac{n}{2}\right).
 		\end{align*}
 
-		Suppose $T(n) \leq cn \log n$. Substituting, we find:
+		In its entirety, \[T(n) = \begin{cases} \Theta(1) &\mbox{if } n = 1 \\ 2T\left(\frac{n}{2}\right) &\mbox{if } n > 1 \end{cases}.\]
 
+		Suppose $T(n) \leq n \log n = \text{O}(n \log n)$.
+
+		{\it Base case}: Let $n=1$. Then $T(1) = 1 \log 1 = \Theta(1)$, as desired.
+
+		{\it Inductive hypothesis}: Assume $T(m) \leq m \log m$ for $m < n$. Then if $m = \frac{n}{2}$,
 		\begin{align*}
-		T(n) &\leq 2 \cdot c\left(\frac{n}{2}\right) \log \frac{n}{2} \\
-			&= cn \log \frac{n}{2} \\
-			&\leq cn \log n \\
-			&\equiv O(n \log n)
+		T\left(\frac{n}{2}\right) &\leq \frac{n}{2} \log \frac{n}{2} \\
+		     &\leq n \log n \\
+		     &= \text{O}(n \log n).
 		\end{align*}
 
 		\begin{center}
@@ -172,7 +179,7 @@
 
 		\begin{tabular}{ | c | c | }
 		\hline
-		Student ID & Answer\\
+		Student ID & Answer\\ \hline
 		931678074 & 5703 \\
 		930569466 & 8184 \\
 		932086449 & 4949 \\
@@ -221,46 +228,47 @@
 			The functions were calculated using gnuplot's fit function.
 
 		\subsection{Interpretation}
-			The functions were calculated using gnuplot's fit function and fitting the data to $f(n) = 10^{m * log_{10}(n)+c}$
-			The slopes for each algorithm is a little lower than the actual power because of the creation overhead of the function has a larger affect on arrays with small sizes.  This will cause the left side higher and therefore decreases slope.
+			The functions were calculated using gnuplot's fit function and fitting the data to $f(n) = 10^{m \log_{10}n+c}$
+			The slopes for each algorithm is a little lower than the actual power because of the creation overhead of the function has a larger affect on arrays with small sizes.  This will cause the left side to be higher and therefore decreases slope.
 
 		\subsection{Algorithm 1}
 			\subsubsection{Extrapolation}
 				$f(n) = 4.71599 \times 10^{-10} \times n^3$\\
-				$f(n) = 3600 \to n = 19690$\\
+				$f(n) = 3600 \to n = \boxed{19690}$
 			\subsubsection{Interpretation}
-				Slope $= 2.99734$
+				Slope $= \boxed{2.99734}$
 		
 		\subsection{Algorithm 2}
 			\subsubsection{Extrapolation}
 				$f(n) = 1.87761 \times 10^{-9} \times n^2$\\
-				$f(n) = 3600 \to n = 1384678$
+				$f(n) = 3600 \to n = \boxed{1384678}$
 			\subsubsection{Interpretation}
-				Slope $= 1.99602$
+				Slope $= \boxed{1.99602}$
 
 		\subsection{Algorithm 3}
 			\subsubsection{Extrapolation}
 				$f(n) = 1.74832 \times 10^{-8} \times n \times log(n)$\\
-				$f(n) = 3600 \to n = 8984428998 =8.98 \times 10^9$
+				$f(n) = 3600 \to n = 8984428998 = \boxed{8.98 \times 10^9}$
 			\subsubsection{Interpretation}
-				Slope $= 1.00506$
+				Slope $= \boxed{1.00506}$
 
 	\newpage
 	\section{Code}
 		\subsection{Files}
-			alg1.cpp - function for algorithm 1\\
-			alg2.cpp - function for algorithm 1\\
-			alg3.cpp - function for algorithm 1\\
-			analysis.cpp - code to run algorithm and measure times for the number of array then outputs .t file\\
-			makefile - to compile files\\
-			maxSubarray.pdf - \\
-			maxSubarray.tex - to create pdf filename\\
-			test.cpp - allows input of file, and runs algorithm on input file\\
-			analysis/ - hold compiled executables for running analysis\\
-			test/ - hold compiled executables for running tests on code, and test array files\\
-			timingfiles/ - holds files for creating plots\\
-			timingfiles/*.t - files that holds rum times for different array sizes\\
-			timingfiles/*.gp - code for gnuplot. 2 plots of each algorithm: 1 normal plot, and 1 log-log plot
+			alg1.cpp - Function for algorithm 1\\
+			alg2.cpp - Function for algorithm 1\\
+			alg3.cpp - Function for algorithm 1\\
+			analysis.cpp - Code to run algorithm and measure times for the number of array then outputs .t file\\
+			makefile - To compile files\\
+			maxSubarray.pdf - This writeup\\
+			maxSubarray.tex - \TeX file for PDF\\
+			test.cpp - Allows input of file and runs algorithm on input file\\
+			analysis/ - Contains compiled executables for running analysis\\
+			test/ - Contains compiled executables for running tests on code, and test array files\\
+			timingfiles/ - Contains files for creating plots\\
+			timingfiles/*.t - Log of runtimes for different array sizes\\
+			timingfiles/*.gp - Code for gnuplot. 2 plots of each algorithm: 1 normal plot, and 1 log-log plot
+
 		\subsection{Algorithm 1}
 		\lstinputlisting[language=C++]{alg1.cpp}
 		\newpage
