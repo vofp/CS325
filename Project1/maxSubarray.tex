@@ -66,6 +66,7 @@
 				}
 			\caption{Pseudocode for Basic Enumeration}
 			\end{algorithm}
+			This Algorithm has 3 for-loops so it is O($n^3$).
 		\subsection{Algorithm 2}
 			\begin{algorithm}[H]
 				\SetLine
@@ -84,6 +85,7 @@
 				}
 			\caption{Pseudocode for Better Enumeration}
 			\end{algorithm}
+			This Algorithm has 2 for-loops so it is O($n^2$).
 		\subsection{Algorithm 3}
 			\begin{algorithm}[H]
 				\SetLine
@@ -160,15 +162,19 @@
 % 			\caption{Pseudocode for Divide and Conquer}
 % >>>>>>> 7fe4123de9b170c8c9c0fce3f90575c5ddeaa7ab
 			\end{algorithm}
-
+			This algorithm is recurvsive and decreases by half every step.  Each lower step has double the ammount of calls.  This algorithm is O($n$log$(n)$)
 	\section{Theoretical Correctness}
 
 	\section{Testing}
-	931678074 - 5703
-	\newline
-	930569466 - 8184
-	\newline
-	932086449 - 4949 
+
+\begin{tabular}{ | c | c | }
+  \hline
+  Student ID & Answer\\
+  931678074 & 5703 \\
+  930569466 & 8184 \\
+  932086449 & 4949 \\
+  \hline  
+\end{tabular}
 \newpage
 	\section{Experimental Analysis}
 		\subsection{Algorithm 1}
@@ -205,9 +211,10 @@
 
 	\section{Extrapolation and Interpretation}
 		\subsection{Extrapolation}
-			
+			The functions were calculated using gnuplot's fit function.
 		\subsection{Interpretation}
-
+			The functions were calculated using gnuplot's fit function and fitting the data to $f(n) = 10^{m * log_{10}(n)+c}$
+			The slopes for each algorithm is a little lower than the actual power because of the creation overhead of the function has a larger affect on arrays with small sizes.  This will cause the left side higher and therefore decreases slope.
 		\subsection{Algorithm 1}
 			\subsubsection{Extrapolation}
 				$f(n) = 4.71599 \times 10^{-10} \times n^3$\\
