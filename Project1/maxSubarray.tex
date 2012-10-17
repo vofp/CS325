@@ -123,6 +123,7 @@
 			        sums.left = A[0]
 			        sums.right = A[0]
 			        sums.overall = A[0]
+			        return sums
 
 			    left_sums = MaxSubarray_recursive(A, left_branch)
 			    right_sums = MaxSubarray_recursive(A, right_branch)
@@ -174,27 +175,42 @@
 % 				This will be found using Left.Sum\_Right + Right.Sum\_Left
 
 
-		{\bf Claim 1}: Given an array $a$ containing $n$ positive integers $a_0, a_1, \dots, a_{n-1}$, the divide-and-conquer algorithm (algorithm 3) correctly calculates the sum of the maximum subarray, $\displaystyle s = \max_{i\leq{j}} \sum_{k=i}^j a_k,$ for positive integers $i,j<n$.
+		{\bf Claim 1}: Given an array $a$ containing $n$ positive integers $a_0, a_1, \dots, a_{n-1}$ for $n > 0$, the divide-and-conquer algorithm (algorithm 3) correctly calculates the sum of the maximum subarray, $\displaystyle s = \max_{i\leq{j}} \left(\sum_{k=i}^j a_k\right),$ for positive integers $i,j<n$.
 
-		% Partial correctness
-		{\bf Proof}:
+		{\bf Proof}: As a base case, consider when $n=1$. Then {\tt MaxSubarray\_recursive($n$)} = $a_0$, which is true.
 
-		{\it Base case}: Let $n=1$. Then {\ttfamily MaxSubarray\_recursive(1)} = $a_0$, which is true.
+		For the inductive hypothesis, assume that for $n > 1$ and $n \leq q$ for some positive integer $q>1$, the algorithm correctly computes the sum of the maximum subarray.
 
-		{\it Inductive hypothesis}: There are three cases.
+		Consider an array of size $n=q+1$. Then we can consider one of four cases regarding the location of the maximum subarray within the whole array.
 
-		{\sc Case 1}: $\displaystyle s = \sum_{k=0}^j a_k$, for $j \leq n-1$.
+		{\it Case 1}: $\displaystyle s = a$. We correctly capture $s$ in {\tt sums.all}.
 
-		{\sc Case 2}: $\displaystyle s = \sum_{k=i}^{n-1} a_k$, for $i \geq 0$.
+		{\it Case 2}: $\displaystyle s = \sum_{k=0}^j a_k$, for $j < q$. We correctly capture $s$ in {\tt sums.left}.
 
-		{\sc Case 3}: $\displaystyle s = \sum_{k=i}^j a_k$, for $0 < i \leq j < n-1$.
+		{\it Case 3}: $\displaystyle s = \sum_{k=i}^q a_k$, for $i > 0$. We correctly capture $s$ in {\tt sums.right}.
 
-		% Termination
+		{\it Case 4}: $\displaystyle s = \sum_{k=i}^j a_k$, for $0 < i \leq j < q$. We correctly capture $s$ in {\tt m}.
 
+		In all four cases, we correctly select the maximum sum among {\tt sums.all}, {\tt sums.left}, {\tt sums.right}, and {\tt m} as the sum of the maximum subarray of $a$.
+
+		\begin{center}
+		$\Box$
+		\end{center}
+
+		
+		{\bf Claim 2}: The algorithm terminates.
+
+		{\bf Proof}: Since $n>0$ per the problem statement, $n$ must be at least $1$, and the algorithm returns. This proves the base case.
+
+		For the inductive hypothesis, assume that the algorithm returns for an array of length $n \leq q$ for some positive integer $q>1$. Consider $n=q+1$. The array will be split up into two branches of positive lengths, which means the branches will have lengths less than or equal to $q$. Thus, the algorithm will return for each branch, and the algorithm returns right afterwards.
+
+		\begin{center}
+		$\Box$
+		\end{center}
 
 
 		% TODO: This is incorrect!
-		{\bf Claim 2}: The divide-and-conquer algorithm computes the sum of the maximum subarray in O($n \log n$) time.
+		{\bf Claim 3}: The divide-and-conquer algorithm computes the sum of the maximum subarray in O($n \log n$) time.
 
 		{\bf Proof}: Let $n$ be the size of the array of integers, $a$. For $n>1$, the recurrence for the recursive step of the algorithm can be found to be
 
@@ -207,9 +223,9 @@
 
 		Suppose $T(n) \leq n \log n = \text{O}(n \log n)$.
 
-		{\it Base case}: Let $n=1$. Then $T(1) = 1 \log 1 = \Theta(1)$, as desired.
+		As a base case, let $n=1$. Then $T(1) = 1 \log 1 = \Theta(1)$, as desired.
 
-		{\it Inductive hypothesis}: Assume $T(m) \leq m \log m$ for $m < n$. Then if $m = \frac{n}{2}$,
+		For the inductive hypothesis, assume $T(m) \leq m \log m$ for $m < n$. Then if $m = \frac{n}{2}$,
 		\begin{align*}
 		T\left(\frac{n}{2}\right) &\leq \frac{n}{2} \log \frac{n}{2} \\
 		     &\leq n \log n \\
