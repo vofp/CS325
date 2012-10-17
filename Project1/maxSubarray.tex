@@ -150,37 +150,43 @@
 	\newpage
 	\section{Theoretical Correctness}
 
-% 		The sum of all the elements in array denoted as sums.all\\
-% 		The largest sum starting from the left denoted as sums.left\\
-% 		The largest sum starting from the right denoted as sums.right\\
-% 		The overall max sum denoted as sums.overall\\
-% 
-% 		{\bf Base case}: Let $n=1$. Then Sum\_All = A[0], Sum\_Left = A[0], Sum\_Right = A[0], Sum\_Overall = A[0]\\
-% 
-% 		{\bf Inductive hypothesis}:\\
-% 			left_sums = MaxSubarray_recursive(A[0:$n \over 2$-1])\\
-% 			right_sums = MaxSubarray_recursive(A[$n \over 2$:n])\\
-% 			sums.all = left_sums.all + right_sums.all\\
-% 			sums.left = max(left_sums.left, left_sums.all + right_sums.left)\\
-% 			sums.right = max(right_sums.right, left_sums.right + right_sums.all)
-% 			sums.overall = max(sums.all, sums.left, sums.right, left_sums.right + right_sums.left)
-% 
-% 		{\bf Proof}:\\
-% 			Case 1: Contained entirely in the first half\\
-% 				This will be returned as Left.Sum_Overall from the recursive call on the Left.
-% 
-% 			Case 2: Contained entirely in the second half\\
-% 				This will be returned from the recursive call on the Right.
-% 
-% 			Case 3: Made of a suffix of the first half of maximun sum and the prefix of the second half of the maximum
-% 				This will be found using Left.Sum\_Right + Right.Sum\_Left
+		{\bf Claim 1}: Given an array $a$ containing $n$ integers $a_0, a_1, \dots, a_{n-1}$ for $n > 0$, the divide-and-conquer algorithm (algorithm 3) correctly calculates the sum of the maximum subarray, $\displaystyle s = \max_{i\leq{j}} \left(\sum_{k=i}^j a_k\right),$ for integers $i,j<n$.
 
+		We propose two methods of inductive proof: top-down and bottom-up.
 
-		{\bf Claim 1}: Given an array $a$ containing $n$ positive integers $a_0, a_1, \dots, a_{n-1}$ for $n > 0$, the divide-and-conquer algorithm (algorithm 3) correctly calculates the sum of the maximum subarray, $\displaystyle s = \max_{i\leq{j}} \left(\sum_{k=i}^j a_k\right),$ for positive integers $i,j<n$.
+  		The sum of all the elements in array denoted as sums.all\\
+  		The largest sum starting from the left denoted as sums.left\\
+  		The largest sum starting from the right denoted as sums.right\\
+  		The overall max sum denoted as sums.overall\\
+ 
+		{\bf Proof (top-down)}: As a base case, let $n=1$. Then sums.all = A[0], sums.left = A[0], sums.right = A[0], sums.overall = A[0]\\
+  
+  		For the inductive hypothesis, consider:\\
+  			left\_sums = MaxSubarray\_recursive(A[0:$n \over 2$-1])\\
+  			right\_sums = MaxSubarray\_recursive(A[$n \over 2$:n])\\
+  			sums.all = left\_sums.all + right\_sums.all\\
+  			sums.left = max(left\_sums.left, left\_sums.all + right\_sums.left)\\
+  			sums.right = max(right\_sums.right, left\_sums.right + right\_sums.all)
+  			sums.overall = max(sums.all, sums.left, sums.right, left\_sums.right + right\_sums.left)
+  
+		We can consider three cases:\\
 
-		{\bf Proof}: As a base case, consider when $n=1$. Then {\tt MaxSubarray\_recursive($n$)} = $a_0$, which is true.
+  		{\it Case 1}: Contained entirely in the first half\\
+  				This will be returned as left\_sums.overall from the recursive call on left\_sums.
+  
+  		{\it Case 2}: Contained entirely in the second half\\
+  				This will be returned from the recursive call on right\_sums.
+  
+  		{\it Case 3}: Made of a suffix of the first half of maximun sum and the prefix of the second half of the maximum
+  				This will be found using left\_sums.right + right\_sums.left
 
-		For the inductive hypothesis, assume that for $n > 1$ and $n \leq q$ for some positive integer $q>1$, the algorithm correctly computes the sum of the maximum subarray.
+		\begin{center}
+		$\Box$
+		\end{center}
+
+		{\bf Proof (bottom-up)}: As a base case, consider when $n=1$. Then {\tt MaxSubarray\_recursive($n$)} = $a_0$, which is true.
+
+		For the inductive hypothesis, assume that for $n > 1$ and $n \leq q$ for some integer $q>1$, the algorithm correctly computes the sum of the maximum subarray.
 
 		Consider an array of size $n=q+1$. Then we can consider one of four cases regarding the location of the maximum subarray within the whole array.
 
