@@ -147,6 +147,7 @@
 			\noindent This algorithm is recursive and decreases by half every step. Each lower step has double the number of calls. Thus, this algorithm is O($n \log n$).
 
 
+	\newpage
 	\section{Theoretical Correctness}
 
 % 		The sum of all the elements in array denoted as sums.all\\
@@ -209,28 +210,40 @@
 		\end{center}
 
 
-		% TODO: This is incorrect!
 		{\bf Claim 3}: The divide-and-conquer algorithm computes the sum of the maximum subarray in O($n \log n$) time.
 
 		{\bf Proof}: Let $n$ be the size of the array of integers, $a$. For $n>1$, the recurrence for the recursive step of the algorithm can be found to be
 
 		\begin{align*}
-		T(n) &= \Theta(1) + 2T\left(\frac{n}{2}\right) + \Theta(1) \\
-		     &= 2T\left(\frac{n}{2}\right).
+		T(n) &= \Theta(1) + 2T\left(\frac{n}{2}\right) + \Theta(n) + \Theta(1) \\
+		     &= 2T\left(\frac{n}{2}\right) + \Theta(n),
 		\end{align*}
 
-		In its entirety, \[T(n) = \begin{cases} \Theta(1) &\mbox{if } n = 1 \\ 2T\left(\frac{n}{2}\right) &\mbox{if } n > 1 \end{cases}.\]
+		where
 
-		Suppose $T(n) \leq n \log n = \text{O}(n \log n)$.
+		\begin{itemize}
+		\item The base case takes $\Theta(1)$,
+		\item The recursive calls take $2T\left(\frac{n}{2}\right)$,
+		\item The {\tt max()} calculations take $\Theta(n)$, and
+		\item The final {\tt return} takes $\Theta(1)$.
+		\end{itemize}
 
-		As a base case, let $n=1$. Then $T(1) = 1 \log 1 = \Theta(1)$, as desired.
+		In its entirety, \[T(n) = \begin{cases} \Theta(1) &\mbox{if } n = 1 \\ 2T\left(\frac{n}{2}\right) + \Theta(n) &\mbox{if } n > 1 \end{cases}.\]
 
-		For the inductive hypothesis, assume $T(m) \leq m \log m$ for $m < n$. Then if $m = \frac{n}{2}$,
+		Suppose $T(n) \leq cn \log n + n = \text{O}(n \log n)$. Then
+
+% 		As a base case, let $n=1$. Then $T(1) = c \log 1 + 1= \Theta(1)$, as desired.
+
+% 		For the inductive hypothesis, assume $T(m) \leq cm \log m + m$ for $m < n$. Then if $m = \frac{n}{2}$,
 		\begin{align*}
-		T\left(\frac{n}{2}\right) &\leq \frac{n}{2} \log \frac{n}{2} \\
-		     &\leq n \log n \\
-		     &= \text{O}(n \log n).
+		T(n) &\leq 2\left(c \cdot \frac{n}{2} \log \frac{n}{2}\right) + n \\
+		     &\leq cn \log \frac{n}{2} + n \\
+		     &= cn \log n - cn \log 2 + n \\
+		     &\leq cn \log n \\
+		     &= \text{O}(n \log n),
 		\end{align*}
+
+		as desired.
 
 		\begin{center}
 		$\Box$
