@@ -148,31 +148,57 @@
 
 	\section{Theoretical Correctness}
 
-		{\bf Claim}: Given an array of small integers $a[1, \dots, n]$, the divide-and-conquer algorithm (algorithm 3) takes O($n \log n$) time to compute the sum of the maximum subarray, $\displaystyle \max_{i\leq{j}} \sum_{k=i}^j a[k]$.
+		The sum of all the elements in array denoted as sums.all\\
+		The largest sum starting from the left denoted as sums.left\\
+		The largest sum starting from the right denoted as sums.right\\
+		The overall max sum denoted as sums.overall\\
 
-		{\bf Proof}: Let $n$ be the size of the array of integers, $a$. For $n>1$, the recurrence for the recursive step of the algorithm can be found to be
+		{\bf Base case}: Let $n=1$. Then Sum\_All = A[0], Sum\_Left = A[0], Sum\_Right = A[0], Sum\_Overall = A[0]\\
 
-		\begin{align*}
-		T(n) &= \Theta(1) + 2T\left(\frac{n}{2}\right) + \Theta(1) \\
-		     &= 2T\left(\frac{n}{2}\right).
-		\end{align*}
+		{\bf Inductive hypothesis}:\\
+			left_sums = MaxSubarray_recursive(A[0:$n \over 2$-1])\\
+			right_sums = MaxSubarray_recursive(A[$n \over 2$:n])\\
+			sums.all = left_sums.all + right_sums.all\\
+			sums.left = max(left_sums.left, left_sums.all + right_sums.left)\\
+			sums.right = max(right_sums.right, left_sums.right + right_sums.all)
+			sums.overall = max(sums.all, sums.left, sums.right, left_sums.right + right_sums.left)
 
-		In its entirety, \[T(n) = \begin{cases} \Theta(1) &\mbox{if } n = 1 \\ 2T\left(\frac{n}{2}\right) &\mbox{if } n > 1 \end{cases}.\]
+		{\bf Proof}:\\
+			Case 1: Contained entirely in the first half\\
+				This will be returned as Left.Sum_Overall from the recursive call on the Left.
 
-		Suppose $T(n) \leq n \log n = \text{O}(n \log n)$.
+			Case 2: Contained entirely in the second half\\
+				This will be returned from the recursive call on the Right.
 
-		{\it Base case}: Let $n=1$. Then $T(1) = 1 \log 1 = \Theta(1)$, as desired.
+			Case 3: Made of a suffix of the first half of maximun sum and the prefix of the second half of the maximum
+				This will be found using Left.Sum\_Right + Right.Sum\_Left
 
-		{\it Inductive hypothesis}: Assume $T(m) \leq m \log m$ for $m < n$. Then if $m = \frac{n}{2}$,
-		\begin{align*}
-		T\left(\frac{n}{2}\right) &\leq \frac{n}{2} \log \frac{n}{2} \\
-		     &\leq n \log n \\
-		     &= \text{O}(n \log n).
-		\end{align*}
 
-		\begin{center}
-		$\Box$
-		\end{center}
+% 		{\bf Claim}: Given an array of small integers $a[1, \dots, n]$, the divide-and-conquer algorithm (algorithm 3) takes O($n \log n$) time to compute the sum of the maximum subarray, $\displaystyle \max_{i\leq{j}} \sum_{k=i}^j a[k]$.
+% 
+% 		{\bf Proof}: Let $n$ be the size of the array of integers, $a$. For $n>1$, the recurrence for the recursive step of the algorithm can be found to be
+% 
+% 		\begin{align*}
+% 		T(n) &= \Theta(1) + 2T\left(\frac{n}{2}\right) + \Theta(1) \\
+% 		     &= 2T\left(\frac{n}{2}\right).
+% 		\end{align*}
+% 
+% 		In its entirety, \[T(n) = \begin{cases} \Theta(1) &\mbox{if } n = 1 \\ 2T\left(\frac{n}{2}\right) &\mbox{if } n > 1 \end{cases}.\]
+% 
+% 		Suppose $T(n) \leq n \log n = \text{O}(n \log n)$.
+% 
+% 		{\it Base case}: Let $n=1$. Then $T(1) = 1 \log 1 = \Theta(1)$, as desired.
+% 
+% 		{\it Inductive hypothesis}: Assume $T(m) \leq m \log m$ for $m < n$. Then if $m = \frac{n}{2}$,
+% 		\begin{align*}
+% 		T\left(\frac{n}{2}\right) &\leq \frac{n}{2} \log \frac{n}{2} \\
+% 		     &\leq n \log n \\
+% 		     &= \text{O}(n \log n).
+% 		\end{align*}
+% 
+% 		\begin{center}
+% 		$\Box$
+% 		\end{center}
 
 
 	\section{Testing}
