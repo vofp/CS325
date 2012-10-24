@@ -1,4 +1,4 @@
-#define NUM_TRIAL 500
+#define NUM_TRIAL 10000
 
 #include <iostream>
 #include <cstdio>
