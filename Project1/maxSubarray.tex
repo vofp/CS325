@@ -123,6 +123,7 @@
 			        sums.left = A[0]
 			        sums.right = A[0]
 			        sums.overall = A[0]
+			        return sums
 
 			    left_sums = MaxSubarray_recursive(A, left_branch)
 			    right_sums = MaxSubarray_recursive(A, right_branch)
@@ -146,59 +147,113 @@
 			\noindent This algorithm is recursive and decreases by half every step. Each lower step has double the number of calls. Thus, this algorithm is O($n \log n$).
 
 
+	\newpage
 	\section{Theoretical Correctness}
 
-		The sum of all the elements in array denoted as sums.all\\
-		The largest sum starting from the left denoted as sums.left\\
-		The largest sum starting from the right denoted as sums.right\\
-		The overall max sum denoted as sums.overall\\
+		{\bf Claim 1}: Given an array $a$ containing $n$ integers $a_0, a_1, \dots, a_{n-1}$ for $n > 0$, the divide-and-conquer algorithm (algorithm 3) correctly calculates the sum of the maximum subarray, $\displaystyle s = \max_{i\leq{j}} \left(\sum_{k=i}^j a_k\right),$ for integers $i,j<n$.
 
-		{\bf Base case}: Let $n=1$. Then Sum\_All = A[0], Sum\_Left = A[0], Sum\_Right = A[0], Sum\_Overall = A[0]\\
+		We propose two methods of inductive proof: top-down and bottom-up.
 
-		{\bf Inductive hypothesis}:\\
-			left_sums = MaxSubarray_recursive(A[0:$n \over 2$-1])\\
-			right_sums = MaxSubarray_recursive(A[$n \over 2$:n])\\
-			sums.all = left_sums.all + right_sums.all\\
-			sums.left = max(left_sums.left, left_sums.all + right_sums.left)\\
-			sums.right = max(right_sums.right, left_sums.right + right_sums.all)
-			sums.overall = max(sums.all, sums.left, sums.right, left_sums.right + right_sums.left)
+  		The sum of all the elements in array denoted as sums.all\\
+  		The largest sum starting from the left denoted as sums.left\\
+  		The largest sum starting from the right denoted as sums.right\\
+  		The overall max sum denoted as sums.overall\\
+ 
+		{\bf Proof (top-down)}: As a base case, let $n=1$. Then sums.all = A[0], sums.left = A[0], sums.right = A[0], sums.overall = A[0]\\
+  
+  		For the inductive hypothesis, consider:\\
+  			left\_sums = MaxSubarray\_recursive(A[0:$n \over 2$-1])\\
+  			right\_sums = MaxSubarray\_recursive(A[$n \over 2$:n])\\
+  			sums.all = left\_sums.all + right\_sums.all\\
+  			sums.left = max(left\_sums.left, left\_sums.all + right\_sums.left)\\
+  			sums.right = max(right\_sums.right, left\_sums.right + right\_sums.all)
+  			sums.overall = max(sums.all, sums.left, sums.right, left\_sums.right + right\_sums.left)
+  
+		We can consider three cases:\\
 
-		{\bf Proof}:\\
-			Case 1: Contained entirely in the first half\\
-				This will be returned as Left.Sum_Overall from the recursive call on the Left.
+  		{\it Case 1}: Contained entirely in the first half\\
+  				This will be returned as left\_sums.overall from the recursive call on left\_sums.
+  
+  		{\it Case 2}: Contained entirely in the second half\\
+  				This will be returned from the recursive call on right\_sums.
+  
+  		{\it Case 3}: Made of a suffix of the first half of maximun sum and the prefix of the second half of the maximum
+  				This will be found using left\_sums.right + right\_sums.left
 
-			Case 2: Contained entirely in the second half\\
-				This will be returned from the recursive call on the Right.
+		\begin{center}
+		$\Box$
+		\end{center}
 
-			Case 3: Made of a suffix of the first half of maximun sum and the prefix of the second half of the maximum
-				This will be found using Left.Sum\_Right + Right.Sum\_Left
+		{\bf Proof (bottom-up)}: As a base case, consider when $n=1$. Then {\tt MaxSubarray\_recursive($n$)} = $a_0$, which is true.
+
+		For the inductive hypothesis, assume that for $n > 1$ and $n \leq q$ for some integer $q>1$, the algorithm correctly computes the sum of the maximum subarray.
+
+		Consider an array of size $n=q+1$. Then we can consider one of four cases regarding the location of the maximum subarray within the whole array.
+
+		{\it Case 1}: $\displaystyle s = a$. We correctly capture $s$ in {\tt sums.all}.
+
+		{\it Case 2}: $\displaystyle s = \sum_{k=0}^j a_k$, for $j < q$. We correctly capture $s$ in {\tt sums.left}.
+
+		{\it Case 3}: $\displaystyle s = \sum_{k=i}^q a_k$, for $i > 0$. We correctly capture $s$ in {\tt sums.right}.
+
+		{\it Case 4}: $\displaystyle s = \sum_{k=i}^j a_k$, for $0 < i \leq j < q$. We correctly capture $s$ in {\tt m}.
+
+		In all four cases, we correctly select the maximum sum among {\tt sums.all}, {\tt sums.left}, {\tt sums.right}, and {\tt m} as the sum of the maximum subarray of $a$.
+
+		\begin{center}
+		$\Box$
+		\end{center}
+
+		
+		{\bf Claim 2}: The algorithm terminates.
+
+		{\bf Proof}: Since $n>0$ per the problem statement, $n$ must be at least $1$, and the algorithm returns. This proves the base case.
+
+		For the inductive hypothesis, assume that the algorithm returns for an array of length $n \leq q$ for some positive integer $q>1$. Consider $n=q+1$. The array will be split up into two branches of positive lengths, which means the branches will have lengths less than or equal to $q$. Thus, the algorithm will return for each branch, and the algorithm returns right afterwards.
+
+		\begin{center}
+		$\Box$
+		\end{center}
 
 
-% 		{\bf Claim}: Given an array of small integers $a[1, \dots, n]$, the divide-and-conquer algorithm (algorithm 3) takes O($n \log n$) time to compute the sum of the maximum subarray, $\displaystyle \max_{i\leq{j}} \sum_{k=i}^j a[k]$.
-% 
-% 		{\bf Proof}: Let $n$ be the size of the array of integers, $a$. For $n>1$, the recurrence for the recursive step of the algorithm can be found to be
-% 
-% 		\begin{align*}
-% 		T(n) &= \Theta(1) + 2T\left(\frac{n}{2}\right) + \Theta(1) \\
-% 		     &= 2T\left(\frac{n}{2}\right).
-% 		\end{align*}
-% 
-% 		In its entirety, \[T(n) = \begin{cases} \Theta(1) &\mbox{if } n = 1 \\ 2T\left(\frac{n}{2}\right) &\mbox{if } n > 1 \end{cases}.\]
-% 
-% 		Suppose $T(n) \leq n \log n = \text{O}(n \log n)$.
-% 
-% 		{\it Base case}: Let $n=1$. Then $T(1) = 1 \log 1 = \Theta(1)$, as desired.
-% 
-% 		{\it Inductive hypothesis}: Assume $T(m) \leq m \log m$ for $m < n$. Then if $m = \frac{n}{2}$,
-% 		\begin{align*}
-% 		T\left(\frac{n}{2}\right) &\leq \frac{n}{2} \log \frac{n}{2} \\
-% 		     &\leq n \log n \\
-% 		     &= \text{O}(n \log n).
-% 		\end{align*}
-% 
-% 		\begin{center}
-% 		$\Box$
-% 		\end{center}
+		{\bf Claim 3}: The divide-and-conquer algorithm computes the sum of the maximum subarray in O($n \log n$) time.
+
+		{\bf Proof}: Let $n$ be the size of the array of integers, $a$. For $n>1$, the recurrence for the recursive step of the algorithm can be found to be
+
+		\begin{align*}
+		T(n) &= \Theta(1) + 2T\left(\frac{n}{2}\right) + \Theta(n) + \Theta(1) \\
+		     &= 2T\left(\frac{n}{2}\right) + \Theta(n),
+		\end{align*}
+
+		where
+
+		\begin{itemize}
+		\item The base case takes $\Theta(1)$,
+		\item The recursive calls take $2T\left(\frac{n}{2}\right)$,
+		\item The {\tt max()} calculations take $\Theta(n)$, and
+		\item The final {\tt return} takes $\Theta(1)$.
+		\end{itemize}
+
+		In its entirety, \[T(n) = \begin{cases} \Theta(1) &\mbox{if } n = 1 \\ 2T\left(\frac{n}{2}\right) + \Theta(n) &\mbox{if } n > 1 \end{cases}.\]
+
+		Suppose $T(n) \leq cn \log n + n = \text{O}(n \log n)$. Then
+
+% 		As a base case, let $n=1$. Then $T(1) = c \log 1 + 1= \Theta(1)$, as desired.
+
+% 		For the inductive hypothesis, assume $T(m) \leq cm \log m + m$ for $m < n$. Then if $m = \frac{n}{2}$,
+		\begin{align*}
+		T(n) &\leq 2\left(c \cdot \frac{n}{2} \log \frac{n}{2}\right) + n \\
+		     &\leq cn \log \frac{n}{2} + n \\
+		     &= cn \log n - cn \log 2 + n \\
+		     &\leq cn \log n \\
+		     &= \text{O}(n \log n),
+		\end{align*}
+
+		as desired.
+
+		\begin{center}
+		$\Box$
+		\end{center}
 
 
 	\section{Testing}
