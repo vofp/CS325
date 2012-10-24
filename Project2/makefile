@@ -7,7 +7,7 @@ analysisAlg4:
 	g++ analysis.cpp alg4.cpp -o alg4.o
 
 plot:
-	cd timingfiles; gnuplot alg1plot.gp; gnuplot alg2plot.gp; gnuplot alg3plot.gp; gnuplot alg1plotlog.gp; gnuplot alg2plotlog.gp; gnuplot alg3plotlog.gp;
+	cd timingfiles; gnuplot alg4plot.gp; gnuplot alg4plotlog.gp;
 pdf: plot cleanDev
 	pdflatex maxSubarray.tex
 
