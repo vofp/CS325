@@ -42,9 +42,8 @@
 \title{Assignment 2: Dynamic Programming project}
 \author{Francis Vo, Soo-Hyun Yoo}
 
-\setlength{\parindent}{0cm}
+\setlength{\parindent}{1cm}
 \setlength{\parskip}{1em}
-
 
 \begin{document}
 	\maketitle
@@ -56,7 +55,24 @@
 			\centering
 			\includegraphics[scale=.5]{timingfiles/alg4plotlog.png}
 		\end{figure}
+\begin{samepage} 
 	\section{Theoretical correctness}
+		\begin{proof}[Induction Proof]
+			$MS(k)$ will return the maximum subarray sum for the array $A[0:k]$\\
+			\textbf{Base case:} If $n = -1$ then $max = current = 0$\\
+			\textbf{Inductive Step:} $maxSubarray(n-1).current + A[n]$ or 0 is the current largest sum starting from the left\\
+			\textbf{Proof:}\\ 
+			Case if $A[n] > 0$ then $current = MS(n-1).current + A[n] > MS(n-1).current$. \\
+			\indent This number might also be the max value. So $max = Greater(max,current)$\\
+			Case if $A[n] >  - maxSubarray(n-1)$ then $maxSubarray(n-1) + A[n] < 0$ making the Null set greater.\\
+			\indent $max = MS(n-1).max$ and $current = 0$ \\
+			Case else making $A[n]$ negative but $maxSubarray(n-1) + A[n] >= 0$\\
+			\indent so it is still good to use for the next current: $current + A[n+1] > A[n+1]$\\
+			\indent $max = MS(n-1).max$ and $current = maxSubarray(n-1) + A[n]$\\
+			$MS(n).max = max$ and $MS(n).current = current$
+			 
+		\end{proof}
+\end{samepage} 
 	\section{Implement}
 		\subsection{Algorithm 4}
 		\lstinputlisting[language=C++]{alg4.cpp}
