@@ -6,5 +6,6 @@ set autoscale
 f(x)=10**(a*log(x)/log(10)+b)
 fit f(x) "alg4.t" using 1:2 via a,b
 set term png
+set key left top
 set output "alg4plotlog.png"
 plot f(x),"alg4.t" using 1:2 
