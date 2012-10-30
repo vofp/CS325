@@ -1,4 +1,4 @@
-set title "Algorithm 4 - Size Vs. Execution Time"
+#set title "Algorithm 4 - Size Vs. Execution Time"
 set xlabel "log(Size of Array)"
 set ylabel "log(Seconds)"
 set logscale xy
