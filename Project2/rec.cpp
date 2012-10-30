@@ -16,7 +16,7 @@ struct maxS MaxSubarray(int array[], int size) {
 	// Find maximum.
 	ms.current += array[size-1];
 	ms.current = (ms.current > 0) ? ms.current : 0;
-	ms.max = (ms.current > ms.max) ? ms.current : 0;
+	ms.max = (ms.current > ms.max) ? ms.current : ms.max;
 
 	return ms;
 }
