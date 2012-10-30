@@ -6,6 +6,7 @@
 \usepackage{epstopdf}
 \usepackage[margin=1.0in]{geometry}
 \usepackage{amsmath,amsthm,amssymb}
+\usepackage[hang,bf,small]{caption}
  
 \definecolor{dkgreen}{rgb}{0,0.6,0}
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
@@ -13,7 +14,7 @@
  
 \lstset{ %
   language=C++,                % the language of the code
-  basicstyle=\footnotesize,           % the size of the fonts that are used for the code
+  basicstyle=\sffamily\footnotesize,           % the size of the fonts that are used for the code
   numbers=left,                   % where to put the line-numbers
   numberstyle=\tiny\color{gray},  % the style that is used for the line-numbers
   stepnumber=1,                   % the step between two line-numbers. If it's 1, each line 
@@ -44,6 +45,7 @@
 
 \setlength{\parindent}{0em}
 \setlength{\parskip}{1em}
+\captionsetup{width=0.8\textwidth}
 
 \begin{document}
 	\maketitle
@@ -94,7 +96,7 @@
 	\section{Theoretical correctness}
 		{\bf Claim}: {\tt MaxSubarray(A, n)} will return the sum of the maximum subarray of an array $A$ of size $n$.
 
-		{\bf Proof}: As a base case, consider $n=0$. Then $max = current = 0$, which is correct.
+		{\bf Proof}: As a base case, consider $n=0$. Then {\tt max} = {\tt current} $= 0$, which is correct.
 
 		For the inductive hypothesis, assume that {\tt MaxSubarray(A, n)} will correctly return the sum of the maximum subarray of an array $A$ of size $n$. We must show that {\tt MaxSubarray(A, n+1)} will do the same for an array $A$ of size $n+1$.
 		
@@ -131,14 +133,15 @@
 
 \begin{samepage} 
 	\section{Compare}
-		Well, there is a huge difference as seen on the Compare Plot.
-		Algorithm 4, Dynamic Programming, is great because doesn't use any recurvsive calls and doesn't need to hold much data.
-		Algorithm 4 only needs to hold onto 2 integers (max and current) and the input integer array.  
-		Whereas algorithm 3, divide \& conquer, needs to use memory on the stack for each recurvsive call and needs to pass 4 integers back to the parent function.\\
-		***WHAT THE HELL IS GOOD ABOUT D\&C???***
+		The two algorithms, one using divide-and-conquer and the other dynamic programming, were each tested using [TODO: How exactly was this tested?]. The results of the tests is shown in Figure~\ref{fig:algcomp}.
+
+		The dynamic programming algorithm ($\Theta(n)$ time) is shown to be much more efficient than the divide-and-conquer algorithm ($O(n \log n)$ time) for a randomly sorted array. Additionally, since the DP algorithm does not have any recursive calls and needs to keep track of only two numbers ({\tt current} and {\tt max}), it is much less memory-intensive compared to the D\&C algorithm.
+
 		\begin{figure}[!htb]
 			\centering
 			\includegraphics[scale=.5]{timingfiles/algCompareplot.png}
+			\caption{Comparison of execution times between the divide \& conquer and dynamic programming algorithms.}
+			\label{fig:algcomp}
 		\end{figure}
 \end{samepage} 
 

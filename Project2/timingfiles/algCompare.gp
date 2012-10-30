@@ -1,4 +1,4 @@
-set title "Algorithm 3 and 4 Compare"
+#set title "Algorithm 3 and 4 Compare"
 set xlabel "Size of Array"
 set ylabel "Seconds"
 set autoscale
