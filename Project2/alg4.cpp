@@ -4,9 +4,6 @@
  * Keep the best sum you have found so far.
  */
 
-using namespace std;
-
-
 int MaxSubarray(int a[], int n){
 	int current = 0;
 	int max = 0;
