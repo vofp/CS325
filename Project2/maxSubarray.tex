@@ -53,6 +53,7 @@
 
 		\noindent Where {\tt maxS} is a struct holding the running sum and the overall maximum sum and {\tt MaxSubarray} is the recursive function. For an array $A$ of size $n$, we find the maximum subarray with {\tt MaxSubarray(A, n)}.
 
+
 	\section{Pseudocode}
 		\begin{verbatim}
 		    MaxSubarray(array, size):
@@ -71,13 +72,21 @@
 
 
 	\section{Running time}
-		Using the Log-Log plot will give us a good hint for the asymptotic run times.  
-		The slope for the graph is 0.987956, meaning that the asymptotic run times is around $\Omega(n)$. 
-		Then looking at the code, it only looks at each element once, making it $\Omega(n)$
+		% Using the Log-Log plot will give us a good hint for the asymptotic run times.  
+		% The slope for the graph is 0.987956, meaning that the asymptotic run times is around $\Omega(n)$. 
+		% Then looking at the code, it only looks at each element once, making it $\Omega(n)$
+
+		The code shows that we look at each element of the input array only once, so the algorithm's runtime should be $\Theta(n)$.
+
+		Figure~\ref{fig:alg4} shows the execution time of this algorithm versus the size of the input array. The slope of the graph is $0.987956$, which confirms the runtime of $\Theta(n)$.
+
 		\begin{figure}[!htb]
 			\centering
 			\includegraphics[scale=.5]{timingfiles/alg4plotlog.png}
+			\label{fig:alg4}
+			\caption{Algorithm 4 -- execution time vs. input size}
 		\end{figure}
+
 \begin{samepage} 
 	\section{Theoretical correctness}
 		\begin{proof}[Induction Proof]
