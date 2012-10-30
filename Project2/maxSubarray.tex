@@ -1,4 +1,4 @@
-\documentclass[a4paper,10pt]{article}
+\documentclass[letterpaper,10pt]{article}
 \usepackage{listings}
 \usepackage{color}
 \usepackage{algorithm2e}
@@ -7,17 +7,17 @@
 \usepackage[margin=1.0in]{geometry}
 \usepackage{amsmath,amsthm,amssymb}
 \usepackage[hang,bf,small]{caption}
- 
+
 \definecolor{dkgreen}{rgb}{0,0.6,0}
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
 \definecolor{mauve}{rgb}{0.58,0,0.82}
- 
+
 \lstset{ %
   language=C++,                % the language of the code
   basicstyle=\sffamily\footnotesize,           % the size of the fonts that are used for the code
   numbers=left,                   % where to put the line-numbers
   numberstyle=\tiny\color{gray},  % the style that is used for the line-numbers
-  stepnumber=1,                   % the step between two line-numbers. If it's 1, each line 
+  stepnumber=1,                   % the step between two line-numbers. If it's 1, each line
                                   % will be numbered
   numbersep=5pt,                  % how far the line-numbers are from the code
   backgroundcolor=\color{white},      % choose the background color. You must add \usepackage{color}
@@ -46,6 +46,7 @@
 \setlength{\parindent}{0em}
 \setlength{\parskip}{1em}
 \captionsetup{width=0.8\textwidth}
+
 
 \begin{document}
 	\maketitle
@@ -76,8 +77,8 @@
 
 
 	\section{Running time}
-		% Using the Log-Log plot will give us a good hint for the asymptotic run times.  
-		% The slope for the graph is 0.987956, meaning that the asymptotic run times is around $\Omega(n)$. 
+		% Using the Log-Log plot will give us a good hint for the asymptotic run times.
+		% The slope for the graph is 0.987956, meaning that the asymptotic run times is around $\Omega(n)$.
 		% Then looking at the code, it only looks at each element once, making it $\Omega(n)$
 
 		The code shows that we look at each element of the input array only once, so the algorithm's runtime should be $\Theta(n)$.
@@ -99,7 +100,7 @@
 		{\bf Proof}: As a base case, consider $n=0$. Then {\tt max} = {\tt current} $= 0$, which is correct.
 
 		For the inductive hypothesis, assume that {\tt MaxSubarray(A, n)} will correctly return the sum of the maximum subarray of an array $A$ of size $n$. We must show that {\tt MaxSubarray(A, n+1)} will do the same for an array $A$ of size $n+1$.
-		
+
 		We have two cases to consider:
 
 		{\it Case 1}: $A[n] \geq 0$. Since we are adding each element of the array to the current running sum on line 7, {\tt current} will correctly increase and be correctly captured as the maximum sum on line 11.
@@ -110,7 +111,7 @@
 		$\Box$
 		\end{center}
 
-			% \textbf{Proof:}\\ 
+			% \textbf{Proof:}\\
 			% Case if $A[n] > 0$ then $current = MS(n-1).current + A[n] > MS(n-1).current$. \\
 			% \indent This number might also be the max value. So $max = Greater(max,current)$\\
 			% Case if $A[n] >  - maxSubarray(n-1)$ then $maxSubarray(n-1) + A[n] < 0$ making the Null set greater.\\
@@ -119,7 +120,7 @@
 			% \indent so it is still good to use for the next current: $current + A[n+1] > A[n+1]$\\
 			% \indent $max = MS(n-1).max$ and $current = maxSubarray(n-1) + A[n]$\\
 			% $MS(n).max = max$ and $MS(n).current = current$
-\end{samepage} 
+\end{samepage}
 
 
 	\section{Implement}
@@ -131,7 +132,7 @@
 		Tests were run on the {\tt ms\_test.txt} file given for the last project and large arrays given by student IDs.
 
 
-\begin{samepage} 
+\begin{samepage}
 	\section{Compare}
 		The two algorithms, one using divide-and-conquer and the other dynamic programming, were each tested using [TODO: How exactly was this tested?]. The results of the tests is shown in Figure~\ref{fig:algcomp}.
 
@@ -143,9 +144,6 @@
 			\caption{Comparison of execution times between the divide \& conquer and dynamic programming algorithms.}
 			\label{fig:algcomp}
 		\end{figure}
-\end{samepage} 
-
-		
-		
+\end{samepage}
 
 \end{document}
