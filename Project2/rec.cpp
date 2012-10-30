@@ -3,7 +3,7 @@ struct maxS {
 	int max;       // Overall max
 }
 
-struct maxS MaxSubarray(int array, int size) {
+struct maxS MaxSubarray(int array[], int size) {
 	struct maxS ms;
 
 	if (size == 1) {   // Base case
