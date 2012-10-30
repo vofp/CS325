@@ -54,6 +54,22 @@
 		\noindent Where {\tt maxS} is a struct holding the running sum and the overall maximum sum and {\tt MaxSubarray} is the recursive function. For an array $A$ of size $n$, we find the maximum subarray with {\tt MaxSubarray(A, n)}.
 
 	\section{Pseudocode}
+		\begin{verbatim}
+		    MaxSubarray(array, size):
+		        current = 0;
+		        max = 0;
+
+		        for i=0 to size:
+		            current = current + array[i]
+		            if current < 0:
+		                current = 0
+		            else if current > max:
+		                max = current
+
+		        return max
+		\end{verbatim}
+
+
 	\section{Running time}
 		Using the Log-Log plot will give us a good hint for the asymptotic run times.  
 		The slope for the graph is 0.987956, meaning that the asymptotic run times is around $\Omega(n)$. 
