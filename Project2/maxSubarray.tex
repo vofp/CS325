@@ -42,7 +42,7 @@
 \title{Assignment 2: Dynamic Programming project}
 \author{Francis Vo, Soo-Hyun Yoo}
 
-\setlength{\parindent}{1cm}
+\setlength{\parindent}{0em}
 \setlength{\parskip}{1em}
 
 \begin{document}
@@ -51,25 +51,25 @@
 	\section{Recursive function}
 		\lstinputlisting[language=C++]{rec.cpp}
 
-		\noindent Where {\tt maxS} is a struct holding the running sum and the overall maximum sum and {\tt MaxSubarray} is the recursive function. For an array $A$ of size $n$, we find the maximum subarray with {\tt MaxSubarray(A, n)}.
+		Where {\tt maxS} is a struct holding the running sum and the overall maximum sum and {\tt MaxSubarray} is the recursive function. For an array $A$ of size $n$, we find the maximum subarray with {\tt MaxSubarray(A, n)}.
 
 
 	\section{Pseudocode}
 		\begin{verbatim}
-		    MaxSubarray(array, size):
-		        current = 0;
-		        max = 0;
-		        index = 0;
-
-		        while index < size:
-		            current = current + array[index-1]
-		            if current < 0:
-		                current = 0
-		            else if current > max:
-		                max = current
-		            index = index + 1
-
-		        return max
+		 1  MaxSubarray(array, size):
+		 2      current = 0;
+		 3      max = 0;
+		 4      index = 0;
+		 5
+		 6      while index < size:
+		 7          current = current + array[index-1]
+		 8          if current < 0:
+		 9              current = 0
+		10          else if current > max:
+		11              max = current
+		12          index = index + 1
+		13
+		14      return max
 		\end{verbatim}
 
 
@@ -92,22 +92,34 @@
 
 \begin{samepage}
 	\section{Theoretical correctness}
-		\begin{proof}[Induction Proof]
-			$MS(k)$ will return the maximum subarray sum for the array $A[0:k]$\\
-			\textbf{Base case:} If $n = -1$ then $max = current = 0$\\
-			\textbf{Inductive Step:} $maxSubarray(n-1).current + A[n]$ or 0 is the current largest sum starting from the left\\
-			\textbf{Proof:}\\ 
-			Case if $A[n] > 0$ then $current = MS(n-1).current + A[n] > MS(n-1).current$. \\
-			\indent This number might also be the max value. So $max = Greater(max,current)$\\
-			Case if $A[n] >  - maxSubarray(n-1)$ then $maxSubarray(n-1) + A[n] < 0$ making the Null set greater.\\
-			\indent $max = MS(n-1).max$ and $current = 0$ \\
-			Case else making $A[n]$ negative but $maxSubarray(n-1) + A[n] >= 0$\\
-			\indent so it is still good to use for the next current: $current + A[n+1] > A[n+1]$\\
-			\indent $max = MS(n-1).max$ and $current = maxSubarray(n-1) + A[n]$\\
-			$MS(n).max = max$ and $MS(n).current = current$
-			 
-		\end{proof}
+		{\bf Claim}: {\tt MaxSubarray(A, n)} will return the sum of the maximum subarray of an array $A$ of size $n$.
+
+		{\bf Proof}: As a base case, consider $n=0$. Then $max = current = 0$, which is correct.
+
+		For the inductive hypothesis, assume that {\tt MaxSubarray(A, n)} will correctly return the sum of the maximum subarray of an array $A$ of size $n$. We must show that {\tt MaxSubarray(A, n+1)} will do the same for an array $A$ of size $n+1$.
+		
+		We have two cases to consider:
+
+		{\it Case 1}: $A[n] >= 0$. Since we are adding each element of the array to the current running sum on line 7, {\tt current} will correctly increase and be correctly captured as the maximum sum on line 11.
+
+		{\it Case 2}: $A[n] < -MaxSubarray(A, n)$. This will drive the running sum into the negative, so {\tt current} will correctly ``reset'' to zero on line 9, effectively ignoring the sum up to element $n$. On the other hand, {\tt max} retains its value, so the overall maximum sum is correctly preserved.
+
+		\begin{center}
+		$\Box$
+		\end{center}
+
+			% \textbf{Proof:}\\ 
+			% Case if $A[n] > 0$ then $current = MS(n-1).current + A[n] > MS(n-1).current$. \\
+			% \indent This number might also be the max value. So $max = Greater(max,current)$\\
+			% Case if $A[n] >  - maxSubarray(n-1)$ then $maxSubarray(n-1) + A[n] < 0$ making the Null set greater.\\
+			% \indent $max = MS(n-1).max$ and $current = 0$ \\
+			% Case else making $A[n]$ negative but $maxSubarray(n-1) + A[n] >= 0$\\
+			% \indent so it is still good to use for the next current: $current + A[n+1] > A[n+1]$\\
+			% \indent $max = MS(n-1).max$ and $current = maxSubarray(n-1) + A[n]$\\
+			% $MS(n).max = max$ and $MS(n).current = current$
 \end{samepage} 
+
+
 	\section{Implement}
 		\subsection{Algorithm 4}
 		\lstinputlisting[language=C++]{alg4.cpp}
