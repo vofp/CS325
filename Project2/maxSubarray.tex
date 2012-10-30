@@ -105,7 +105,9 @@
 
 		{\it Case 1}: $A[n] \geq 0$. Since we are adding each element of the array to the current running sum on line 7, {\tt current} will correctly increase and be correctly captured as the maximum sum on line 11.
 
-		{\it Case 2}: $A[n] < -${\tt MaxSubarray(A, n)}. This will drive the running sum into the negative, so {\tt current} will correctly ``reset'' to zero on line 9, effectively ignoring the sum up to element $n$. On the other hand, {\tt max} retains its value, so the overall maximum sum is correctly preserved.
+		{\it Case 2}: $A[n] < -${\tt MaxSubarray(A, n)}. This will drive the running sum into the negative, so {\tt current} will correctly ``reset'' to zero on line 9, effectively ignoring the sum up to element $n$. 
+
+		On the other hand, {\tt max} retains its value, so the overall maximum sum is correctly preserved.
 
 		\begin{center}
 		$\Box$
@@ -134,7 +136,7 @@
 
 \begin{samepage}
 	\section{Compare}
-		The two algorithms, one using divide-and-conquer and the other dynamic programming, were each tested using [TODO: How exactly was this tested?]. The results of the tests is shown in Figure~\ref{fig:algcomp}.
+		The two algorithms, one using divide-and-conquer and the other dynamic programming, were each tested using analysis.cpp (Same as project before: created random arrays of different sizes). The results of the tests is shown in Figure~\ref{fig:algcomp}.
 
 		The dynamic programming algorithm ($\Theta(n)$ time) is shown to be much more efficient than the divide-and-conquer algorithm ($O(n \log n)$ time) for a randomly sorted array. Additionally, since the DP algorithm does not have any recursive calls and needs to keep track of only two numbers ({\tt current} and {\tt max}), it is much less memory-intensive compared to the D\&C algorithm.
 
