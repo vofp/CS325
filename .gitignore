@@ -17,3 +17,8 @@
 *.log
 *.tex~
 *.backup
+
+# Temporary or hidden system files
+*.un~
+*.swp
+
