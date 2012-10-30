@@ -10,6 +10,7 @@ plot:
 	cd timingfiles; gnuplot alg4plot.gp; gnuplot alg4plotlog.gp; gnuplot algCompare.gp
 pdf: plot cleanDev
 	pdflatex maxSubarray.tex
+	pdflatex maxSubarray.tex
 
 analysis: analysisAlg4
 	mv alg4.o analysis
