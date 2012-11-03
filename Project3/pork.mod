@@ -1,9 +1,3 @@
-#
-# Giapetto's problem
-#
-# This finds the optimal solution for maximizing Giapetto's profit
-#
-
 /* Decision variables */
 
 var ham_f >=0;      /* ham */
