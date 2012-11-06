@@ -4,6 +4,7 @@
 \usepackage{algorithm2e}
 \usepackage{graphicx}
 \usepackage{epstopdf}
+\usepackage{multirow}
 \usepackage[margin=1.0in]{geometry}
 \usepackage{amsmath,amsthm,amssymb}
  
@@ -50,7 +51,55 @@
 
 	\section{Problem 1: mmmm ... pork}
 	\subsection{Mathematical}
+\subsubsection{Objective function} 
+%max\\
+%$8 * ham\_f + 12 * ham\_r + 11 * ham\_o + $\\
+%$4 * bellies\_f + 12 * bellies\_r + 7 * bellies\_o + $\\
+%$4 * picnics\_f + 13 * picnics\_r + 9 * picnics\_o$
+\begin{tabular}{ccccccc}
+&$8 * ham\_f $& $+$& $ 12 * ham\_r$& $ + $& $11 * ham\_o$& $+ $\\
+max &$4 * bellies\_f $& $+ $& $12 * bellies\_r$& $ + $& $7 * bellies\_o$& $ +$\\
+&$4 * picnics\_f $& $+ $& $13 * picnics\_r $& $+$& $ 9 * picnics\_o$
+\end{tabular}
+
+
+\subsubsection{Constraints} 
+\begin{tabular}{rcl}
+ $ham\_f + ham\_r + ham\_o$& $\le$ &$480$\\
+$bellies\_f + bellies\_r + bellies\_o$ &$ \le$ &$ 400$\\
+$picnics\_f + picnics\_r + picnics\_o$ &$ \le$ &$ 230$\\
+$ham\_r + bellies\_r + picnics\_r$ &$\le $ &$420$\\
+$ham\_o + bellies\_o + picnics\_o $ &$\le$ &$ 250$\\
+\end{tabular}
+
 	\subsection{Standard}
+\subsubsection{Objective function} 
+\begin{tabular}{ccccccc}
+&$8 * ham\_f $& $+$& $ 12 * ham\_r$& $ + $& $11 * ham\_o$& $+ $\\
+max &$4 * bellies\_f $& $+ $& $12 * bellies\_r$& $ + $& $7 * bellies\_o$& $ +$\\
+&$4 * picnics\_f $& $+ $& $13 * picnics\_r $& $+$& $ 9 * picnics\_o$
+\end{tabular}
+
+
+\subsubsection{Constraints} 
+%$ham\_f + ham\_r + ham\_o + ham\_remain = 480$\\
+%$bellies\_f + bellies\_r + bellies\_o + bellies\_remain = 400$\\
+%$picnics\_f + picnics\_r + picnics\_o + picnics\_remain = 230$\\
+%$ham\_r + bellies\_r + picnics\_r + smoke\_reg = 420$\\
+%$ham\_o + bellies\_o + picnics\_o + smoke\_over = 250$\\
+%$ham\_remain, bellies\_remain, picnics\_remain, smoke\_reg, smoke\_over \ge 0$\\
+
+% Francis's try at making it look nice
+\begin{tabular}{rcl}
+ $ham\_f + ham\_r + ham\_o + ham\_remain$& $=$ &$480$\\
+$bellies\_f + bellies\_r + bellies\_o + bellies\_remain$ &$ =$ &$ 400$\\
+$picnics\_f + picnics\_r + picnics\_o + picnics\_remain$ &$ =$ &$ 230$\\
+$ham\_r + bellies\_r + picnics\_r + smoke\_reg $ &$= $ &$420$\\
+$ham\_o + bellies\_o + picnics\_o + smoke\_over $ &$=$ &$ 250$\\
+$ham\_remain, bellies\_remain, picnics\_remain, smoke\_reg, smoke\_over$ &$ \ge$ &$ 0$\\
+\end{tabular}
+
+
 	\subsection{Matrix}
 	Max($f'*x$)
 	
@@ -89,7 +138,11 @@
 	picnics\_r\\
 	picnics\_o
 	\end{array} \right)\]
-        
+
+	\subsection{Code}
+	      \lstinputlisting{pork.mod}
+
+	\newpage
 	\subsection{Solution}
 	Total net profit: \$10,910\\
 	\begin{tabular}{lccc}
@@ -100,12 +153,34 @@
 	bellies & 0 & 400 & 0\\
 	picnics & 0 & 20 & 210
 	\end{tabular}
+	\lstinputlisting{pork.sol}
 
 	\subsection{GNU Linear Programming Kit}
 	      We used a glpsol inputing a model file, pork.mod, and then it outputs a solution file, pork.sol.  The command we used is ``glpsol -m pork.mod -o pork.sol''
 
-	\subsection{code}
-	      [TODO: include pork.mod]
+
+
+	\section{Problem 2: least squares isn’t good enough for me}
 		
+	\subsection{Standard}
+	
+
+	\subsection{Code}
+	\lstinputlisting{bestFit2.mod}
+
+	\subsection{Solution}
+	$a=-8.8$\\
+	$b=5.5$\\
+	$c=12$
+
+	\lstinputlisting{bestFit2.sol}
+
+	\subsection{Plot}
+		\begin{figure}[!htb]
+			\centering
+			\includegraphics[scale=.5]{plot.png}
+			\caption{points and best fit line}
+			\label{fig:algcomp}
+		\end{figure}
 
 \end{document}
