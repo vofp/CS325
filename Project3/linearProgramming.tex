@@ -51,7 +51,7 @@
 
 	\section{Problem 1: mmmm \dots pork}
 
-	\subsection{Mathematical Form}
+	\subsection{Mathematical Model}
 		\subsubsection{Objective Function}
 			%max\\
 			%$8 * ham\_f + 12 * ham\_r + 11 * ham\_o + $\\
@@ -106,7 +106,7 @@
 	\[
 		c =
 		\begin{pmatrix}
-		8 & 14 & 11 & 4 & 12 & 7 & 4 & 13 & 9
+			8 & 14 & 11 & 4 & 12 & 7 & 4 & 13 & 9
 		\end{pmatrix},
 	\]
 
@@ -115,15 +115,15 @@
 	\[
 		x =
 		\begin{pmatrix}
-		\text{ham}_f \\
-		\text{ham}_r \\
-		\text{ham}_o \\
-		\text{bellies}_f \\
-		\text{bellies}_r \\
-		\text{bellies}_o \\
-		\text{picnics}_f \\
-		\text{picnics}_r \\
-		\text{picnics}_o
+			\text{ham}_f \\
+			\text{ham}_r \\
+			\text{ham}_o \\
+			\text{bellies}_f \\
+			\text{bellies}_r \\
+			\text{bellies}_o \\
+			\text{picnics}_f \\
+			\text{picnics}_r \\
+			\text{picnics}_o
 		\end{pmatrix}
 		\geq 0.
 	\]
@@ -132,30 +132,30 @@
 
 	\[
 		\begin{pmatrix}
-		1 & 1 & 1 & 0 & 0 & 0 & 0 & 0 & 0 \\
-		0 & 0 & 0 & 1 & 1 & 1 & 0 & 0 & 0 \\
-		0 & 0 & 0 & 0 & 0 & 0 & 1 & 1 & 1 \\
-		0 & 1 & 0 & 0 & 1 & 0 & 0 & 1 & 0 \\
-		0 & 0 & 1 & 0 & 0 & 1 & 0 & 0 & 1
+			1 & 1 & 1 & 0 & 0 & 0 & 0 & 0 & 0 \\
+			0 & 0 & 0 & 1 & 1 & 1 & 0 & 0 & 0 \\
+			0 & 0 & 0 & 0 & 0 & 0 & 1 & 1 & 1 \\
+			0 & 1 & 0 & 0 & 1 & 0 & 0 & 1 & 0 \\
+			0 & 0 & 1 & 0 & 0 & 1 & 0 & 0 & 1
 		\end{pmatrix}
 		\begin{pmatrix}
-		\text{ham}_f \\
-		\text{ham}_r \\
-		\text{ham}_o \\
-		\text{bellies}_f \\
-		\text{bellies}_r \\
-		\text{bellies}_o \\
-		\text{picnics}_f \\
-		\text{picnics}_r \\
-		\text{picnics}_o
+			\text{ham}_f \\
+			\text{ham}_r \\
+			\text{ham}_o \\
+			\text{bellies}_f \\
+			\text{bellies}_r \\
+			\text{bellies}_o \\
+			\text{picnics}_f \\
+			\text{picnics}_r \\
+			\text{picnics}_o
 		\end{pmatrix}
-		\leq
+		\le
 		\begin{pmatrix}
-		480 \\
-		400 \\
-		230 \\
-		420 \\
-		250
+			480 \\
+			400 \\
+			230 \\
+			420 \\
+			250
 		\end{pmatrix}.
 	\]
 
@@ -165,10 +165,10 @@
 		Total net profit: \$10,910 \\
 
 		\begin{tabular}{|l|ccc|} \hline
-		& fresh & smoked on regular time & smoked on overtime \\ \hline
-		hams    & 440 & 0   & 40 \\
-		bellies & 0   & 400 & 0 \\
-		picnics & 0   & 20  & 210 \\ \hline
+			& fresh & smoked on regular time & smoked on overtime \\ \hline
+			hams    & 440 & 0   & 40 \\
+			bellies & 0   & 400 & 0 \\
+			picnics & 0   & 20  & 210 \\ \hline
 		\end{tabular}
 		%\lstinputlisting{pork.sol}
 
@@ -180,53 +180,61 @@
 
 
 	\section{Problem 2: least squares isn’t good enough for me}
-		
-	\subsection{Mathematical}
-	\subsubsection{Objective function} 
-	min t
 
-	\subsubsection{Constraints}
-	for each point
+	\subsection{Mathematical Model}
+		\subsubsection{Objective function}
+		min($t$)
 
-	\begin{tabular}{rcl}
-		$|point.x - b|$&$ <= $&$t$\\
-		$|a*(point.x)+b*(point.y)-c|$&$ <= $&$t$
-	\end{tabular}
+		\subsubsection{Constraints}
+		Given a set of points $(x_1,y_1), (x_2,y_2), \dots, (x_n,y_n)$,
+
+		\begin{align*}
+			|x_i - b| &\le t, \text{ and} \\
+			|ax_i + by_i - c| &\le t,
+		\end{align*}
+
+		for $1 \le i \le n$.
 
 
-	\subsection{Standard}
-	\subsubsection{Objective function} 
-	min t
+	\subsection{Standard Form}
+		\subsubsection{Objective Function}
+		min($t$)
 
-	\subsubsection{Constraints}
-	for each point
+		\subsubsection{Constraints}
+		Given a set of points $(x_1,y_1), (x_2,y_2), \dots, (x_n,y_n)$,
 
-	\begin{tabular}{rcl}
-		$point.x - b + point.v$&$ = $&$t$\\
-		$point.x - b$&$ \ge $&$-t$\\
-		$a*(point.x)+b*(point.y)-c + point.z$&$ = $&$t$\\
-		$a*(point.x)+b*(point.y)-c $&$\ge$&$ -t$\\
-		$point.v, point.z $&$\ge$&$ 0$
-	\end{tabular}
+		\begin{align*}
+			x_i - b + v_i = t \\
+			x_i - b \ge -t \\
+			ax_i + by_i - c + z_i = t \\
+			ax_i + by_i - c \ge -t \\
+			v_i, z_i \ge 0
+		\end{align*}
 
- 
+		for $1 \le i \le n$.
 
-	\subsection{Code}
-	\lstinputlisting{bestFit.mod}
 
 	\subsection{Solution}
-	$a=-8.8$\\
-	$b=5.5$\\
-	$c=12$
+		The solution for the specific problem is as follows:
+		\[a = -8.8\]
+		\[b = 5.5\]
+		\[c = 12\]
+		This best fit line is shown in Figure~\ref{fig:plot}.
 
 	%\lstinputlisting{bestFit2.sol}
+
 
 	\subsection{Plot}
 		\begin{figure}[!htb]
 			\centering
-			\includegraphics[scale=.5]{plot.png}
-			\caption{points and best fit line}
-			\label{fig:algcomp}
+			\includegraphics[width=6in]{plot.png}
+			\caption{Points and best fit line.}
+			\label{fig:plot}
 		\end{figure}
+
+
+	\newpage
+	\subsection{Code}
+		\lstinputlisting{bestFit.mod}
 
 \end{document}
