@@ -1,4 +1,4 @@
-Problem:    bestFit2
+Problem:    bestFit
 Rows:       29
 Columns:    4
 Non-zeros:  85
