@@ -1,4 +1,4 @@
-\documentclass[a4paper,10pt]{article}
+\documentclass[letterpaper,10pt]{article}
 \usepackage{listings}
 \usepackage{color}
 \usepackage{algorithm2e}
@@ -40,124 +40,143 @@
 }
 
 % Title Page
-\title{Assignment 2: Dynamic Programming project}
+\title{Assignment 3: Linear Programming project}
 \author{Francis Vo, Soo-Hyun Yoo}
 
-\setlength{\parindent}{1cm}
+\setlength{\parindent}{0cm}
 \setlength{\parskip}{1em}
 
 \begin{document}
 	\maketitle
 
-	\section{Problem 1: mmmm ... pork}
-	\subsection{Mathematical}
-\subsubsection{Objective function} 
-%max\\
-%$8 * ham\_f + 12 * ham\_r + 11 * ham\_o + $\\
-%$4 * bellies\_f + 12 * bellies\_r + 7 * bellies\_o + $\\
-%$4 * picnics\_f + 13 * picnics\_r + 9 * picnics\_o$
-\begin{tabular}{ccccccc}
-&$8 * ham\_f $& $+$& $ 12 * ham\_r$& $ + $& $11 * ham\_o$& $+ $\\
-max &$4 * bellies\_f $& $+ $& $12 * bellies\_r$& $ + $& $7 * bellies\_o$& $ +$\\
-&$4 * picnics\_f $& $+ $& $13 * picnics\_r $& $+$& $ 9 * picnics\_o$
-\end{tabular}
+	\section{Problem 1: mmmm \dots pork}
+
+	\subsection{Mathematical Form}
+		\subsubsection{Objective Function}
+			%max\\
+			%$8 * ham\_f + 12 * ham\_r + 11 * ham\_o + $\\
+			%$4 * bellies\_f + 12 * bellies\_r + 7 * bellies\_o + $\\
+			%$4 * picnics\_f + 13 * picnics\_r + 9 * picnics\_o$
+			\begin{align*}
+				\text{max} ( & 8\cdot\text{ham}_f + 12\cdot\text{ham}_r + 11\cdot\text{ham}_o + \\
+							 & 4\cdot\text{bellies}_f + 12\cdot\text{bellies}_r + 7\cdot\text{bellies}_o + \\
+							 & 4\cdot\text{picnics}_f + 13\cdot\text{picnics}_r + 9\cdot\text{picnics}_o )
+			\end{align*}
+
+		\subsubsection{Constraints}
+			\begin{align*}
+				\text{ham}_f + \text{ham}_r + \text{ham}_o             &\le 480 \\
+				\text{bellies}_f + \text{bellies}_r + \text{bellies}_o &\le 400 \\
+				\text{picnics}_f + \text{picnics}_r + \text{picnics}_o &\le 230 \\
+				\text{ham}_r + \text{bellies}_r + \text{picnics}_r     &\le 420 \\
+				\text{ham}_o + \text{bellies}_o + \text{picnics}_o     &\le 250
+			\end{align*}
 
 
-\subsubsection{Constraints} 
-\begin{tabular}{rcl}
- $ham\_f + ham\_r + ham\_o$& $\le$ &$480$\\
-$bellies\_f + bellies\_r + bellies\_o$ &$ \le$ &$ 400$\\
-$picnics\_f + picnics\_r + picnics\_o$ &$ \le$ &$ 230$\\
-$ham\_r + bellies\_r + picnics\_r$ &$\le $ &$420$\\
-$ham\_o + bellies\_o + picnics\_o $ &$\le$ &$ 250$\\
-\end{tabular}
+	\subsection{Standard Form}
+		\subsubsection{Objective Function}
+			\begin{align*}
+				\text{max} ( & 8\cdot\text{ham}_f + 12\cdot\text{ham}_r + 11\cdot\text{ham}_o + \\
+							 & 4\cdot\text{bellies}_f + 12\cdot\text{bellies}_r + 7\cdot\text{bellies}_o + \\
+							 & 4\cdot\text{picnics}_f + 13\cdot\text{picnics}_r + 9\cdot\text{picnics}_o )
+			\end{align*}
 
-	\subsection{Standard}
-\subsubsection{Objective function} 
-\begin{tabular}{ccccccc}
-&$8 * ham\_f $& $+$& $ 12 * ham\_r$& $ + $& $11 * ham\_o$& $+ $\\
-max &$4 * bellies\_f $& $+ $& $12 * bellies\_r$& $ + $& $7 * bellies\_o$& $ +$\\
-&$4 * picnics\_f $& $+ $& $13 * picnics\_r $& $+$& $ 9 * picnics\_o$
-\end{tabular}
+		\subsubsection{Constraints} 
+			%$\text{ham}_f + \text{ham}_r + \text{ham}_o + \text{ham}_remain = 480$\\
+			%$\text{bellies}_f + \text{bellies}_r + \text{bellies}_o + \text{bellies}_remain = 400$\\
+			%$\text{picnics}_f + \text{picnics}_r + \text{picnics}_o + \text{picnics}_remain = 230$\\
+			%$\text{ham}_r + \text{bellies}_r + \text{picnics}_r + smoke\_reg = 420$\\
+			%$\text{ham}_o + \text{bellies}_o + \text{picnics}_o + smoke\_over = 250$\\
+			%$\text{ham}_remain, \text{bellies}_remain, \text{picnics}_remain, smoke\_reg, smoke\_over \ge 0$\\
 
-
-\subsubsection{Constraints} 
-%$ham\_f + ham\_r + ham\_o + ham\_remain = 480$\\
-%$bellies\_f + bellies\_r + bellies\_o + bellies\_remain = 400$\\
-%$picnics\_f + picnics\_r + picnics\_o + picnics\_remain = 230$\\
-%$ham\_r + bellies\_r + picnics\_r + smoke\_reg = 420$\\
-%$ham\_o + bellies\_o + picnics\_o + smoke\_over = 250$\\
-%$ham\_remain, bellies\_remain, picnics\_remain, smoke\_reg, smoke\_over \ge 0$\\
-
-% Francis's try at making it look nice
-\begin{tabular}{rcl}
- $ham\_f + ham\_r + ham\_o + ham\_remain$& $=$ &$480$\\
-$bellies\_f + bellies\_r + bellies\_o + bellies\_remain$ &$ =$ &$ 400$\\
-$picnics\_f + picnics\_r + picnics\_o + picnics\_remain$ &$ =$ &$ 230$\\
-$ham\_r + bellies\_r + picnics\_r + smoke\_reg $ &$= $ &$420$\\
-$ham\_o + bellies\_o + picnics\_o + smoke\_over $ &$=$ &$ 250$\\
-$ham\_remain, bellies\_remain, picnics\_remain, smoke\_reg, smoke\_over$ &$ \ge$ &$ 0$\\
-\end{tabular}
+			% Francis's try at making it look nice, redone by Soo-Hyun -- don't use tables!
+			\begin{align*}
+				\text{ham}_f + \text{ham}_r + \text{ham}_o + \text{ham}_\text{remain}                 &= 480 \\
+				\text{bellies}_f + \text{bellies}_r + \text{bellies}_o + \text{bellies}_\text{remain} &= 400 \\
+				\text{picnics}_f + \text{picnics}_r + \text{picnics}_o + \text{picnics}_\text{remain} &= 230 \\
+				\text{ham}_r + \text{bellies}_r + \text{picnics}_r + \text{smoke}_\text{reg}   &= 420 \\
+				\text{ham}_o + \text{bellies}_o + \text{picnics}_o + \text{smoke}_\text{over}  &= 250 \\
+				\text{ham}_\text{remain}, \; \text{bellies}_\text{remain}, \; \text{picnics}_\text{remain}, \; \text{smoke}_\text{reg}, \; \text{smoke}_\text{over} &\ge 0
+			\end{align*}
 
 
-	\subsection{Matrix}
-	Max($f'*x$)
+	\subsection{Matrix Form}
+	We wish to find max($cx$), where
 	
-	\[ f' = \left( \begin{array}{ccccccccc}
-	8 & 14 & 11 & 
-	4 & 12 & 7 & 
-	4 & 13 & 9  
-	\end{array} \right)\]
-	
+	\[
+		c =
+		\begin{pmatrix}
+		8 & 14 & 11 & 4 & 12 & 7 & 4 & 13 & 9
+		\end{pmatrix},
+	\]
 
-	\[ a = \left( \begin{array}{ccccccccc}
-	1 & 1 & 1 & 0 & 0 & 0 & 0 & 0 & 0 \\
-	0 & 0 & 0 & 1 & 1 & 1 & 0 & 0 & 0 \\
-	0 & 0 & 0 & 0 & 0 & 0 & 1 & 1 & 1 \\
-	0 & 1 & 0 & 0 & 1 & 0 & 0 & 1 & 0 \\
-	0 & 0 & 1 & 0 & 0 & 1 & 0 & 0 & 1 \\
-	\end{array} \right)\]
-	
-	\[ b = \left( \begin{array}{c}
-	480\\
-	400\\
-	230\\
-	420\\
-	250
-	\end{array} \right)\]
-	
+	and
 
-	\[ x = \left( \begin{array}{c}
-	ham\_f\\
-	ham\_r\\
-	ham\_o\\
-	bellies\_f\\
-	bellies\_r\\
-	bellies\_o\\
-	picnics\_f\\
-	picnics\_r\\
-	picnics\_o
-	\end{array} \right)\]
+	\[
+		x =
+		\begin{pmatrix}
+		\text{ham}_f \\
+		\text{ham}_r \\
+		\text{ham}_o \\
+		\text{bellies}_f \\
+		\text{bellies}_r \\
+		\text{bellies}_o \\
+		\text{picnics}_f \\
+		\text{picnics}_r \\
+		\text{picnics}_o
+		\end{pmatrix}
+		\geq 0.
+	\]
 
-	\subsection{Code}
-	      \lstinputlisting{pork.mod}
+	Also,
+
+	\[
+		\begin{pmatrix}
+		1 & 1 & 1 & 0 & 0 & 0 & 0 & 0 & 0 \\
+		0 & 0 & 0 & 1 & 1 & 1 & 0 & 0 & 0 \\
+		0 & 0 & 0 & 0 & 0 & 0 & 1 & 1 & 1 \\
+		0 & 1 & 0 & 0 & 1 & 0 & 0 & 1 & 0 \\
+		0 & 0 & 1 & 0 & 0 & 1 & 0 & 0 & 1
+		\end{pmatrix}
+		\begin{pmatrix}
+		\text{ham}_f \\
+		\text{ham}_r \\
+		\text{ham}_o \\
+		\text{bellies}_f \\
+		\text{bellies}_r \\
+		\text{bellies}_o \\
+		\text{picnics}_f \\
+		\text{picnics}_r \\
+		\text{picnics}_o
+		\end{pmatrix}
+		\leq
+		\begin{pmatrix}
+		480 \\
+		400 \\
+		230 \\
+		420 \\
+		250
+		\end{pmatrix}.
+	\]
+
 
 	\newpage
 	\subsection{Solution}
-	Total net profit: \$10,910\\
-	\begin{tabular}{lccc}
-\hline
-	& fresh & smoked on regular time & smoked on overtime\\
-\hline
-	hams & 440 & 0 & 40\\
-	bellies & 0 & 400 & 0\\
-	picnics & 0 & 20 & 210
-	\end{tabular}
-	%\lstinputlisting{pork.sol}
+		Total net profit: \$10,910 \\
 
-	\subsection{GNU Linear Programming Kit}
-	      We used a glpsol inputing a model file, pork.mod, and then it outputs a solution file, pork.sol.  The command we used is ``glpsol -m pork.mod -o pork.sol''
+		\begin{tabular}{|l|ccc|} \hline
+		& fresh & smoked on regular time & smoked on overtime \\ \hline
+		hams    & 440 & 0   & 40 \\
+		bellies & 0   & 400 & 0 \\
+		picnics & 0   & 20  & 210 \\ \hline
+		\end{tabular}
+		%\lstinputlisting{pork.sol}
 
+	\subsection{Using an LP-solver}
+		We used the GNU Linear Programming Kit to solve this problem. The help page tells us that we should give a model file (provided in the next section) to glpsol, which we do by running: {\tt glpsol -m pork.mod -o pork.sol}.
+
+	\subsection{Code}
+		\lstinputlisting{pork.mod}
 
 
 	\section{Problem 2: least squares isn’t good enough for me}
