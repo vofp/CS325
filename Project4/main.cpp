@@ -8,9 +8,13 @@
 using namespace std;
 
 int readInFile(char filename[], Graph *g);
+int printOutput(char filename[], Graph *graph);
+int printPlot(char filename[], Graph *graph);
+
 
 int main(int argc, char **argv){
 	Graph *g = new Graph();
   readInFile(argv[1], g);
+	printPlot(argv[2],g);
 }
 

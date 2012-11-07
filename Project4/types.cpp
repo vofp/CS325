@@ -8,22 +8,22 @@ City::City(char *id_new, int x_new, int y_new){
 	y = y_new;
 }
 
-void City::output(){
+string *City::output(){
 	stringstream out;
 	out << id << ": (" << x << ", " << y << ")" << endl;
 	string *s = new string(out.str());
-	cout << *s;
+	//cout << *s;
 
-
+	return s;
 }
 
-void City::plot(){
+string *City::plot(){
 	stringstream out;
 	out << x << ", " << y << endl;
 	string *s = new string(out.str());
-	cout << *s;
+	//cout << *s;
 
-
+	return s;
 }
 
 

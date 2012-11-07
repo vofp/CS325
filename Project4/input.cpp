@@ -27,7 +27,8 @@ int readInFile(char filename[], Graph *graph){
 		City city(id,x,y);
 		graph->cities.push_back (city);
 		//city.plot();
-		graph->cities.back().plot();
+		//cout << *(graph->cities.back().output());
+
 	}
 }
 

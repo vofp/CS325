@@ -6,6 +6,8 @@
 #include <fstream>
 #include <cstring>
 
+using namespace std;
+
 class City {
 public:
   std::string id;
@@ -14,8 +16,8 @@ public:
   City *next;
   City *prev;
   City(char *id_new, int x_new, int y_new);
-  void output();
-	void plot();
+  string *output();
+	string *plot();
 };
 
 class Graph {
