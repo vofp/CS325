@@ -9,10 +9,8 @@ using namespace std;
 
 class City;
 
-int readInFile(char filename[]){
+int readInFile(char filename[], Graph *graph){
 	fstream inFile;
-	ofstream outFile;
-	//char outputFilename[] = "out.list";
 
 
 	inFile.open(filename, ios::in);
@@ -21,21 +19,15 @@ int readInFile(char filename[]){
 		cerr << "Can't open input file " << filename << endl;
 		exit(1);
 	}
-/*
-	outFile.open(outputFilename, ios::out);
-
-	if (!outFile) {
-		cerr << "Can't open output file " << outputFilename << endl;
-		exit(1);
-	}
-*/
 	char id[100];
 	int x;
 	int y;
 	while (!inFile.eof()) {
 		inFile >> id >> x >> y;
 		City city(id,x,y);
-		city.plot();
+		graph->cities.push_back (city);
+		//city.plot();
+		graph->cities.back().plot();
 	}
 }
 

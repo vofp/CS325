@@ -4,11 +4,13 @@
 #include <stdlib.h>
 #include <fstream>
 #include <cstring>
+#include "types.hpp"
 using namespace std;
 
-int readInFile(char filename[]);
+int readInFile(char filename[], Graph *g);
 
 int main(int argc, char **argv){
-  readInFile(argv[1]);
+	Graph *g = new Graph();
+  readInFile(argv[1], g);
 }
 

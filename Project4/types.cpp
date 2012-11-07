@@ -1,34 +1,29 @@
-/*#include <iostream>
-#include <vector>*/
+#include <sstream>
 #include "types.hpp"
 using namespace std;
-
-/*class City {
-  std::string id;
-  int x;
-  int y;
-  City *next;
-  City *prev;
-  City(char *id_new, int x_new, int y_new);
-  void print();
-};*/
-
 
 City::City(char *id_new, int x_new, int y_new){
 	id = id_new;
 	x = x_new;
 	y = y_new;
 }
-void City::print(){
-	cout << id << ": (" << x << ", " << y << ")" << endl;
+
+void City::output(){
+	stringstream out;
+	out << id << ": (" << x << ", " << y << ")" << endl;
+	string *s = new string(out.str());
+	cout << *s;
+
+
 }
 
 void City::plot(){
-	cout << x << ", " << y << endl;
+	stringstream out;
+	out << x << ", " << y << endl;
+	string *s = new string(out.str());
+	cout << *s;
+
+
 }
 
-class Graph {
-	vector<City> cities;
-	unsigned int path_size;
-	
-};
+
