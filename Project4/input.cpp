@@ -26,6 +26,7 @@ int readInFile(char filename[], Graph *graph){
 		inFile >> id >> x >> y;
 		City city(id,x,y);
 		graph->add(city);
+		graph->size++;
 		//graph->cities.push_back (city);
 		//city.plot();
 		//cout << *(graph->cities.back().output());
