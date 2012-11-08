@@ -5,6 +5,8 @@ using namespace std;
 
 void sort(Graph *graph, vector<City *> *x, vector<City *> *y);
 
+void addToPath(Graph *graph, vector<City *> *path);
+
 void tsp(Graph *graph){
 	vector<City *> *x = new vector<City *>;
 	vector<City *> *y = new vector<City *>;
@@ -18,6 +20,19 @@ void tsp(Graph *graph){
 	for ( it = y->begin() ; it < y->end(); it++ ){
 			cout << "y "<<*((*it)->output());
 	}
+}
+
+
+void addToPath(Graph *graph, vector<City *> *path){
+	vector<City *>::iterator it;
+	for ( it = path->begin() ; it < path->end();){
+			City *current = (*it);
+			it++;
+			City *next = (*it);
+			current->next = next;
+			next->prev = current;
+	}	
+
 }
 
 void sort(Graph *graph, vector<City *> *x, vector<City *> *y){
