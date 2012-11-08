@@ -26,4 +26,10 @@ string *City::plot(){
 	return s;
 }
 
+Graph::Graph(){
+	size = 0;
+}
 
+void Graph::add(City c){
+	cities.push_back(c);
+}

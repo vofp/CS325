@@ -24,6 +24,8 @@ class Graph {
 public:
   std::vector<City> cities;
   unsigned int path_size;
-
+	int size;
+	Graph();
+	void add(City c);
 };
 
