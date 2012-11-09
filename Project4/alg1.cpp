@@ -1,5 +1,6 @@
 #include <vector>
 #include <iostream>
+#include <math.h>
 #include "types.hpp"
 using namespace std;
 
@@ -25,14 +26,14 @@ void tsp(Graph *graph){
 			cout << "y "<<*((*it)->output());
 	}
 	addToPath(graph,x);
-	City *front	= &(graph->cities.front());
+	/*City *front	= &(graph->cities.front());
 	City *current = front->next;
 	cout << "path:\n" << front->id << endl;
 	while(front != current){
 		cout << current->id << endl;
 		current = current->next;
 	}
-	cout << current->id << endl;
+	cout << current->id << endl;*/
 }
 
 int greaterX(City *c1, City *c2){
@@ -62,7 +63,14 @@ int greaterY(City *c1, City *c2){
 	}
 }
 
+int distance(City *current, City *next){
+	int d = sqrt(pow(current->y - next->y,2)+pow(current->x - next->x,2));
+	//cout <<  "("<<current->x << ", "<< current->y << ") (" << next->x << ", " << next->y << "):   " << d << endl;
+	return d;
+}
+
 void addToPath(Graph *graph, vector<City *> *path){
+	
 	vector<City *>::iterator it;
 	for ( it = path->begin() ; it < path->end()-1;){
 			City *current = (*it);
@@ -70,11 +78,14 @@ void addToPath(Graph *graph, vector<City *> *path){
 			City *next = (*it);
 			current->next = next;
 			next->prev = current;
+			graph->path_size += distance(current, next);
 	}
 	City *current = (path->back());
 	City *next = (path->front());
 	current->next = next;
 	next->prev = current;	
+	graph->path_size += distance(current, next);
+	cout << graph->path_size << endl;	
 }
 
 void sort(Graph *graph, vector<City *> *x, vector<City *> *y){

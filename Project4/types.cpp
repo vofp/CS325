@@ -27,6 +27,7 @@ string *City::plot(){
 }
 
 Graph::Graph(){
+	path_size = 0;
 	size = 0;
 }
 

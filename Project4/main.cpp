@@ -10,6 +10,8 @@ using namespace std;
 int readInFile(char filename[], Graph *g);
 int printOutput(char filename[], Graph *graph);
 int printPlot(char filename[], Graph *graph);
+int printPlotPath(char filename[], Graph *graph);
+
 
 int tsp(Graph *graph);
 
@@ -17,6 +19,6 @@ int main(int argc, char **argv){
 	Graph *g = new Graph();
   readInFile(argv[1], g);
 	tsp(g);
-	printPlot(argv[2],g);
+	printPlotPath(argv[2],g);
 }
 

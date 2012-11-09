@@ -30,3 +30,18 @@ int printPlot(char filename[], Graph *graph){
   else cout << "Unable to open file";
 }
 
+int printPlotPath(char filename[], Graph *graph){
+  ofstream output(filename);
+  if (output.is_open()){
+		City *front = &(graph->cities.front());
+		output << *(front->plot());
+		City *current = front->next;
+		while(front != current){
+			output << *(current->plot());
+			current = current->next;
+		}
+		output << *(current->plot());
+    output.close();
+  }
+  else cout << "Unable to open file";
+}
