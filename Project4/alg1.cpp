@@ -5,19 +5,26 @@
 using namespace std;
 
 void sort(Graph *graph, vector<City *> *x, vector<City *> *y);
+int distance(City *current, City *next);
 
 void addToPath(Graph *graph, vector<City *> *path);
 
 int greaterX(City *c1, City *c2);
 int greaterY(City *c1, City *c2);
 void hull(Graph *graph, vector<City *> *x, vector<City *> *y, vector<City *> *path);
+int pathLength(vector<City *> *path, vector<int> *length);
+
 
 void tsp(Graph *graph){
 	vector<City *> *x = new vector<City *>;
 	vector<City *> *y = new vector<City *>;
 	vector<City *> *path = new vector<City *>;
+	vector<int> *length = new vector<int>;
 	x->reserve(graph->size);
 	y->reserve(graph->size);
+	path->reserve(graph->size);
+	length->reserve(graph->size);
+
 	sort(graph, x, y);
 	vector<City *>::iterator it;
 	/*for ( it = x->begin() ; it < x->end(); it++ ){
@@ -29,6 +36,7 @@ void tsp(Graph *graph){
 	//cout << graph->cities.front().next->x <<endl;
 	
 	hull(graph,x,y,path);
+	cout << pathLength(path,length) << endl;
 	//addToPath(graph,path);
 	//City *front = &(graph->cities.front());
 	/*City *front = path->front();
@@ -50,6 +58,21 @@ void tsp(Graph *graph){
 		output.close();
 	}
 	else cout << "Unable to open file";
+}
+
+int pathLength(vector<City *> *path, vector<int> *length){
+	int i;
+	int sum = 0;
+	length->clear();
+	for(i=0;i<path->size()-1;i++){
+		int d = distance(path->at(i),path->at(i+1));
+		sum += d;
+		length->push_back(d);
+	}
+	int d = distance(path->at(i),path->at(0));
+	sum += d;
+	length->push_back(d);
+	return sum;
 }
 
 void hull(Graph *graph, vector<City *> *x, vector<City *> *y, vector<City *> *path){
@@ -134,8 +157,7 @@ int greaterY(City *c1, City *c2){
 }
 
 int distance(City *current, City *next){
-	int d = sqrt(pow(current->y - next->y,2)+pow(current->x - next->x,2));
-	//cout <<  "("<<current->x << ", "<< current->y << ") (" << next->x << ", " << next->y << "):   " << d << endl;
+	int d = floor(sqrt(pow(current->y - next->y,2)+pow(current->x - next->x,2))+0.5);
 	return d;
 }
 
