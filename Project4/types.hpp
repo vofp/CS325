@@ -14,6 +14,7 @@ public:
 	int x;
 	int y;
 	bool onPath;
+	bool onCheck;
 	City *next;
 	City *prev;
 	City(char *id_new, int x_new, int y_new);

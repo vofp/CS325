@@ -7,6 +7,7 @@ City::City(char *id_new, int x_new, int y_new){
 	x = x_new;
 	y = y_new;
 	onPath = false;
+	onCheck = false;
 }
 
 string *City::output(){
