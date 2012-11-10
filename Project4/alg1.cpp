@@ -10,30 +10,100 @@ void addToPath(Graph *graph, vector<City *> *path);
 
 int greaterX(City *c1, City *c2);
 int greaterY(City *c1, City *c2);
-
+void hull(Graph *graph, vector<City *> *x, vector<City *> *y, vector<City *> *path);
 
 void tsp(Graph *graph){
 	vector<City *> *x = new vector<City *>;
 	vector<City *> *y = new vector<City *>;
-	x->reserve(graph->size);	
+	vector<City *> *path = new vector<City *>;
+	x->reserve(graph->size);
 	y->reserve(graph->size);
 	sort(graph, x, y);
 	vector<City *>::iterator it;
-	for ( it = x->begin() ; it < x->end(); it++ ){
-			cout << "x "<<*((*it)->output());
+	/*for ( it = x->begin() ; it < x->end(); it++ ){
+		cout << "x "<<*((*it)->output());
 	}
 	for ( it = y->begin() ; it < y->end(); it++ ){
-			cout << "y "<<*((*it)->output());
-	}
-	addToPath(graph,x);
-	/*City *front	= &(graph->cities.front());
+		cout << "y "<<*((*it)->output());
+	}*/
+	//cout << graph->cities.front().next->x <<endl;
+	
+	hull(graph,x,y,path);
+	//addToPath(graph,path);
+	//City *front = &(graph->cities.front());
+	/*City *front = path->front();
 	City *current = front->next;
-	cout << "path:\n" << front->id << endl;
 	while(front != current){
 		cout << current->id << endl;
 		current = current->next;
 	}
-	cout << current->id << endl;*/
+	cout << current->id << endl;
+	*/
+
+	ofstream output("output.txt");
+	if (output.is_open()){
+		int i;
+		for(i = 0; i < path->size();i++){
+			output << *(path->at(i)->plot());
+		}
+		output << *(path->at(0)->plot());
+		output.close();
+	}
+	else cout << "Unable to open file";
+}
+
+void hull(Graph *graph, vector<City *> *x, vector<City *> *y, vector<City *> *path){
+	int lowX = x->front()->x;
+	int lowY = y->front()->y;
+	int highX = x->back()->x;
+	int highY = y->back()->y;
+	int i = 0;
+	while(x->at(i)->x==lowX){
+		cout << *(x->at(i)->output());
+		if(!x->at(i)->onPath){
+			path->push_back(x->at(i));
+			x->at(i)->onPath = true;
+		}
+		i++;
+	}
+	i = 0;
+	while(y->at(i)->y==lowY){
+		cout << *(y->at(i)->output());
+		if(!y->at(i)->onPath){
+			path->insert(path->begin(),y->at(i));
+			y->at(i)->onPath = true;
+		}
+		i++;
+	}
+	i = 1;
+	while(x->at(x->size()-i)->x==highX){
+		cout << *(x->at(x->size()-i)->output());
+		if(!x->at(x->size()-i)->onPath){
+			path->insert(path->begin()+i-1,x->at(x->size()-i));
+			x->at(x->size()-i)->onPath = true;
+		}
+		i++;
+	}
+	i = 1;
+	while(y->at(y->size()-i)->y==highY){
+		cout << *(y->at(y->size()-i)->output());
+		if(!y->at(y->size()-i)->onPath){
+			path->insert(path->end()-i+1,y->at(y->size()-i));
+			y->at(y->size()-i)->onPath = true;
+		}
+		i++;
+	}
+
+	for(i = 0; i < path->size();i++){
+		cout << "path: "<<*(path->at(i)->output());
+	}
+}
+
+void addAfter(City *c1, City *c2){
+	c2->next = c1->next;
+	c2->prev = c1;
+	c1->next = c2;
+	c2->next->prev = c2;
 }
 
 int greaterX(City *c1, City *c2){
@@ -76,8 +146,12 @@ void addToPath(Graph *graph, vector<City *> *path){
 			City *current = (*it);
 			it++;
 			City *next = (*it);
+			/*cout << current->id << endl;
+			next->next = current->next;
+			current->next->prev = next;
 			current->next = next;
-			next->prev = current;
+			next->prev = current;*/
+			addAfter(current,next);
 			graph->path_size += distance(current, next);
 	}
 	City *current = (path->back());

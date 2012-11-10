@@ -8,31 +8,31 @@
 
 int printOutput(char filename[], Graph *graph){
 	ofstream output(filename);
-  if (output.is_open()){
+	if (output.is_open()){
 		vector<City>::iterator it;
 		for ( it = graph->cities.begin() ; it < graph->cities.end(); it++ ){
 			output << *(it->output());
 		}
-    output.close();
-  }
-  else cout << "Unable to open file";
+		output.close();
+	}
+	else cout << "Unable to open file";
 }
 
 int printPlot(char filename[], Graph *graph){
-  ofstream output(filename);
-  if (output.is_open()){
-    vector<City>::iterator it;
-    for ( it = graph->cities.begin() ; it < graph->cities.end(); it++ ){
-      output << *(it->plot());
-    }
-    output.close();
-  }
-  else cout << "Unable to open file";
+	ofstream output(filename);
+	if (output.is_open()){
+		vector<City>::iterator it;
+		for ( it = graph->cities.begin() ; it < graph->cities.end(); it++ ){
+			output << *(it->plot());
+		}
+		output.close();
+	}
+	else cout << "Unable to open file";
 }
 
 int printPlotPath(char filename[], Graph *graph){
-  ofstream output(filename);
-  if (output.is_open()){
+	ofstream output(filename);
+	if (output.is_open()){
 		City *front = &(graph->cities.front());
 		output << *(front->plot());
 		City *current = front->next;
@@ -41,7 +41,7 @@ int printPlotPath(char filename[], Graph *graph){
 			current = current->next;
 		}
 		output << *(current->plot());
-    output.close();
-  }
-  else cout << "Unable to open file";
+		output.close();
+	}
+	else cout << "Unable to open file";
 }

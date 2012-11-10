@@ -17,8 +17,11 @@ int tsp(Graph *graph);
 
 int main(int argc, char **argv){
 	Graph *g = new Graph();
-  readInFile(argv[1], g);
+	cout << "reading" <<endl;
+	readInFile(argv[1], g);
+	cout << "tsp" <<endl;
 	tsp(g);
-	printPlotPath(argv[2],g);
+	cout << "printing" <<endl;
+	//printPlotPath(argv[2],g);
 }
 

@@ -25,9 +25,10 @@ int readInFile(char filename[], Graph *graph){
 	while (!inFile.eof()) {
 		inFile >> id >> x >> y;
 		City city(id,x,y);
-		cout << id << endl;
 		graph->add(city);
 		graph->size++;
+		graph->cities.back().next = &(graph->cities.back());
+		graph->cities.back().prev = &(graph->cities.back());
 		//graph->cities.push_back (city);
 		//city.plot();
 		//cout << *(graph->cities.back().output());
