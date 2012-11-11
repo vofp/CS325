@@ -20,6 +20,7 @@ public:
 	City(char *id_new, int x_new, int y_new);
 	string *output();
 	string *plot();
+	int pathAdd;
 };
 
 class Graph {

@@ -6,7 +6,6 @@ using namespace std;
 
 void sort(Graph *graph, vector<City *> *x, vector<City *> *y, vector<City *> *checkList);
 int distance(City *current, City *next);
-
 void addToPath(Graph *graph, vector<City *> *path);
 
 int greaterX(City *c1, City *c2);
@@ -16,7 +15,7 @@ void hull(Graph *graph, vector<City *> *x, vector<City *> *y, vector<City *> *pa
 int pathLength(vector<City *> *path, vector<int> *length);
 
 void tsp(Graph *graph){
-	int checkSize = graph->size/5;
+	int checkSize = 0;
 	vector<City *> *x = new vector<City *>;
 	vector<City *> *y = new vector<City *>;
 	vector<City *> *path = new vector<City *>;
@@ -63,6 +62,34 @@ void tsp(Graph *graph){
 	else cout << "Unable to open file";
 }
 
+int setupChecklist(vector<City *> *path, vector<int> *length, vector<City *> *checkList, int *checkSize){
+	int i;
+	int newCheckSize = checkList->size()/5 + 1;
+	for(i=*checkSize; i < checkList->size() && i < newCheckSize; i++){
+		if(checkList->at(i)->pathAdd == -1){
+			int j = -1;
+			City *checkC = path->at(i);
+			City *current = path->back();
+			City *next = path->front();
+			int currentD = distance(checkC, current);
+			int nextD = distance(checkC, next);
+			int pathAdd = currentD + nextD - length->back();
+			int minPathAdd = pathAdd;
+			for(j = 1; j < path->size(); j++){
+				current = next;
+				next = path->at(j);
+				currentD = nextD;
+				nextD = distance(checkC, next);
+				pathAdd = currentD + nextD - length->at(j-1);
+				if(pathAdd < minPathAdd){
+					minPathAdd = pathAdd;
+				}
+			}
+			checkC->pathAdd = minPathAdd;
+		}
+	}
+
+}
 
 int pathLength(vector<City *> *path, vector<int> *length){
 	int i;
