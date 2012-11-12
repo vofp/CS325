@@ -1,12 +1,15 @@
 #include <vector>
 #include <iostream>
 #include <math.h>
+#include <limits.h>
 #include "types.hpp"
 using namespace std;
 
 void sort(Graph *graph, vector<City *> *x, vector<City *> *y, vector<City *> *checkList);
 int distance(City *current, City *next);
 void addToPath(Graph *graph, vector<City *> *path);
+int setupChecklist(vector<City *> *path, vector<int> *length, vector<City *> *checkList, int *checkSize);
+void sortD(Graph *graph, vector<City *> *x, vector<City *> *y, vector<City *> *checkList);
 
 int greaterX(City *c1, City *c2);
 int greaterY(City *c1, City *c2);
@@ -25,8 +28,9 @@ void tsp(Graph *graph){
 	y->reserve(graph->size);
 	path->reserve(graph->size);
 	length->reserve(graph->size);
-
+	cout << "sort" << endl;
 	sort(graph, x, y,checkList);
+	cout << "vector" << endl;
 	vector<City *>::iterator it;
 	/*for ( it = x->begin() ; it < x->end(); it++ ){
 		cout << "x "<<*((*it)->output());
@@ -38,6 +42,9 @@ void tsp(Graph *graph){
 	
 	hull(graph,x,y,path);
 	cout << pathLength(path,length) << endl;
+	while(checkList->size() != 0){
+		sortD(graph, x, y,checkList);
+	}
 	
 	//addToPath(graph,path);
 	//City *front = &(graph->cities.front());
@@ -49,6 +56,7 @@ void tsp(Graph *graph){
 	}
 	cout << current->id << endl;
 	*/
+	setupChecklist(path, length,checkList,0);
 
 	ofstream output("output.txt");
 	if (output.is_open()){
@@ -60,35 +68,60 @@ void tsp(Graph *graph){
 		output.close();
 	}
 	else cout << "Unable to open file";
+	int midX = (x->at(x->size()-1)->x + x->at(0)->x)/2;
+	int midY = (y->at(y->size()-1)->y + y->at(0)->y)/2;
+	cout << midX << ", " << midY << endl;
+	int i;
+	for(i = 0; i < checkList->size(); i++){
+		//cout << checkList->at(i)->d <<" "<< *(checkList->at(i)->output());
+	}
 }
 
 int setupChecklist(vector<City *> *path, vector<int> *length, vector<City *> *checkList, int *checkSize){
 	int i;
+	cout << "INT_MAX" << endl;
+	int minPathAdd = INT_MAX;
+	int minPathAddC = 0;
 	int newCheckSize = checkList->size()/5 + 1;
-	for(i=*checkSize; i < checkList->size() && i < newCheckSize; i++){
+	//cout << checkList->size() << " " <<newCheckSize << endl;
+	for(i=0; i < checkList->size() && i < newCheckSize; i++){
+		//cout << "i "<< i << endl;
 		if(checkList->at(i)->pathAdd == -1){
-			int j = -1;
-			City *checkC = path->at(i);
+			int j = 0;
+			City *checkC = checkList->at(i);
 			City *current = path->back();
 			City *next = path->front();
 			int currentD = distance(checkC, current);
 			int nextD = distance(checkC, next);
 			int pathAdd = currentD + nextD - length->back();
-			int minPathAdd = pathAdd;
+			checkC->idx = path->size();
+			checkC->pathAdd = pathAdd;
+			if(pathAdd < checkC->pathAdd){
+				checkC->idx = 0;
+				checkC->pathAdd = pathAdd;
+			}
 			for(j = 1; j < path->size(); j++){
+				//cout << "j " << j << endl;
 				current = next;
 				next = path->at(j);
 				currentD = nextD;
 				nextD = distance(checkC, next);
 				pathAdd = currentD + nextD - length->at(j-1);
-				if(pathAdd < minPathAdd){
-					minPathAdd = pathAdd;
+				if(pathAdd < checkC->pathAdd){
+					checkC->idx = j;
+					checkC->pathAdd = pathAdd;
 				}
 			}
-			checkC->pathAdd = minPathAdd;
+			cout<< checkC->id << " " << checkC->pathAdd << endl;
+			if(checkC->pathAdd < minPathAdd){
+				minPathAdd = checkC->pathAdd;
+				minPathAddC = i;
+			}
 		}
 	}
-
+	cout << "City id="<<checkList->at(minPathAddC)->id << " adding "<< minPathAdd << " distance" << endl;
+	path->insert(path->begin()+checkList->at(minPathAddC)->idx,checkList->at(minPathAddC));
+	checkList->erase(checkList->begin()+minPathAddC);
 }
 
 int pathLength(vector<City *> *path, vector<int> *length){
@@ -231,6 +264,10 @@ void addToPath(Graph *graph, vector<City *> *path){
 
 void sort(Graph *graph, vector<City *> *x, vector<City *> *y, vector<City *> *checkList){
 	int it;
+	int low;
+	int high;
+	int mid;
+	bool done;
 	for ( it = 0; it < graph->size; it++ ){
 		City *c = &(graph->cities.at(it));
 		if(x->empty()&&y->empty()){
@@ -238,12 +275,13 @@ void sort(Graph *graph, vector<City *> *x, vector<City *> *y, vector<City *> *ch
 			y->push_back(c);
 		}else{
 			/* x placement */		
-			int low = 0;
-			int high = x->size() - 1;
-			int mid;
-			bool done = false;
+			low = 0;
+			high = x->size() - 1;
+			mid;
+			done = false;
 			while(!done){
 				mid = (high+low)/2;
+				//cout << "x: " <<low << " "<< mid<< " "<<high << endl;
 				int compare = greaterX(c,x->at(mid));
 				if(low == high){
 					if(compare == 1){
@@ -273,6 +311,7 @@ void sort(Graph *graph, vector<City *> *x, vector<City *> *y, vector<City *> *ch
 			mid;
 			done = false;
 			while(!done){
+				//cout << "y: " <<low << " "<< mid<< " "<<high << endl;
 				mid = (high+low)/2;
 				int compare = greaterY(c,y->at(mid));
 				
@@ -295,42 +334,15 @@ void sort(Graph *graph, vector<City *> *x, vector<City *> *y, vector<City *> *ch
 					done = true;
 				}
 			}
-
-			/*  placement */		
-			low = 0;
-			high = y->size() - 1;
-			mid;
-			done = false;
-			while(!done){
-				mid = (high+low)/2;
-				int compare = greaterY(c,y->at(mid));
-				
-				if(low == high){
-					if(compare == 1){
-						y->insert(y->begin()+mid+1, c);
-						done = true;
-					}else{
-						y->insert(y->begin()+mid, c );
-						done = true;
-					}
-				}
-
-				if(compare == 1){
-					low = mid+1;
-				}else if(compare == -1){
-					high = mid;
-				}else if(!done){
-					y->insert(y->begin()+mid, c);
-					done = true;
-				}
-			}
-
-
 		}
 	}
+}
+
+void sortD(Graph *graph, vector<City *> *x, vector<City *> *y, vector<City *> *checkList){
+	int it;
 	int midX = (x->at(x->size()-1)->x + x->at(0)->x)/2;
 	int midY = (y->at(y->size()-1)->y + y->at(0)->y)/2;
-	
+	//cout << "d placement" << endl;
 	for ( it = 0; it < graph->size; it++ ){
 		City *c = &(graph->cities.at(it));
 		int d = floor(sqrt(pow(c->y - midY,2)+pow(c->x - midX,2))+0.5);
@@ -340,16 +352,16 @@ void sort(Graph *graph, vector<City *> *x, vector<City *> *y, vector<City *> *ch
 				checkList->push_back(c);
 			}else{
 				/*  placement */		
-				low = 0;
-				high = checkList->size() - 1;
-				mid;
-				done = false;
+				int low = 0;
+				int high = checkList->size() - 1;
+				int mid;
+				bool done = false;
 				while(!done){
 					mid = (high+low)/2;
 					int compare = greaterD(c,checkList->at(mid));
 					
 					if(low == high){
-						if(compare == 1){
+						if(compare == -1){
 							checkList->insert(checkList->begin()+mid+1, c);
 							done = true;
 						}else{
@@ -358,9 +370,9 @@ void sort(Graph *graph, vector<City *> *x, vector<City *> *y, vector<City *> *ch
 						}
 					}
 
-					if(compare == 1){
+					if(compare == -1){
 						low = mid+1;
-					}else if(compare == -1){
+					}else if(compare == 1){
 						high = mid;
 					}else if(!done){
 						checkList->insert(checkList->begin()+mid, c);
@@ -371,5 +383,3 @@ void sort(Graph *graph, vector<City *> *x, vector<City *> *y, vector<City *> *ch
 		}
 	}
 }
-
-

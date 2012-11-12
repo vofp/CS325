@@ -13,6 +13,7 @@ public:
 	std::string id;
 	int x;
 	int y;
+	int d;
 	bool onPath;
 	bool onCheck;
 	City *next;
@@ -21,6 +22,7 @@ public:
 	string *output();
 	string *plot();
 	int pathAdd;
+	int idx;
 };
 
 class Graph {
