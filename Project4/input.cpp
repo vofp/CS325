@@ -1,13 +1,5 @@
-#include <iostream>
-#include <cstdio>
-#include <stdio.h>
-#include <stdlib.h>
-#include <fstream>
-#include <cstring>
-#include "types.hpp"
+#include "input.hpp"
 using namespace std;
-
-class City;
 
 int readInFile(char filename[], Graph *graph){
 	fstream inFile;

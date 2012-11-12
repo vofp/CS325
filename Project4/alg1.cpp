@@ -1,21 +1,5 @@
-#include <vector>
-#include <iostream>
-#include <math.h>
-#include <limits.h>
-#include "types.hpp"
+#include "alg1.hpp"
 using namespace std;
-
-void sort(Graph *graph, vector<City *> *x, vector<City *> *y, vector<City *> *checkList);
-int distance(City *current, City *next);
-void addToPath(Graph *graph, vector<City *> *path);
-int setupChecklist(vector<City *> *path, vector<int> *length, vector<City *> *checkList, int *checkSize);
-void sortD(Graph *graph, vector<City *> *x, vector<City *> *y, vector<City *> *checkList);
-
-int greaterX(City *c1, City *c2);
-int greaterY(City *c1, City *c2);
-int greaterD(City *c1, City *c2);
-void hull(Graph *graph, vector<City *> *x, vector<City *> *y, vector<City *> *path);
-int pathLength(vector<City *> *path, vector<int> *length);
 
 void tsp(Graph *graph){
 	int checkSize = 0;
@@ -56,7 +40,7 @@ void tsp(Graph *graph){
 	*/
 	while(checkList->size() != 0){
 		setupChecklist(path, length,checkList,0);
-		cout << pathLength(path,length) << endl;
+		pathLength(path,length);
 		checkList->clear();
 		sortD(graph, x, y,checkList);
 	}
@@ -82,7 +66,6 @@ void tsp(Graph *graph){
 
 int setupChecklist(vector<City *> *path, vector<int> *length, vector<City *> *checkList, int *checkSize){
 	int i;
-	cout << "INT_MAX" << endl;
 	int minPathAdd = INT_MAX;
 	int minPathAddC = 0;
 	int newCheckSize = checkList->size()/1 + 1;
