@@ -17,8 +17,8 @@ public:
 	int d;
 	bool onPath;
 	bool onCheck;
-	City *next;
-	City *prev;
+	//City *next;
+	//City *prev;
 	City(char *id_new, int x_new, int y_new);
 	string *output();
 	string *plot();

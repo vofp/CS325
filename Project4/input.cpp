@@ -19,8 +19,8 @@ int readInFile(char filename[], Graph *graph){
 		City city(id,x,y);
 		graph->add(city);
 		graph->size++;
-		graph->cities.back().next = &(graph->cities.back());
-		graph->cities.back().prev = &(graph->cities.back());
+		//graph->cities.back().next = &(graph->cities.back());
+		//graph->cities.back().prev = &(graph->cities.back());
 		//graph->cities.push_back (city);
 		//city.plot();
 		//cout << *(graph->cities.back().output());

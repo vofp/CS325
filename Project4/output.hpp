@@ -9,4 +9,4 @@
 
 int printOutput(char filename[], Graph *graph);
 int printPlot(char filename[], Graph *graph);
-int printPlotPath(char filename[], Graph *graph);
+//int printPlotPath(char filename[], Graph *graph);

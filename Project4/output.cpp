@@ -23,7 +23,7 @@ int printPlot(char filename[], Graph *graph){
 	}
 	else cout << "Unable to open file";
 }
-
+/*
 int printPlotPath(char filename[], Graph *graph){
 	ofstream output(filename);
 	if (output.is_open()){
@@ -38,4 +38,4 @@ int printPlotPath(char filename[], Graph *graph){
 		output.close();
 	}
 	else cout << "Unable to open file";
-}
+}*/

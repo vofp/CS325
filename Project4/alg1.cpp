@@ -178,12 +178,12 @@ void hull(Graph *graph, vector<City *> *x, vector<City *> *y, vector<City *> *pa
 	}
 }
 
-void addAfter(City *c1, City *c2){
+/*void addAfter(City *c1, City *c2){
 	c2->next = c1->next;
 	c2->prev = c1;
 	c1->next = c2;
 	c2->next->prev = c2;
-}
+}*/
 
 int greaterX(City *c1, City *c2){
 	if(c1->x > c2->x){
@@ -226,7 +226,7 @@ int distance(City *current, City *next){
 	int d = floor(sqrt(pow(current->y - next->y,2)+pow(current->x - next->x,2))+0.5);
 	return d;
 }
-
+/*
 void addToPath(Graph *graph, vector<City *> *path){
 	
 	vector<City *>::iterator it;
@@ -234,11 +234,11 @@ void addToPath(Graph *graph, vector<City *> *path){
 		City *current = (*it);
 		it++;
 		City *next = (*it);
-		/*cout << current->id << endl;
+		cout << current->id << endl;
 		next->next = current->next;
 		current->next->prev = next;
 		current->next = next;
-		next->prev = current;*/
+		next->prev = current;:
 		addAfter(current,next);
 		graph->path_size += distance(current, next);
 	}
@@ -249,7 +249,7 @@ void addToPath(Graph *graph, vector<City *> *path){
 	graph->path_size += distance(current, next);
 	cout << graph->path_size << endl;	
 }
-
+*/
 void sort(Graph *graph, vector<City *> *x, vector<City *> *y, vector<City *> *checkList){
 	int it;
 	int low;
