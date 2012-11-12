@@ -42,9 +42,7 @@ void tsp(Graph *graph){
 	
 	hull(graph,x,y,path);
 	cout << pathLength(path,length) << endl;
-	while(checkList->size() != 0){
-		sortD(graph, x, y,checkList);
-	}
+	sortD(graph, x, y,checkList);
 	
 	//addToPath(graph,path);
 	//City *front = &(graph->cities.front());
@@ -56,8 +54,13 @@ void tsp(Graph *graph){
 	}
 	cout << current->id << endl;
 	*/
-	setupChecklist(path, length,checkList,0);
-
+	while(checkList->size() != 0){
+		setupChecklist(path, length,checkList,0);
+		cout << pathLength(path,length) << endl;
+		checkList->clear();
+		sortD(graph, x, y,checkList);
+	}
+	cout << pathLength(path,length) << endl;
 	ofstream output("output.txt");
 	if (output.is_open()){
 		int i;
@@ -82,11 +85,11 @@ int setupChecklist(vector<City *> *path, vector<int> *length, vector<City *> *ch
 	cout << "INT_MAX" << endl;
 	int minPathAdd = INT_MAX;
 	int minPathAddC = 0;
-	int newCheckSize = checkList->size()/5 + 1;
+	int newCheckSize = checkList->size()/1 + 1;
 	//cout << checkList->size() << " " <<newCheckSize << endl;
 	for(i=0; i < checkList->size() && i < newCheckSize; i++){
 		//cout << "i "<< i << endl;
-		if(checkList->at(i)->pathAdd == -1){
+		if(checkList->at(i)->pathAdd != -2){
 			int j = 0;
 			City *checkC = checkList->at(i);
 			City *current = path->back();
@@ -107,12 +110,13 @@ int setupChecklist(vector<City *> *path, vector<int> *length, vector<City *> *ch
 				currentD = nextD;
 				nextD = distance(checkC, next);
 				pathAdd = currentD + nextD - length->at(j-1);
+				//cout << pathAdd << " "<< currentD << " " << nextD << " " << length->at(j-1) << endl;
 				if(pathAdd < checkC->pathAdd){
 					checkC->idx = j;
 					checkC->pathAdd = pathAdd;
 				}
 			}
-			cout<< checkC->id << " " << checkC->pathAdd << endl;
+			//cout<< checkC->id << " " << checkC->pathAdd << endl;
 			if(checkC->pathAdd < minPathAdd){
 				minPathAdd = checkC->pathAdd;
 				minPathAddC = i;
@@ -121,6 +125,7 @@ int setupChecklist(vector<City *> *path, vector<int> *length, vector<City *> *ch
 	}
 	cout << "City id="<<checkList->at(minPathAddC)->id << " adding "<< minPathAdd << " distance" << endl;
 	path->insert(path->begin()+checkList->at(minPathAddC)->idx,checkList->at(minPathAddC));
+	checkList->at(minPathAddC)->onCheck = true;
 	checkList->erase(checkList->begin()+minPathAddC);
 }
 
