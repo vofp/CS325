@@ -2,6 +2,7 @@
 #include "types.hpp"
 using namespace std;
 
+
 City::City(char *id_new, int x_new, int y_new){
 	id = id_new;
 	x = x_new;

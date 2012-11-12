@@ -7,4 +7,4 @@
 #include <cstring>
 #include "types.hpp"
 
-int readInFile(char filename[], Graph *graph);
+void readInFile(char filename[], Graph *graph);
