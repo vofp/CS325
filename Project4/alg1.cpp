@@ -26,7 +26,7 @@ void tsp(Graph *graph){
 	while(checkList->size() != 0){
 		setupChecklist(path, length,checkList,0);
 		/* TODO: does not need to repeat those 3 function calls */
-		pathLength(path,length);
+		//pathLength(path,length);
 		checkList->clear();
 		sortD(graph, x, y,checkList);
 	}
@@ -88,7 +88,18 @@ int setupChecklist(vector<City *> *path, vector<int> *length, vector<City *> *ch
 		}
 	}
 	cout << "City id="<<checkList->at(minPathAddC)->id << " adding "<< minPathAdd << " distance" << endl;
-	path->insert(path->begin()+checkList->at(minPathAddC)->idx,checkList->at(minPathAddC));
+	int pathId = checkList->at(minPathAddC)->idx;
+	int prevId = pathId -1;
+	int nextId = pathId +1;
+	path->insert(path->begin()+ pathId,checkList->at(minPathAddC));
+	if(pathId == 0 ){
+		prevId = path->size()-1;
+	}
+	if(pathId == path->size()-1){
+		nextId = 0;
+	}
+	length->insert(length->begin()+pathId, distance(path->at(pathId),path->at(nextId)));
+	length->at(prevId) = distance(path->at(prevId),path->at(pathId));
 	checkList->at(minPathAddC)->onCheck = true;
 	checkList->erase(checkList->begin()+minPathAddC);
 }
