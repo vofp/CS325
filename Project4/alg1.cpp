@@ -26,21 +26,20 @@ void tsp(Graph *graph){
 	/* Removes one city from checkList and addes to path */
 	while(checkList->size() != 0){
 		addIdx = setupChecklist(path, length,checkList,addIdx);
-		/* TODO: does not need to repeat those 3 function calls */
-		//pathLength(path,length);
-		//checkList->clear();
-		//sortD(graph, x, y,checkList);
 	}
 	
 	/* TODO: move this output block to output funtion */
 	cout << pathLength(path,length) << endl;
 	ofstream output("output.txt");
+	
 	if (output.is_open()){
 		int i;
 		for(i = 0; i < path->size();i++){
-			output << *(path->at(i)->plot());
+			//output << *(path->at(i)->plot());
+			output << *(path->at(i)->output());
 		}
-		output << *(path->at(0)->plot());
+		//output << *(path->at(0)->plot());
+		output << *(path->at(0)->output());
 		output.close();
 	}
 	else cout << "Unable to open file";
@@ -95,6 +94,10 @@ int setupChecklist(vector<City *> *path, vector<int> *length, vector<City *> *ch
 		}
 
 	}
+	
+	ofstream output("output2.txt", ofstream::app);
+	output << checkList->at(minPathAddC)->idx << " " << checkList->at(minPathAddC)->id << endl;
+	output.close();
 	cout << path->size()+1 <<" City id="<<checkList->at(minPathAddC)->id << " adding "<< minPathAdd << " distance" << endl;
 	int pathId = checkList->at(minPathAddC)->idx;
 	int prevId = pathId -1;
@@ -140,6 +143,9 @@ void hull(Graph *graph, vector<City *> *x, vector<City *> *y, vector<City *> *pa
 			path->push_back(x->at(i));
 			x->at(i)->onPath = true;
 			x->at(i)->onCheck = true;
+			ofstream output("output2.txt", ofstream::app);
+			output << path->size()-1 << " " << x->at(i)->id << endl;
+			output.close();
 		}
 		i++;
 	}
@@ -150,6 +156,9 @@ void hull(Graph *graph, vector<City *> *x, vector<City *> *y, vector<City *> *pa
 			path->insert(path->begin(),y->at(i));
 			y->at(i)->onPath = true;
 			y->at(i)->onCheck = true;
+			ofstream output("output2.txt", ofstream::app);
+			output << 0 << " " << y->at(i)->id << endl;
+			output.close();
 		}
 		i++;
 	}
@@ -157,6 +166,9 @@ void hull(Graph *graph, vector<City *> *x, vector<City *> *y, vector<City *> *pa
 	while(x->at(x->size()-i)->x==highX){
 		cout << *(x->at(x->size()-i)->output());
 		if(!x->at(x->size()-i)->onPath){
+			ofstream output("output2.txt", ofstream::app);
+			output << i-1 << " " << x->at(x->size()-i)->id << endl;
+			output.close();
 			path->insert(path->begin()+i-1,x->at(x->size()-i));
 			x->at(x->size()-i)->onPath = true;
 			x->at(x->size()-i)->onCheck = true;
@@ -167,6 +179,9 @@ void hull(Graph *graph, vector<City *> *x, vector<City *> *y, vector<City *> *pa
 	while(y->at(y->size()-i)->y==highY){
 		cout << *(y->at(y->size()-i)->output());
 		if(!y->at(y->size()-i)->onPath){
+			ofstream output("output2.txt", ofstream::app);
+			output << path->size()-i+1 << " " << y->at(y->size()-i)->id << endl;
+			output.close();
 			path->insert(path->end()-i+1,y->at(y->size()-i));
 			y->at(y->size()-i)->onPath = true;
 			y->at(y->size()-i)->onCheck = true;

@@ -14,7 +14,8 @@ City::City(char *id_new, int x_new, int y_new){
 
 string *City::output(){
 	stringstream out;
-	out << id << ": (" << x << ", " << y << ")" << endl;
+	//out << id << ": (" << x << ", " << y << ")" << endl;
+	out << id << endl;
 	string *s = new string(out.str());
 	//cout << *s;
 
