@@ -8,42 +8,30 @@ void tsp(Graph *graph){
 	vector<City *> *path = new vector<City *>;
 	vector<int> *length = new vector<int>;
 	vector<City *> *checkList = new vector<City *>;
+	
+	/* reserve size so its a constent add time */
 	x->reserve(graph->size);
 	y->reserve(graph->size);
 	path->reserve(graph->size);
 	length->reserve(graph->size);
-	cout << "sort" << endl;
+	
+	
 	sort(graph, x, y,checkList);
-	cout << "vector" << endl;
-	vector<City *>::iterator it;
-	/*for ( it = x->begin() ; it < x->end(); it++ ){
-		cout << "x "<<*((*it)->output());
-	}
-	for ( it = y->begin() ; it < y->end(); it++ ){
-		cout << "y "<<*((*it)->output());
-	}*/
-	//cout << graph->cities.front().next->x <<endl;
 	
 	hull(graph,x,y,path);
 	cout << pathLength(path,length) << endl;
 	sortD(graph, x, y,checkList);
-	
-	//addToPath(graph,path);
-	//City *front = &(graph->cities.front());
-	/*City *front = path->front();
-	City *current = front->next;
-	while(front != current){
-		cout << current->id << endl;
-		current = current->next;
-	}
-	cout << current->id << endl;
-	*/
+
+	/* Removes one city from checkList and addes to path */
 	while(checkList->size() != 0){
 		setupChecklist(path, length,checkList,0);
+		/* TODO: does not need to repeat those 3 function calls */
 		pathLength(path,length);
 		checkList->clear();
 		sortD(graph, x, y,checkList);
 	}
+	
+	/* TODO: move this output block to output funtion */
 	cout << pathLength(path,length) << endl;
 	ofstream output("output.txt");
 	if (output.is_open()){
@@ -55,13 +43,6 @@ void tsp(Graph *graph){
 		output.close();
 	}
 	else cout << "Unable to open file";
-	int midX = (x->at(x->size()-1)->x + x->at(0)->x)/2;
-	int midY = (y->at(y->size()-1)->y + y->at(0)->y)/2;
-	cout << midX << ", " << midY << endl;
-	int i;
-	for(i = 0; i < checkList->size(); i++){
-		//cout << checkList->at(i)->d <<" "<< *(checkList->at(i)->output());
-	}
 }
 
 int setupChecklist(vector<City *> *path, vector<int> *length, vector<City *> *checkList, int *checkSize){
@@ -226,30 +207,8 @@ int distance(City *current, City *next){
 	int d = floor(sqrt(pow(current->y - next->y,2)+pow(current->x - next->x,2))+0.5);
 	return d;
 }
-/*
-void addToPath(Graph *graph, vector<City *> *path){
-	
-	vector<City *>::iterator it;
-	for ( it = path->begin() ; it < path->end()-1;){
-		City *current = (*it);
-		it++;
-		City *next = (*it);
-		cout << current->id << endl;
-		next->next = current->next;
-		current->next->prev = next;
-		current->next = next;
-		next->prev = current;:
-		addAfter(current,next);
-		graph->path_size += distance(current, next);
-	}
-	City *current = (path->back());
-	City *next = (path->front());
-	current->next = next;
-	next->prev = current;	
-	graph->path_size += distance(current, next);
-	cout << graph->path_size << endl;	
-}
-*/
+
+
 void sort(Graph *graph, vector<City *> *x, vector<City *> *y, vector<City *> *checkList){
 	int it;
 	int low;
