@@ -6,7 +6,7 @@
 #include "types.hpp"
 
 void tsp(Graph *graph);
-int setupChecklist(vector<City *> *path, vector<int> *length, vector<City *> *checkList, int *checkSize);
+int setupChecklist(vector<City *> *path, vector<int> *length, vector<City *> *checkList, int addedPath);
 int pathLength(vector<City *> *path, vector<int> *length);
 void hull(Graph *graph, vector<City *> *x, vector<City *> *y, vector<City *> *path);
 void addAfter(City *c1, City *c2);

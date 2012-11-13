@@ -3,6 +3,7 @@ using namespace std;
 
 void tsp(Graph *graph){
 	int checkSize = 0;
+	int addIdx = graph->size+1;
 	vector<City *> *x = new vector<City *>;
 	vector<City *> *y = new vector<City *>;
 	vector<City *> *path = new vector<City *>;
@@ -24,7 +25,7 @@ void tsp(Graph *graph){
 
 	/* Removes one city from checkList and addes to path */
 	while(checkList->size() != 0){
-		setupChecklist(path, length,checkList,0);
+		addIdx = setupChecklist(path, length,checkList,addIdx);
 		/* TODO: does not need to repeat those 3 function calls */
 		//pathLength(path,length);
 		//checkList->clear();
@@ -45,7 +46,7 @@ void tsp(Graph *graph){
 	else cout << "Unable to open file";
 }
 
-int setupChecklist(vector<City *> *path, vector<int> *length, vector<City *> *checkList, int *checkSize){
+int setupChecklist(vector<City *> *path, vector<int> *length, vector<City *> *checkList, int addedPath){
 	int i;
 	int minPathAdd = INT_MAX;
 	int minPathAddC = 0;
@@ -53,9 +54,9 @@ int setupChecklist(vector<City *> *path, vector<int> *length, vector<City *> *ch
 	//cout << checkList->size() << " " <<newCheckSize << endl;
 	for(i=0; i < checkList->size() && i < newCheckSize; i++){
 		//cout << "i "<< i << endl;
+		City *checkC = checkList->at(i);
 		if(checkList->at(i)->pathAdd != -2){
 			int j = 0;
-			City *checkC = checkList->at(i);
 			City *current = path->back();
 			City *next = path->front();
 			int currentD = distance(checkC, current);
@@ -85,9 +86,16 @@ int setupChecklist(vector<City *> *path, vector<int> *length, vector<City *> *ch
 				minPathAdd = checkC->pathAdd;
 				minPathAddC = i;
 			}
+		}else{
+			/* Index for shortest path changed */
+			if(checkC->idx >= addedPath-1){
+				checkC->idx += 1;
+			}
+
 		}
+
 	}
-	cout << "City id="<<checkList->at(minPathAddC)->id << " adding "<< minPathAdd << " distance" << endl;
+	cout << path->size()+1 <<" City id="<<checkList->at(minPathAddC)->id << " adding "<< minPathAdd << " distance" << endl;
 	int pathId = checkList->at(minPathAddC)->idx;
 	int prevId = pathId -1;
 	int nextId = pathId +1;
@@ -102,6 +110,7 @@ int setupChecklist(vector<City *> *path, vector<int> *length, vector<City *> *ch
 	length->at(prevId) = distance(path->at(prevId),path->at(pathId));
 	checkList->at(minPathAddC)->onCheck = true;
 	checkList->erase(checkList->begin()+minPathAddC);
+	return pathId;
 }
 
 int pathLength(vector<City *> *path, vector<int> *length){
