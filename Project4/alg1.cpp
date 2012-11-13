@@ -27,8 +27,8 @@ void tsp(Graph *graph){
 		setupChecklist(path, length,checkList,0);
 		/* TODO: does not need to repeat those 3 function calls */
 		//pathLength(path,length);
-		checkList->clear();
-		sortD(graph, x, y,checkList);
+		//checkList->clear();
+		//sortD(graph, x, y,checkList);
 	}
 	
 	/* TODO: move this output block to output funtion */
