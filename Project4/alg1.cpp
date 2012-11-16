@@ -80,9 +80,13 @@ int setupChecklist(vector<City *> *path, vector<int> *length, vector<City *> *ch
 						checkC->idx = 0;
 					}
 				}
-				int j;;
+				int j;
 				int length1;
+				int length2;
 				City *prev;
+				City *current;
+				City *next;
+				/* Looping the back of list*/
 				if(addedPath == 0){
 					prev = path->back();
 					length1 = length->back();
@@ -90,10 +94,8 @@ int setupChecklist(vector<City *> *path, vector<int> *length, vector<City *> *ch
 					prev = path->at(addedPath-1);
 					length1 = length->at(addedPath-1);
 				}
-				City *current = path->at(addedPath);
-				int length2 = length->at(addedPath);
-
-				City *next;
+				current = path->at(addedPath);
+				length2 = length->at(addedPath);
 				if(addedPath == path->size()-1){
 					next = path->front();
 					j = 0;
@@ -104,9 +106,13 @@ int setupChecklist(vector<City *> *path, vector<int> *length, vector<City *> *ch
 				int prevD = distance(checkC, prev);
 				int currentD = distance(checkC, current);
 				int nextD = distance(checkC, next);
+				/* Length added if checkC is added to the path between prev and
+				 * current or current and next 
+				 */
 				int pathAdd1 = prevD + currentD - length1;
 				int pathAdd2 = currentD + nextD - length2;
 
+				/* finds the position where it added the least length */
 				if(pathAdd1 < checkC->pathAdd){
 					checkC->idx = addedPath;
 					checkC->pathAdd = pathAdd1;
@@ -116,6 +122,8 @@ int setupChecklist(vector<City *> *path, vector<int> *length, vector<City *> *ch
 					checkC->idx = j;
 					checkC->pathAdd = pathAdd2;
 				}
+
+				/* Checks if this city is the one to add */
 				if(checkC->pathAdd < minPathAdd){
 					minPathAdd = checkC->pathAdd;
 					minPathAddC = i;
