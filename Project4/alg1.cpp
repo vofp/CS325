@@ -35,11 +35,11 @@ void tsp(Graph *graph){
 	if (output.is_open()){
 		int i;
 		for(i = 0; i < path->size();i++){
-			//output << *(path->at(i)->plot());
-			output << *(path->at(i)->output());
+			output << *(path->at(i)->plot());
+			//output << *(path->at(i)->output());
 		}
-		//output << *(path->at(0)->plot());
-		output << *(path->at(0)->output());
+		output << *(path->at(0)->plot());
+		//output << *(path->at(0)->output());
 		output.close();
 	}
 	else cout << "Unable to open file";
@@ -54,6 +54,49 @@ int setupChecklist(vector<City *> *path, vector<int> *length, vector<City *> *ch
 	for(i=0; i < checkList->size() && i < newCheckSize; i++){
 		//cout << "i "<< i << endl;
 		City *checkC = checkList->at(i);
+		if(false){
+		//if(checkList->at(i)->pathAdd >= 0){
+			/* Index for shortest path changed */
+			
+			if(checkC->idx == addedPath-1 || checkC->idx == addedPath){
+				checkList->at(i)->pathAdd = -1;
+				//checkC->idx += 1;		
+			}else{
+			
+				if(checkC->idx > addedPath){
+					checkC->idx += 1;
+					if(checkC->idx == path->size()){
+						checkC->idx = 0;
+					}
+				}
+				int j = 0;
+				City *current = path->back();
+				City *next = path->front();
+				int currentD = distance(checkC, current);
+				int nextD = distance(checkC, next);
+				int pathAdd = currentD + nextD - length->back();
+				for(j = 0; j < path->size()-1; j++){
+					//cout << "j " << j << endl;
+					current = path->at(j);
+					next = path->at(j+1);
+					currentD = nextD;
+					nextD = distance(checkC, next);
+					pathAdd = currentD + nextD - length->at(j);
+					//cout << pathAdd << " "<< currentD << " " << nextD << " " << length->at(j-1) << endl;
+					if(pathAdd < checkC->pathAdd){
+						checkC->idx = j+1;
+						checkC->pathAdd = pathAdd;
+					}
+				}
+				//cout<< checkC->id << " " << checkC->pathAdd << endl;
+				if(checkC->pathAdd < minPathAdd){
+					minPathAdd = checkC->pathAdd;
+					minPathAddC = i;
+				}
+			}
+		
+		}
+		
 		if(checkList->at(i)->pathAdd != -2){
 			int j = 0;
 			City *current = path->back();
@@ -61,7 +104,7 @@ int setupChecklist(vector<City *> *path, vector<int> *length, vector<City *> *ch
 			int currentD = distance(checkC, current);
 			int nextD = distance(checkC, next);
 			int pathAdd = currentD + nextD - length->back();
-			checkC->idx = path->size();
+			checkC->idx = 0;
 			checkC->pathAdd = pathAdd;
 			if(pathAdd < checkC->pathAdd){
 				checkC->idx = 0;
@@ -85,12 +128,6 @@ int setupChecklist(vector<City *> *path, vector<int> *length, vector<City *> *ch
 				minPathAdd = checkC->pathAdd;
 				minPathAddC = i;
 			}
-		}else{
-			/* Index for shortest path changed */
-			if(checkC->idx >= addedPath-1){
-				checkC->idx += 1;
-			}
-
 		}
 
 	}
