@@ -1,9 +1,11 @@
 #include "alg1.hpp"
 using namespace std;
+void optimize(vector<City *> *path, vector<int> *length, int s);
 
 void tsp(Graph *graph){
 	int checkSize = 0;
 	int addIdx = graph->size+1;
+	/* TODO: move path and length into graph class*/
 	vector<City *> *x = new vector<City *>;
 	vector<City *> *y = new vector<City *>;
 	vector<City *> *path = new vector<City *>;
@@ -17,7 +19,7 @@ void tsp(Graph *graph){
 	length->reserve(graph->size);
 	
 	
-	sort(graph, x, y,checkList);
+	sort(graph, x, y);
 	
 	hull(graph,x,y,path);
 	cout << pathLength(path,length) << endl;
@@ -27,7 +29,10 @@ void tsp(Graph *graph){
 	while(checkList->size() != 0){
 		addIdx = setupChecklist(path, length,checkList,addIdx);
 	}
-	
+	int i;
+	for(i = 0; i < graph->size; i++){
+		optimize(path, length, i);
+	}	
 	/* TODO: move this output block to output funtion */
 	cout << pathLength(path,length) << endl;
 	ofstream output("output.txt");
@@ -317,7 +322,7 @@ int distance(City *current, City *next){
 }
 
 
-void sort(Graph *graph, vector<City *> *x, vector<City *> *y, vector<City *> *checkList){
+void sort(Graph *graph, vector<City *> *x, vector<City *> *y){
 	int it;
 	int low;
 	int high;
@@ -437,4 +442,37 @@ void sortD(Graph *graph, vector<City *> *x, vector<City *> *y, vector<City *> *c
 			}
 		}
 	}
+}
+
+void optimize(vector<City *> *path, vector<int> *length, int s){
+	int i;
+	for(i = 0; i < path->size();i++){
+		int a = i;
+		int b = (i+1) % path->size();
+		int c = (i+1+s) % path->size();
+		int d = (c+1) % path->size();
+
+
+		int ab = distance(path->at(a),path->at(b));
+		int cd = distance(path->at(c),path->at(d));
+		int ac = distance(path->at(a),path->at(c));
+		int bd = distance(path->at(b),path->at(d));
+
+		if((ab+cd) > (ac+bd)){
+			int j = i+1;
+			int k = i+1+s;
+			while(j < k){
+				int j2 = j % path->size();
+				int k2 = k % path->size();
+				City *J = path->at(j2);
+				City *K = path->at(k2);
+				path->at(j2) = K;
+				path->at(k2) = J;
+				j++;
+				k--;
+			}
+			/* TODO: Optimize by adding code into while loop above */
+			cout << pathLength(path,length) << endl;
+		}
+	}	
 }

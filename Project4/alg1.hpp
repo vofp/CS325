@@ -15,5 +15,5 @@ int greaterY(City *c1, City *c2);
 int greaterD(City *c1, City *c2);
 int distance(City *current, City *next);
 void addToPath(Graph *graph, vector<City *> *path);
-void sort(Graph *graph, vector<City *> *x, vector<City *> *y, vector<City *> *checkList);
+void sort(Graph *graph, vector<City *> *x, vector<City *> *y);
 void sortD(Graph *graph, vector<City *> *x, vector<City *> *y, vector<City *> *checkList);
