@@ -1,6 +1,5 @@
 #include "alg1.hpp"
 using namespace std;
-void optimize(vector<City *> *path, vector<int> *length, int s);
 
 void tsp(Graph *graph){
 	int checkSize = 0;
@@ -8,8 +7,8 @@ void tsp(Graph *graph){
 	/* TODO: move path and length into graph class*/
 	vector<City *> *x = new vector<City *>;
 	vector<City *> *y = new vector<City *>;
-	vector<City *> *path = new vector<City *>;
-	vector<int> *length = new vector<int>;
+	vector<City *> *path = graph->path;
+	vector<int> *length = graph->length;
 	vector<City *> *checkList = new vector<City *>;
 	
 	/* reserve size so its a constent add time */
@@ -22,32 +21,14 @@ void tsp(Graph *graph){
 	sort(graph, x, y);
 	
 	hull(graph,x,y,path);
-	cout << pathLength(path,length) << endl;
+	pathLength(path,length);
 	sortD(graph, x, y,checkList);
 
 	/* Removes one city from checkList and addes to path */
 	while(checkList->size() != 0){
 		addIdx = setupChecklist(path, length,checkList,addIdx);
 	}
-	int i;
-	for(i = 0; i < graph->size; i++){
-		optimize(path, length, i);
-	}	
-	/* TODO: move this output block to output funtion */
-	cout << pathLength(path,length) << endl;
-	ofstream output("output.txt");
 	
-	if (output.is_open()){
-		int i;
-		for(i = 0; i < path->size();i++){
-			output << *(path->at(i)->plot());
-			//output << *(path->at(i)->output());
-		}
-		output << *(path->at(0)->plot());
-		//output << *(path->at(0)->output());
-		output.close();
-	}
-	else cout << "Unable to open file";
 }
 
 /* Inputs:
@@ -67,116 +48,20 @@ int setupChecklist(vector<City *> *path, vector<int> *length, vector<City *> *ch
 	 */
 	int newCheckSize = checkList->size()/1 + 1;
 	//cout << checkList->size() << " " <<newCheckSize << endl;
+	/* Can be threaded */
 	for(i=0; i < checkList->size() && i < newCheckSize; i++){
 		//cout << "i "<< i << endl;
-		City *checkC = checkList->at(i);
-		if(checkList->at(i)->pathAdd >= 0){
-			/* The shortest path for this city completely changed due to adding
-			 * the city, so we have to recalculate shortest path.
-			 */
-			if(checkC->idx == addedPath-1 || checkC->idx == addedPath){
-				checkList->at(i)->pathAdd = -1;
-			}else{
-			
-				/* Index for shortest path changed */
-				if(checkC->idx > addedPath){
-					checkC->idx += 1;
-					if(checkC->idx == path->size()){
-						checkC->idx = 0;
-					}
-				}
-				int j;
-				int length1;
-				int length2;
-				City *prev;
-				City *current;
-				City *next;
-				/* Looping the back of list*/
-				if(addedPath == 0){
-					prev = path->back();
-					length1 = length->back();
-				}else{
-					prev = path->at(addedPath-1);
-					length1 = length->at(addedPath-1);
-				}
-				current = path->at(addedPath);
-				length2 = length->at(addedPath);
-				if(addedPath == path->size()-1){
-					next = path->front();
-					j = 0;
-				}else{
-					next = path->at(addedPath+1);
-					j = addedPath+1;
-				}
-				int prevD = distance(checkC, prev);
-				int currentD = distance(checkC, current);
-				int nextD = distance(checkC, next);
-				/* Length added if checkC is added to the path between prev and
-				 * current or current and next 
-				 */
-				int pathAdd1 = prevD + currentD - length1;
-				int pathAdd2 = currentD + nextD - length2;
-
-				/* finds the position where it added the least length */
-				if(pathAdd1 < checkC->pathAdd){
-					checkC->idx = addedPath;
-					checkC->pathAdd = pathAdd1;
-				}
-
-				if(pathAdd2 < checkC->pathAdd){
-					checkC->idx = j;
-					checkC->pathAdd = pathAdd2;
-				}
-
-				/* Checks if this city is the one to add */
-				if(checkC->pathAdd < minPathAdd){
-					minPathAdd = checkC->pathAdd;
-					minPathAddC = i;
-				}
-			}
-		
+		int pAdd = shortestPath(path, length, checkList,addedPath, i);
+		/* Checks if this city is the one to add */
+		if(pAdd < minPathAdd){
+			minPathAdd = pAdd;
+			minPathAddC = i;
 		}
-		
-		/* First time to calculate shortest path or recalculating */
-		if(checkList->at(i)->pathAdd == -1){
-			int j = 0;
-			City *current = path->back();
-			City *next = path->front();
-			int currentD = distance(checkC, current);
-			int nextD = distance(checkC, next);
-			int pathAdd = currentD + nextD - length->back();
-			checkC->idx = 0;
-			checkC->pathAdd = pathAdd;
-			if(pathAdd < checkC->pathAdd){
-				checkC->idx = 0;
-				checkC->pathAdd = pathAdd;
-			}
-			for(j = 1; j < path->size(); j++){
-				//cout << "j " << j << endl;
-				current = next;
-				next = path->at(j);
-				currentD = nextD;
-				nextD = distance(checkC, next);
-				pathAdd = currentD + nextD - length->at(j-1);
-				//cout << pathAdd << " "<< currentD << " " << nextD << " " << length->at(j-1) << endl;
-				if(pathAdd < checkC->pathAdd){
-					checkC->idx = j;
-					checkC->pathAdd = pathAdd;
-				}
-			}
-			//cout<< checkC->id << " " << checkC->pathAdd << endl;
-			if(checkC->pathAdd < minPathAdd){
-				minPathAdd = checkC->pathAdd;
-				minPathAddC = i;
-			}
-		}
-
-	}
-	
+	}			
 	ofstream output("output2.txt", ofstream::app);
 	output << checkList->at(minPathAddC)->idx << " " << checkList->at(minPathAddC)->id << endl;
 	output.close();
-	cout << path->size()+1 <<" City id="<<checkList->at(minPathAddC)->id << " adding "<< minPathAdd << " distance" << endl;
+	//cout << path->size()+1 <<" City id="<<checkList->at(minPathAddC)->id << " adding "<< minPathAdd << " distance" << endl;	
 	int pathId = checkList->at(minPathAddC)->idx;
 	int prevId = pathId -1;
 	int nextId = pathId +1;
@@ -194,20 +79,104 @@ int setupChecklist(vector<City *> *path, vector<int> *length, vector<City *> *ch
 	return pathId;
 }
 
-int pathLength(vector<City *> *path, vector<int> *length){
-	int i;
-	int sum = 0;
-	length->clear();
-	for(i=0;i<path->size()-1;i++){
-		int d = distance(path->at(i),path->at(i+1));
-		sum += d;
-		length->push_back(d);
+int shortestPath(vector<City *> *path, vector<int> *length, vector<City *> *checkList, int addedPath, int i){
+	City *checkC = checkList->at(i);
+	if(checkList->at(i)->pathAdd >= 0){
+		/* The shortest path for this city completely changed due to adding
+		 * the city, so we have to recalculate shortest path.
+		 */
+		if(checkC->idx == addedPath-1 || checkC->idx == addedPath){
+			checkList->at(i)->pathAdd = -1;
+		}else{
+		
+			/* Index for shortest path changed */
+			if(checkC->idx > addedPath){
+				checkC->idx += 1;
+				if(checkC->idx == path->size()){
+					checkC->idx = 0;
+				}
+			}
+			int j;
+			int length1;
+			int length2;
+			City *prev;
+			City *current;
+			City *next;
+			/* Looping the back of list*/
+			if(addedPath == 0){
+				prev = path->back();
+				length1 = length->back();
+			}else{
+				prev = path->at(addedPath-1);
+				length1 = length->at(addedPath-1);
+			}
+			current = path->at(addedPath);
+			length2 = length->at(addedPath);
+			if(addedPath == path->size()-1){
+				next = path->front();
+				j = 0;
+			}else{
+				next = path->at(addedPath+1);
+				j = addedPath+1;
+			}
+			int prevD = distance(checkC, prev);
+			int currentD = distance(checkC, current);
+			int nextD = distance(checkC, next);
+			/* Length added if checkC is added to the path between prev and
+			 * current or current and next 
+			 */
+			int pathAdd1 = prevD + currentD - length1;
+			int pathAdd2 = currentD + nextD - length2;
+
+			/* finds the position where it added the least length */
+			if(pathAdd1 < checkC->pathAdd){
+				checkC->idx = addedPath;
+				checkC->pathAdd = pathAdd1;
+			}
+
+			if(pathAdd2 < checkC->pathAdd){
+				checkC->idx = j;
+				checkC->pathAdd = pathAdd2;
+			}
+
+			return checkC->pathAdd;
+		}
+	
 	}
-	int d = distance(path->at(i),path->at(0));
-	sum += d;
-	length->push_back(d);
-	return sum;
+	
+	/* First time to calculate shortest path or recalculating */
+	if(checkList->at(i)->pathAdd == -1){
+		int j = 0;
+		City *current = path->back();
+		City *next = path->front();
+		int currentD = distance(checkC, current);
+		int nextD = distance(checkC, next);
+		int pathAdd = currentD + nextD - length->back();
+		checkC->idx = 0;
+		checkC->pathAdd = pathAdd;
+		if(pathAdd < checkC->pathAdd){
+			checkC->idx = 0;
+			checkC->pathAdd = pathAdd;
+		}
+		for(j = 1; j < path->size(); j++){
+			//cout << "j " << j << endl;
+			current = next;
+			next = path->at(j);
+			currentD = nextD;
+			nextD = distance(checkC, next);
+			pathAdd = currentD + nextD - length->at(j-1);
+			//cout << pathAdd << " "<< currentD << " " << nextD << " " << length->at(j-1) << endl;
+			if(pathAdd < checkC->pathAdd){
+				checkC->idx = j;
+				checkC->pathAdd = pathAdd;
+			}
+		}
+		//cout<< checkC->id << " " << checkC->pathAdd << endl;
+		return checkC->pathAdd;
+	}
+	return INT_MAX;
 }
+
 
 void hull(Graph *graph, vector<City *> *x, vector<City *> *y, vector<City *> *path){
 	int lowX = x->front()->x;
@@ -216,7 +185,7 @@ void hull(Graph *graph, vector<City *> *x, vector<City *> *y, vector<City *> *pa
 	int highY = y->back()->y;
 	int i = 0;
 	while(x->at(i)->x==lowX){
-		cout << *(x->at(i)->output());
+		//cout << *(x->at(i)->output());
 		if(!x->at(i)->onPath){
 			path->push_back(x->at(i));
 			x->at(i)->onPath = true;
@@ -229,7 +198,7 @@ void hull(Graph *graph, vector<City *> *x, vector<City *> *y, vector<City *> *pa
 	}
 	i = 0;
 	while(y->at(i)->y==lowY){
-		cout << *(y->at(i)->output());
+		//cout << *(y->at(i)->output());
 		if(!y->at(i)->onPath){
 			path->insert(path->begin(),y->at(i));
 			y->at(i)->onPath = true;
@@ -242,7 +211,7 @@ void hull(Graph *graph, vector<City *> *x, vector<City *> *y, vector<City *> *pa
 	}
 	i = 1;
 	while(x->at(x->size()-i)->x==highX){
-		cout << *(x->at(x->size()-i)->output());
+		//cout << *(x->at(x->size()-i)->output());
 		if(!x->at(x->size()-i)->onPath){
 			ofstream output("output2.txt", ofstream::app);
 			output << i-1 << " " << x->at(x->size()-i)->id << endl;
@@ -255,7 +224,7 @@ void hull(Graph *graph, vector<City *> *x, vector<City *> *y, vector<City *> *pa
 	}
 	i = 1;
 	while(y->at(y->size()-i)->y==highY){
-		cout << *(y->at(y->size()-i)->output());
+		//cout << *(y->at(y->size()-i)->output());
 		if(!y->at(y->size()-i)->onPath){
 			ofstream output("output2.txt", ofstream::app);
 			output << path->size()-i+1 << " " << y->at(y->size()-i)->id << endl;
@@ -267,9 +236,9 @@ void hull(Graph *graph, vector<City *> *x, vector<City *> *y, vector<City *> *pa
 		i++;
 	}
 
-	for(i = 0; i < path->size();i++){
-		cout << "path: "<<*(path->at(i)->output());
-	}
+	//for(i = 0; i < path->size();i++){
+	//	cout << "path: "<<*(path->at(i)->output());
+	//}
 }
 
 /*void addAfter(City *c1, City *c2){
@@ -316,10 +285,6 @@ int greaterD(City *c1, City *c2){
 	}
 }
 
-int distance(City *current, City *next){
-	int d = floor(sqrt(pow(current->y - next->y,2)+pow(current->x - next->x,2))+0.5);
-	return d;
-}
 
 
 void sort(Graph *graph, vector<City *> *x, vector<City *> *y){
@@ -444,35 +409,3 @@ void sortD(Graph *graph, vector<City *> *x, vector<City *> *y, vector<City *> *c
 	}
 }
 
-void optimize(vector<City *> *path, vector<int> *length, int s){
-	int i;
-	for(i = 0; i < path->size();i++){
-		int a = i;
-		int b = (i+1) % path->size();
-		int c = (i+1+s) % path->size();
-		int d = (c+1) % path->size();
-
-
-		int ab = distance(path->at(a),path->at(b));
-		int cd = distance(path->at(c),path->at(d));
-		int ac = distance(path->at(a),path->at(c));
-		int bd = distance(path->at(b),path->at(d));
-
-		if((ab+cd) > (ac+bd)){
-			int j = i+1;
-			int k = i+1+s;
-			while(j < k){
-				int j2 = j % path->size();
-				int k2 = k % path->size();
-				City *J = path->at(j2);
-				City *K = path->at(k2);
-				path->at(j2) = K;
-				path->at(k2) = J;
-				j++;
-				k--;
-			}
-			/* TODO: Optimize by adding code into while loop above */
-			cout << pathLength(path,length) << endl;
-		}
-	}	
-}

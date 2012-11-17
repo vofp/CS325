@@ -2,11 +2,14 @@
 
 int printOutput(char filename[], Graph *graph){
 	ofstream output(filename);
+	
 	if (output.is_open()){
-		vector<City>::iterator it;
-		for ( it = graph->cities.begin() ; it < graph->cities.end(); it++ ){
-			output << *(it->output());
+		int i;
+		output << pathLength(graph->path,graph->length) << endl;
+		for(i = 0; i < graph->path->size();i++){
+			output << *(graph->path->at(i)->output());
 		}
+		output << *(graph->path->at(0)->output());
 		output.close();
 	}
 	else cout << "Unable to open file";
@@ -15,10 +18,11 @@ int printOutput(char filename[], Graph *graph){
 int printPlot(char filename[], Graph *graph){
 	ofstream output(filename);
 	if (output.is_open()){
-		vector<City>::iterator it;
-		for ( it = graph->cities.begin() ; it < graph->cities.end(); it++ ){
-			output << *(it->plot());
+		int i;
+		for(i = 0; i < graph->path->size();i++){
+			output << *(graph->path->at(i)->plot());
 		}
+		output << *(graph->path->at(0)->plot());
 		output.close();
 	}
 	else cout << "Unable to open file";

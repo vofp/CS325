@@ -34,6 +34,8 @@ string *City::plot(){
 Graph::Graph(){
 	path_size = 0;
 	size = 0;
+	path = new vector<City *>;
+	length = new vector<int>;
 }
 
 void Graph::add(City c){

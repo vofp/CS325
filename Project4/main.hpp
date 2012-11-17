@@ -9,5 +9,6 @@
 #include "input.hpp"
 #include "output.hpp"
 #include "alg1.hpp"
+#include "optimize.hpp"
 
 int main(int argc, char **argv);

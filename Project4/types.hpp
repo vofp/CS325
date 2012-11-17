@@ -37,6 +37,8 @@ public:
 	std::vector<City> cities; /* holds all cities or points */
 	unsigned int path_size;   /* holds current path size */
 	int size;                 /* number of cities */
+	vector<City *> *path;
+	vector<int> *length;
 	
 	/* Functions */
 	Graph(); /* init */
