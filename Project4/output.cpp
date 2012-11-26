@@ -9,7 +9,7 @@ int printOutput(char filename[], Graph *graph){
 		for(i = 0; i < graph->path->size();i++){
 			output << *(graph->path->at(i)->output());
 		}
-		output << *(graph->path->at(0)->output());
+		//output << *(graph->path->at(0)->output());
 		output.close();
 	}
 	else cout << "Unable to open file";

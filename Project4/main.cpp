@@ -2,16 +2,22 @@
 #include <pthread.h>
 using namespace std;
 
+
 #define THREADS 1
+
 
 int number_of_threads = THREADS;
 //pthread_mutex_t next_number_mutex;
 //pthread_mutex_t graph_mutex;
 Graph *g = new Graph();
 int number;
-
+char *output;
 
 int main(int argc, char **argv){
+	output = argv[2];
+	void (*prev_fn)(int);
+	prev_fn = signal (SIGTERM,terminate);
+    if (prev_fn==SIG_IGN) signal (SIGTERM,SIG_IGN);
 	
 	number = -1;
 
@@ -27,11 +33,23 @@ int main(int argc, char **argv){
 		
 	cout << pathLength(g->path,g->length) << endl;
 
+	printPlot("outputPlot1.txt",g);
 	cout << "optimizing" << endl;	
 	/* Non-threaded */
 	int i;
 	for(i = 0; i < g->size; i++){
 		optimize(g->path, g->length, i);
+	}
+	printPlot("outputPlot2.txt",g);
+	while(true){	
+		for(i = 0; i < 15; i++){
+			//cout << i << endl;
+			//optimize(g->path, g->length, i);
+			optimize2(g->path, g->length, i);
+		}
+		for(i = 0; i < g->size; i++){
+			optimize(g->path, g->length, i);
+		}
 	}
 
 	cout << pathLength(g->path,g->length) << endl;
@@ -39,11 +57,13 @@ int main(int argc, char **argv){
 
 
 	cout << "printing" <<endl;
+	//printPlot(argv[2],g);
 	printOutput(argv[2],g);
 
 	endT = clock();
 	elapTime = ((double)(endT - beginT))/CLOCKS_PER_SEC/number_of_threads;
 	cout << number_of_threads << ", " << elapTime << endl;
+	cout << "finished" << endl;
 }
 
 
@@ -53,3 +73,9 @@ int next_number(){
 }
 
 
+void terminate (int param){
+	printOutput(output,g);
+	printPlot("outputPlot3.txt",g);
+	printf ("Terminating program...\n");
+	exit(1);
+}

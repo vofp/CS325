@@ -9,7 +9,7 @@ int pathLength(vector<City *> *path, vector<int> *length){
 		sum += d;
 		length->push_back(d);
 	}
-	int d = distance(path->at(i),path->at(0));
+	int d = distance(path->at(path->size()-1),path->at(0));
 	sum += d;
 	length->push_back(d);
 	return sum;
