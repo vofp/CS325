@@ -58,9 +58,9 @@ int setupChecklist(vector<City *> *path, vector<int> *length, vector<City *> *ch
 			minPathAddC = i;
 		}
 	}			
-	ofstream output("output2.txt", ofstream::app);
-	output << checkList->at(minPathAddC)->idx << " " << checkList->at(minPathAddC)->id << endl;
-	output.close();
+	//ofstream output("output2.txt", ofstream::app);
+	//output << checkList->at(minPathAddC)->idx << " " << checkList->at(minPathAddC)->id << endl;
+	//output.close();
 	//cout << path->size()+1 <<" City id="<<checkList->at(minPathAddC)->id << " adding "<< minPathAdd << " distance" << endl;	
 	int pathId = checkList->at(minPathAddC)->idx;
 	int prevId = pathId -1;

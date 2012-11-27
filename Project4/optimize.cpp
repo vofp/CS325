@@ -28,7 +28,7 @@ void optimize(vector<City *> *path, vector<int> *length, int s){
 				k--;
 			}
 			/* TODO: Optimize by adding code into while loop above */
-			cout << pathLength(path,length) << endl;
+		//	cout << pathLength(path,length) << endl;
 		}
 	}	
 }
@@ -71,6 +71,9 @@ void optimize2(vector<City *> *path, vector<int> *length, int s){
 			}
 			path_new.insert(path_new.begin()+ checkList.at(minPathAddC)->idx, checkList.at(minPathAddC));
 			checkList.erase(checkList.begin()+minPathAddC);
+		}
+		for(j = 0; j < i ; j++){
+			optimize(&path_new, &length_new, j);
 		}
 		int pL1 = pathLength(path,length);
 		int pL2 = pathLength(&path_new,&length_new);

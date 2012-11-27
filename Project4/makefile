@@ -6,6 +6,7 @@ tex:
 
 code:
 	g++ main.cpp input.cpp output.cpp types.cpp alg1.cpp optimize.cpp common.cpp -o tsp.o
+	g++ opt.cpp input.cpp output.cpp types.cpp alg1.cpp optimize.cpp common.cpp -o opt.o
 
 clean:
 	rm -rf tsp.o
