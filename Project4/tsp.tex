@@ -78,18 +78,22 @@
 			of this path), then add cities that most minimally increase the
 			path length, until all cities have been added.
 
-			The hull is found by sorting the x and y coordinates of the input
+			The path is found by sorting the x and y coordinates of the input
 			cities and finding the outermost cities (as opposed to starting
 			with three cities clumped in a corner of the map). The two sorts
-			take $O(n \log n)$ each. Then finding the outermost cities takes
-			$O(n)$ time. There are algorithms out there to find the actual
-			convex hull in $O(n \log n)$ time, we didn't want to study this,
-			and decided to use a simple algorithm.
+			take $O(n \log n)$ each. Then, finding the outermost cities takes
+			$O(n)$ time. Algorithms in $O(n \log n)$ time that find the actual
+			convex hull exist, but we felt that this simple algorithm was
+			sufficient.
 
-			Then, for each city not on the path, $C$, we want to try to add it
-			between two adjacent cities on the path, $A$ and $B$. We wanted to
-			minimize the length added when adding this city $C$, and to do that
-			we needed to minimize $\overline{ACB} - \overline{AB}$
+			Then, for each city $C$ not on the path, we determine the nearest
+			two cities $A$ and $B$ on the path. We wish to find the minimum
+			$\overline{ACB} - \overline{AB}$ for all such 3-tuples (which takes
+			$O(n^2)$ time) and add the appropriate city to the path. In doing
+			so, we minimize the amount by which we increase the length of the
+			path with each additional city.
+
+			TODO $O(n^3)$
 
 		% The basics of my algorithm is to add cities that added smallest
 		% length to the path.  For this to work, we first needed a path.  This
@@ -115,7 +119,7 @@
 			Once a Hamiltonian circuit is found, we optimize further by
 			comparing every group of four consecutive cities $A, B, C, D$ in
 			the circuit and check whether $AB+CD > AC+BD$. If so, we flip $B$
-			and $C$ to create a smaller path.
+			and $C$ to create a shorter path.
 
 		% So after the algorithm finishes, it was about 15\% error from
 		% optimal.  Not so great.  I had gnuplot plot my path.  It showed paths
@@ -127,8 +131,8 @@
 		% that means we can flip the path BC to creat a smaller path.  This
 		% optimization decrease the error to about 5\%.
 
-	\section{Recheck Optimzation}
-		TODO
+		\subsection{Recheck Optimization}
+			TODO
 
 		% This was very simple. We removed cities from the path and place them
 		% back in using the same algorithm as above, and check if the path is
