@@ -7,6 +7,7 @@
 \usepackage{multirow}
 \usepackage[margin=1.0in]{geometry}
 \usepackage{amsmath,amsthm,amssymb}
+\usepackage{hyperref}
 
 
 \title{Assignment 4: Traveling Salesman Problem}
@@ -14,6 +15,12 @@
 
 \setlength{\parindent}{0cm}
 \setlength{\parskip}{1em}
+
+\hypersetup{colorlinks,
+	linkcolor = black,
+	citecolor = black,
+	urlcolor  = black}
+\urlstyle{same}
 
 
 \begin{document}
@@ -140,6 +147,10 @@
 		% This was very simple. We removed cities from the path and place them
 		% back in using the same algorithm as above, and check if the path is
 		% now smaller. If it is, GREAT! Use that path now. 
+
+	\section{Miscellaneous}
+		A video illustrating our algorithm can be found here:
+		\url{http://youtu.be/Dqge1HjgHJU}
 
 \end{document}
 
