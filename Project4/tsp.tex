@@ -71,11 +71,25 @@
 
 	\section{The Algorithm}
 		\subsection{Hamiltonian Circuit Search}
-			In order to make optimization easier, we wish to begin with a decent initial Hamiltonian circuit. In order to find such a circuit, we first find a convex hull around the cities (with some of the cities serving as the vertices of the hull), then add cities that most minimally increase the path length, until all cities have been added.
+			In order to make optimization easier, we wish to begin with
+			a decent initial Hamiltonian circuit. In order to find such
+			a circuit, we first find a path that is close to a convex hull
+			around the cities (with some of the cities serving as the vertices
+			of this path), then add cities that most minimally increase the
+			path length, until all cities have been added.
 
-			The hull is found by sorting the x and y coordinates of the input cities and finding the outermost cities. The 2 sorts take O(n*log(n)) each. Then finding the outermost cities takes O(n) time. There are algorithms out there to find the actual convex hull in O(n*log(n)) time, we didn't want to study this, and decided to use a simple algorithm.
+			The hull is found by sorting the x and y coordinates of the input
+			cities and finding the outermost cities (as opposed to starting
+			with three cities clumped in a corner of the map). The two sorts
+			take $O(n \log n)$ each. Then finding the outermost cities takes
+			$O(n)$ time. There are algorithms out there to find the actual
+			convex hull in $O(n \log n)$ time, we didn't want to study this,
+			and decided to use a simple algorithm.
 
-			Then, for each city not on the path, c, we want to try to add it between two cities on the path, a and b, where a and b are adjacent.  We wanted to minimize the length added when adding this city c, and to do that we needed to minimize $\bar{acb} - \bar{ab}$ TODO
+			Then, for each city not on the path, $C$, we want to try to add it
+			between two adjacent cities on the path, $A$ and $B$. We wanted to
+			minimize the length added when adding this city $C$, and to do that
+			we needed to minimize $\overline{ACB} - \overline{AB}$
 
 		% The basics of my algorithm is to add cities that added smallest
 		% length to the path.  For this to work, we first needed a path.  This
