@@ -55,6 +55,21 @@ int main(int argc, char **argv){
 		}
 		p = p2;
 	}
+	done = false;
+	while(!done){	
+		for(i = 0; i < g->size; i++){
+			//cout << i << endl;
+			//optimize(g->path, g->length, i);
+			optimize2(g->path, g->length, i);
+		}
+		int p2 = pathLength(g->path,g->length);
+		if(p == p2){
+			done = true;
+		}
+		p = p2;
+	}
+
+
 
 	cout << pathLength(g->path,g->length) << endl;
 	
