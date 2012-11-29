@@ -1,4 +1,4 @@
-\documentclass[letterpaper,10pt]{article}
+\documentclass[letterpaper,12pt]{article}
 \usepackage{listings}
 \usepackage{color}
 \usepackage{algorithm2e}
@@ -7,33 +7,150 @@
 \usepackage{multirow}
 \usepackage[margin=1.0in]{geometry}
 \usepackage{amsmath,amsthm,amssymb}
+\usepackage{hyperref}
 
 
-\title{Assignment 4: Traveling Salseman Problem}
+\title{Assignment 4: Traveling Salesman Problem}
 \author{Francis Vo, Soo-Hyun Yoo}
-
 
 \setlength{\parindent}{0cm}
 \setlength{\parskip}{1em}
 
+\hypersetup{colorlinks,
+	linkcolor = black,
+	citecolor = black,
+	urlcolor  = black}
+\urlstyle{same}
+
+
 \begin{document}
 
-	\maketitle
+\maketitle
 
-    	\section{Design Decisions}
-        	We dicided on a fast algorithm, so that we had an answer as fast as possible, no matter how optimal that answer was.  This will allow us to get a decent answer for huge instances, like example-input-3.txt, in a short amount of time.  We throught that a brute force algorithm would take too long and cost too much memory to perform well in the competition.  We had hoped that the competition would have more instances around the size of 10000.
+	\section{Design Decisions}
+		In order to perform well in the competition, we decided to implement
+		an initially suboptimal but fast algorithm rather than one that would
+		be thorough but take much time and memory. Once a valid circuit is
+		found, our algorithm would optimize continuously and return the most
+		optimal solution found prior to termination.
 
-	\section{Data Structure}
-		The City class holds the input data (id, x, and y) and data about where it is in the Graph like distance from center. The Graph class has vectors of data. Vectors are dynamic arrays that have a constant add time anywhere, simular to a linked list.  But a vector is also better than a linked list because it has a constant pull time.  The Graph class has 3 vectors cities, path, and length.  Cities holds the City in order from input.  Path is the order for the salesman.  Length is in parallel with the path vector and holds the length from the city to the next city. The length vector is not really needed, but it does improve performance time (classical time and memory trade off). 
+		% We decided on a fast algorithm, so that we had an answer as fast as
+		% possible, no matter how optimal that answer was.  This will allow us
+		% to get a decent answer for huge instances, like example-input-3.txt,
+		% in a short amount of time.  We throught that a brute force algorithm
+		% would take too long and cost too much memory to perform well in the
+		% competition.  We had hoped that the competition would have more
+		% instances around the size of 10000.
 
-	\section{Algorithm}
-		The basics of my algorithm is to add cities that added smallest length to the path.  For this to work, we first needed a path.  This path needed to be a cycle, so the simplest way to get this cycle is grab 3 random points.  But this not good enough, because there is a chance that the 3 points will all be in a corner which will add large paths in the end.  We decided to start with a path around the outside, a convex hull.  Finding this takes $O(n^2)$ time, so we sorted the x and y coordinates.  This would give us the outer laying cities. We can create a big path from this, but its not exactly the convex hull. The next step is very greedy. For every city not on the path, it would check every length between 2 cities that was on the path.  This will find a city to add that will add the least amount of length to the path.  To find this city, it seems like a $O(n^2)$ algorithm, then you have to do it again for the next city to add. To prevent this, we stored the position and how much length it would add to the path. We also had to make sure we checked the added length for the newly added city to the path.  In the end, the algorithm was $O(n^2)$ to add all the cities to the path.  Storing data is very important because it saved us from $O(n^3)$. 
+	\section{Data Structures}
+		Our algorithm uses the following C++ data structures:
+		\begin{description}
+			\item[City (class)] \hfill \\
+				Holds the input data (i.e., ID and coordinates of each city) in
+				addition to various data fields and functions to help the
+				algorithm.
+			\item[Graph (class)] \hfill \\
+				Holds C++ vectors of the cities, paths generated, and their
+				lengths. (A vector is a dynamic array with $O(1)$ add time,
+				like a linked list, but $O(1)$ pull time, unlike a linked list,
+				making it very practical for the algorithm.)
 
-	\section{Post Hamiltonian Cycle Path Optimization}
-		So after the algorithm finishes, it was about 15\% error from optimal.  Not so great.  I had gnuplot plot my path.  It showed paths that intercepted each other.  So we started looking at where we can flip the routes.  So given cities A,B,C,D in that order on the path. A and B are next to each other, this is the same with C and D.  There is a path between B and C.  We can check if we can optimize this path by comparing the distances AB+CD to AC+BD.  If AC+BD is smaller, than that means we can flip the path BC to creat a smaller path.  This optimization decrease the error to about 5\%.
+				The cities vector holds the input cities in order using the
+				City class.
 
-	\section{Recheck Optimzation}
-		This was very simple. We removed cities from the path and place them back in using the same algorithm as above, and check if the path is now smaller. If it is, GREAT! Use that path now. 
+				The path vector holds pointers to cities and signifies the
+				optimal solution found so far.
+
+				The length vector holds the distance between one city and the
+				next. (This vector is not really needed, but by using more
+				memory, we are able to improve the time performance of the
+				algorithm.)
+		\end{description}
+
+		% The City class holds the input data (id, x, and y) and data about
+		% where it is in the Graph like distance from center. The Graph class
+		% has vectors of data. Vectors are dynamic arrays that have a constant
+		% add time anywhere, simular to a linked list.  But a vector is also
+		% better than a linked list because it has a constant pull time.  The
+		% Graph class has 3 vectors cities, path, and length.  Cities holds the
+		% City in order from input.  Path is the order for the salesman.
+		% Length is in parallel with the path vector and holds the length from
+		% the city to the next city. The length vector is not really needed,
+		% but it does improve performance time (classical time and memory trade
+		% off). 
+
+	\section{The Algorithm}
+		\subsection{Hamiltonian Circuit Search}
+			In order to make optimization easier, we wish to begin with
+			a decent initial Hamiltonian circuit. In order to find such
+			a circuit, we first find a path that is close to a convex hull
+			around the cities (with some of the cities serving as the vertices
+			of this path), then add cities that most minimally increase the
+			path length, until all cities have been added.
+
+			The path is found by sorting the x and y coordinates of the input
+			cities and finding the outermost cities (as opposed to starting
+			with three cities clumped in a corner of the map). The two sorts
+			take $O(n \log n)$ each. Then, finding the outermost cities takes
+			$O(n)$ time. Algorithms in $O(n \log n)$ time that find the actual
+			convex hull exist, but we felt that this simple algorithm was
+			sufficient.
+
+			Then, for each city $C$ not on the path, we determine the nearest
+			two cities $A$ and $B$ on the path. We wish to find the minimum
+			$\overline{ACB} - \overline{AB}$ for all such 3-tuples (which takes
+			$O(n^2)$ time) and add the appropriate city to the path. In doing
+			so, we minimize the amount by which we increase the length of the
+			path with each additional city.
+
+		% The basics of my algorithm is to add cities that added smallest
+		% length to the path.  For this to work, we first needed a path.  This
+		% path needed to be a cycle, so the simplest way to get this cycle is
+		% grab 3 random points.  But this not good enough, because there is
+		% a chance that the 3 points will all be in a corner which will add
+		% large paths in the end.  We decided to start with a path around the
+		% outside, a convex hull.  Finding this takes $O(n^2)$ time, so we
+		% sorted the x and y coordinates.  This would give us the outer laying
+		% cities. We can create a big path from this, but its not exactly the
+		% convex hull. The next step is very greedy. For every city not on the
+		% path, it would check every length between 2 cities that was on the
+		% path.  This will find a city to add that will add the least amount of
+		% length to the path.  To find this city, it seems like a $O(n^2)$
+		% algorithm, then you have to do it again for the next city to add. To
+		% prevent this, we stored the position and how much length it would add
+		% to the path. We also had to make sure we checked the added length for
+		% the newly added city to the path.  In the end, the algorithm was
+		% $O(n^2)$ to add all the cities to the path.  Storing data is very
+		% important because it saved us from $O(n^3)$.
+
+		\subsection{Optimization}
+			Once a Hamiltonian circuit is found, we optimize further by
+			comparing every group of four consecutive cities $A, B, C, D$ in
+			the circuit and check whether $AB+CD > AC+BD$. If so, we flip $B$
+			and $C$ to create a shorter path.
+
+			Additionally, the algorithm recalculates $\overline{ACB}
+			- \overline{AB}$ for each city $C$ (similar to what was done in the
+			Hamiltonian Circuit Search above) to further optimize the circuit.
+
+		% So after the algorithm finishes, it was about 15\% error from
+		% optimal.  Not so great.  I had gnuplot plot my path.  It showed paths
+		% that intercepted each other.  So we started looking at where we can
+		% flip the routes.  So given cities A,B,C,D in that order on the path.
+		% A and B are next to each other, this is the same with C and D.  There
+		% is a path between B and C.  We can check if we can optimize this path
+		% by comparing the distances AB+CD to AC+BD.  If AC+BD is smaller, than
+		% that means we can flip the path BC to creat a smaller path.  This
+		% optimization decrease the error to about 5\%.
+
+		% \subsection{Recheck Optimization}
+		% This was very simple. We removed cities from the path and place them
+		% back in using the same algorithm as above, and check if the path is
+		% now smaller. If it is, GREAT! Use that path now. 
+
+	\section{Miscellaneous}
+		A video illustrating our algorithm can be found here:
+		\url{http://youtu.be/Dqge1HjgHJU}
 
 \end{document}
 
